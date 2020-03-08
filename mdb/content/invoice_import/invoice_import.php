@@ -60,7 +60,7 @@ $loggedUser = new User();
                     <a  href = '#' id="visited">Wprowadzenie faktury</a>
                 </li>
                 <li>
-                    <a href ='../reports.php'>Raporty i podsumowania</a>
+                    <a href ='../reports/reports.php'>Raporty i podsumowania</a>
                 </li>
                 <li>
                     <a href ='#'>Korekty</a>

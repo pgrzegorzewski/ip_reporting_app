@@ -56,7 +56,7 @@
 					<a href ='../../invoice_import/invoice_import.php'>Wprowadzenie faktury</a>
 				</li>
 				<li>
-					<a href ='../../reports.php'>Raporty i podsumowania</a>
+					<a href ='../../reports/reports.php'>Raporty i podsumowania</a>
 				</li>
 				<li>
 					<a href ='#'>Korekty</a>
