@@ -45,7 +45,7 @@
 					<h1 id="title"><a href ="../../../index.php"><img src="../../../resources/instalplast.png" style="width:300px;"></h1>
 				</td>
 				<td style = "text-align:right">
-					<span>Zalogowany jako: <?php echo $_SESSION['user'] ?>&ensp;</span><a href = "../../logout.php"><button class="btn btn-danger" value="">Wyloguj</button></a>
+					<span>Zalogowany jako: <?php echo $_SESSION['user'] ?>&ensp;</span><a href = "../../core/logout.php"><button class="btn btn-danger" value="">Wyloguj</button></a>
 				</td>
 			</tr>
 		</table>
