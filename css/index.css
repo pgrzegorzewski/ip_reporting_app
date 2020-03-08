@@ -1,0 +1,34 @@
+.container {
+  width: 90%;
+  clear: both;
+}
+
+.container form {
+  width: 100%;
+  clear: both;
+}
+
+.form{
+	text-align:center;
+}
+
+.error{
+	color: red;
+	padding: 10px;
+}
+
+#login_btn
+{
+	width:70px;
+	height:30px;
+	background-color:#28546C;
+	color:white;
+}
+
+#register_btn
+{
+	width:90px;
+	height:30px;
+	background-color:#28546C;
+	color:white;
+}

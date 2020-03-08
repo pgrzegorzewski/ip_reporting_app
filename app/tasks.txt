@@ -1,0 +1,7 @@
+1.saving scores					50%
+2.login page					40%
+3.adapting login page			0%
+4.leaderboard					30%
+5.scrolling adapt to images		100%
+6.add test form					0%
+testtfs

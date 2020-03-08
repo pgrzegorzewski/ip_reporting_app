@@ -1,0 +1,53 @@
+#school_class
+{
+	text-align:center;
+}
+
+table
+{
+	width:100%;
+}
+
+table td button
+{
+	width:150px;
+	height:50px;
+	color: #28546C;
+	background-color:#AFC2D1;
+}
+
+table td button:hover
+{
+	background-color:#CAAB15;
+}
+
+.video
+{
+	text-align:center;
+}
+
+#material
+{
+	padding:20px;
+}
+
+.class_chosen, .subject_chosen
+{
+	background-color:#6ac65b;
+}
+
+h3
+{
+	text-align:center;
+}
+
+.image
+{
+	text-align:center;
+}
+
+
+h3, h4, h5
+{
+	color:#AFC2D1;
+}

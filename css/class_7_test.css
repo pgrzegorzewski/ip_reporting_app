@@ -1,0 +1,66 @@
+button .clicked
+{
+	background-color:#6ac65b;
+}
+
+
+#tiles
+{
+	padding:10px;
+	z-index:50;
+	 position:relative;
+}
+
+#tile
+{
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#category_choice
+{
+	text-align:center;
+	height:50px;
+}
+
+#tile  tr  td
+{
+	width: 160px;
+	height: 150px;
+}
+
+#tile  tr  td > button
+{
+	background-color:#AFC2D1;
+	color:#28546C;
+	width: 160px;
+	height: 150px;
+	border: 3px solid #28546C;
+	font-size:16px;
+	z-index:50;
+}
+
+#tile  tr  td >button:hover
+{
+	background-color:#CAAB15;
+	color:white;
+	width: 160px;
+	height: 150px;
+	border: 3px solid #28546C;
+}
+
+#result_text
+{
+	text-align:center;
+}
+
+.normal_question_answear_div
+{
+	height:100px;	
+}
+
+.image_question_answear_div
+{
+	height:707px;	
+}

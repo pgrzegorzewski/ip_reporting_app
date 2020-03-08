@@ -1,0 +1,28 @@
+#user_answer_statistics_div
+{
+	width:800px;
+	height:420px;
+	text-align:center;
+	margin: auto;
+    display: block;
+	
+}
+
+#pie_charts
+{
+	text-align:center;	
+	
+}
+
+#pie_charts >table
+{
+	align:center;	
+	margin-left: auto;
+	margin-right: auto;
+}
+    
+#pie_charts > table tr td
+{
+	width:400px;
+	height:400px;
+}
