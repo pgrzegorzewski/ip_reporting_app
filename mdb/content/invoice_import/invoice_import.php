@@ -2,7 +2,7 @@
 session_start();
 if(isset($_SESSION['user']) != true && isset($_SESSION['is_logged']) != true)
 {
-    header('Location:index.php');
+    header('Location:../../index.php');
     exit();
 }
 require '../core/connect.php';
@@ -33,7 +33,7 @@ $loggedUser = new User();
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
-    <script type="text/javascript" src="invoice_import.js"></script>
+    <script type="text/javascript" src="./invoice_import.js"></script>
     <script type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
@@ -226,7 +226,7 @@ $(document).ready(function(){
    $('#upload_csv').on('submit', function (event) {
         event.preventDefault();
         $.ajax({
-            url: "../import_csv.php",
+            url: "./import_csv.php",
             method: "POST",
             data: new FormData(this),
             dataType: 'json',
