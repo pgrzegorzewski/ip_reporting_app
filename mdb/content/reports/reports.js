@@ -7,32 +7,53 @@ $(document).ready(function () {
 });
 
 $(document).on('click', '#data_refresh', function() {
-  $("#data-table").dataTable().fnDestroy();
-  $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
-  $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
 
-  $.ajax({
+  if ($('#report_date_from').val() && $('#report_date_to').val()) {
+    if ($('#report_date_from').val() < $('#report_date_to').val()) {
 
-     method: "POST",
-     data: {dateFrom : $dateFrom, dateTo : $dateTo},
-     // data: {
-     //          dateFrom: '2020-01-01',
-     //          dateTo: '2020-02-01'
-     //        },
-     dataType: 'json',
-     url: "./summary_by_region_report.php",
-     success: function (data) {
+      $('#error_msg').text('');
+      $("#report_date_to").css("border-bottom", "none");
+      $("#report_date_from").css("border-bottom", "none");
 
-         $('#data-table').DataTable({
-             data : data,
-             columns: [
-                 {data: 'region_nazwa'},
-                 {data: 'region_kod'},
-                 {data: 'suma_wartosci'},
-                 {data: 'suma_marz'},
-                 {data: 'procent'}
-             ]
-         });
-     }
-  })
+      $("#data-table").dataTable().fnDestroy();
+      $("#data_refresh").attr("disabled", true);
+      $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
+      $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+
+      $.ajax({
+
+         method: "POST",
+         data: {dateFrom : $dateFrom, dateTo : $dateTo},
+
+         dataType: 'json',
+         url: "./summary_by_region_report.php",
+         success: function (data) {
+             $("#data_refresh").attr("disabled", false);
+             $('#data-table').DataTable({
+                 data : data,
+                 columns: [
+                     {data: 'region_nazwa'},
+                     {data: 'region_kod'},
+                     {data: 'suma_wartosci'},
+                     {data: 'suma_marz'},
+                     {data: 'procent'}
+                 ]
+             });
+         },
+         always: function() {
+           console.log('elo');
+           $("#data_refresh").attr("disabled", false);
+          }
+      })
+    } else {
+      $('#error_msg').text('Nieprawidłowe daty');
+      $("#report_date_to").css("border-bottom", "1px solid red");
+      $("#report_date_from").css("border-bottom", "1px solid red");
+    }
+  } else {
+    $('#error_msg').text('Nieprawidłowe daty');
+    $("#report_date_to").css("border-bottom", "1px solid red");
+    $("#report_date_from").css("border-bottom", "1px solid red");
+  }
+
 });
