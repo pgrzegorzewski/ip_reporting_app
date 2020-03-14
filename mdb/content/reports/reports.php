@@ -14,6 +14,8 @@ require '../core/connect.php';
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="StyleSheet" href="../../scss/core/app/home.css"/>
 
+
+
     <script type="text/javascript" src="../../js/jquery.min.js" ></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../js/popper.min.js"></script>
@@ -67,7 +69,7 @@ require '../core/connect.php';
         </ol>
     </div>
     <section class = "section">
-        W tej sekcji możesz sporządzić różne rpaorty i podsumowania. Wybierz interesujący Cię raport z listy.
+        W tej sekcji możesz sporządzić różne raporty i podsumowania. Wybierz interesujący Cię raport z listy.
         <br><br>
         <table>
           <tr>
@@ -79,6 +81,11 @@ require '../core/connect.php';
             </td>
             <td>
               <button class="btn btn-info" id="summary_by_client_show">Podsumowanie per kontrahent</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <button class="btn btn-info" id="summary_by_item_show">Podsumowanie per towar</button>
             </td>
           </tr>
         </table>
