@@ -1,3 +1,6 @@
+var today = new Date();
+var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);  // 30 days
+
 $(document).ready(function () {
     $('#dtBasicExample').DataTable({
     });
@@ -39,6 +42,8 @@ $(document).on('click', '#region_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+             setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+             setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },
          always: function() {
            $("#data_refresh").attr("disabled", false);
@@ -89,6 +94,8 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+             setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+             setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },
          always: function() {
            $("#data_refresh").attr("disabled", false);
@@ -139,6 +146,8 @@ $(document).on('click', '#client_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+             setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+             setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },
          always: function() {
            $("#data_refresh").attr("disabled", false);
@@ -190,6 +199,8 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+             setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+             setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },
          always: function() {
            $("#data_refresh").attr("disabled", false);
@@ -215,6 +226,8 @@ $.ajax({
         success: function(data){
              $('#report_div').empty();
              $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
        }
   })
 });
@@ -226,6 +239,8 @@ $.ajax({
         success: function(data){
              $('#report_div').empty();
              $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
        }
   })
 });
@@ -237,17 +252,36 @@ $.ajax({
         success: function(data){
              $('#report_div').empty();
              $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
        }
   })
 });
 
 $(document).on('click', '#summary_by_item_show', function() {
+
 $.ajax({
         method: "GET",
         url: "./summary_by_item_report_template.php",
         success: function(data){
              $('#report_div').empty();
              $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
        }
   })
+
 });
+
+
+function setCookie(name, value)
+{
+  document.cookie=name + "=" + escape(value) + "; path=/; expires=" + expiry.toGMTString();
+}
+
+function getCookie(name)
+{
+  var re = new RegExp(name + "=([^;]+)");
+  var value = re.exec(document.cookie);
+  return (value != null) ? unescape(value[1]) : null;
+}

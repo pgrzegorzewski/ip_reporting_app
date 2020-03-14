@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../core/connect.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -13,8 +14,6 @@ require '../core/connect.php';
     <link rel="stylesheet" href="../../css/mdb.min.css">
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="StyleSheet" href="../../scss/core/app/home.css"/>
-
-
 
     <script type="text/javascript" src="../../js/jquery.min.js" ></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
