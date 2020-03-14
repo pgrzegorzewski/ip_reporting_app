@@ -77,6 +77,9 @@ require '../core/connect.php';
             <td>
               <button class="btn btn-info" id="summary_by_salesman_show">Podsumowanie per sprzedawca</button>
             </td>
+            <td>
+              <button class="btn btn-info" id="summary_by_client_show">Podsumowanie per kontrahent</button>
+            </td>
           </tr>
         </table>
         <br><br>
