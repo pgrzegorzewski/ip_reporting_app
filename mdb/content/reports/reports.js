@@ -2,11 +2,10 @@ var today = new Date();
 var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);  // 30 days
 
 $(document).ready(function () {
-    $('#dtBasicExample').DataTable({
-    });
-    $('.dataTables_length').addClass('bs-select');
-     $('#data-table').DataTable();
-
+  $('#dtBasicExample').DataTable({
+  });
+  $('.dataTables_length').addClass('bs-select');
+  $('#data-table').DataTable();
 });
 
 $(document).on('click', '#region_summary_data_refresh', function() {
@@ -199,6 +198,15 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+             var labels = new Array();
+             var char_data =  new Array();
+             data.forEach((item, index) => {
+               labels.push(item.towar);
+               char_data.push(item.suma_wartosci);
+             });
+             console.log(labels);
+             loadItemChart(labels, char_data)
+
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },

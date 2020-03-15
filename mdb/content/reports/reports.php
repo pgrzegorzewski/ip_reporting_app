@@ -22,8 +22,9 @@ require '../core/connect.php';
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
     <script type="text.javascript" src="../../js/addons/datatables.min.js"></script>
     <script type="text/javascript" src="./reports.js"></script>
+    <script type="text/javascript" src="./charts/chart.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-
 </head>
 
 <body>
@@ -90,8 +91,13 @@ require '../core/connect.php';
         </table>
         <br><br>
         <hr>
-        <br><br>
         <div id ="report_div"></div>
+        <br><br>
+        <hr>
+        <div id ="chart_div">
+          <canvas id ="canvas_chart">
+          </canvas>
+        </div>
     </section>
     <div>
 

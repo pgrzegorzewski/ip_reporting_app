@@ -1,4 +1,4 @@
-<?php 
+<?php
     session_start();
     include '../php/class_achievement.php';
     $achievement = new Achievement();
@@ -30,20 +30,20 @@
 
 <div class="container-fluid">
 	<div class= "sidemenu_2">
-	
+
 	</div>
 	<div class= "sidemenu">
 		<p style="cursor:pointer"><img src = "../resources/img/trophy.png" height = "50px" onmouseover="openLeaderboard()"/></p> <!-- &#9776; -->
 	</div>
 	<div id = 'leaderboard' class = 'leaderboard' onmouseleave = "closeLeaderboard()" >
 		<span><b>Naklejki za osiągnięcia!</b></span><a href = "javascript:void(0)" class = "closebtn" onclick = "closeLeaderboard()">&times;</a>
-		
+
 		<table>
-			<?php 
+			<?php
 			     $trCounter = 0;
 			     foreach ($achievement->badgetList as $badgets)
 			     {
-			         if($trCounter % 3 == 0 && $trCounter == 0)    
+			         if($trCounter % 3 == 0 && $trCounter == 0)
 			         {
 			             echo "<tr>";
 			         }
@@ -52,20 +52,20 @@
 			             echo "</tr><tr>";
 			         }
 			         echo "<td width:20px><img height='62' width='62' ";
-			         if (in_array($badgets, $achievement->userBadgetList)) 
+			         if (in_array($badgets, $achievement->userBadgetList))
 			         {
 			            echo "src = ".$achievement->getAchievementBadgetUrl($connection, $badgets)." ";
 			         }
-			         else 
+			         else
 			         {
 			             echo 'src = "../resources/img/question_mark.png"';
 			         }
 			         echo '" /></td>';
-			         
-			         $trCounter++;   
+
+			         $trCounter++;
 			     }
 			     echo "</tr>";
-			     pg_close($connection);			 
+			     pg_close($connection);
 			?>
 		</table>
 	</div>
@@ -109,7 +109,7 @@
 		</div>
 		<section class = "section">
 			<div id ="welcome_div">
-				<h4>Statystyki</h4> 
+				<h4>Statystyki</h4>
 				<div id ="user_answer_statistics_div">
 					Statystyki odpowiedzi
 					<canvas id="user_answer_statistics"></canvas>
@@ -131,7 +131,7 @@
         						Dni zalogowanych/niezalogowanych
         						<canvas id="user_activity_summary"></canvas>
         					</td>
-        					
+
         				</tr>
     				</table><br /><br />
     				<div id ="user_answer_statistics_div">
@@ -152,4 +152,3 @@
 
 </body>
 </html>
-
