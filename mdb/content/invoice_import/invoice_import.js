@@ -48,5 +48,21 @@ $(document).ready(function(){
         }
     });
 
+    $.ajax({
+        url: "./invoice_import_filters.php",
+        type: 'post',
+        data: {type:'client'},
+        dataType: 'json',
+        success:function(response){
+            var len = response.length;
+            for( var i = 0; i<len; i++){
+                var client_id = response[i]['kontrahent_id'];
+                var client_name = response[i]['kontrahent_nazwa'];
+
+                $("#client").append("<option value='"+client_id+"'>"+client_name+"</option>");
+            }
+        }
+    });
+
 
 });

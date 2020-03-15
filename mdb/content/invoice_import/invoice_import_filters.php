@@ -12,8 +12,6 @@ if ($connection) {
                 ";
                 $regionQuery = @pg_query($connection, $query);
 
-                $regionArray = array();
-
                 while($row = pg_fetch_assoc($regionQuery))
                 {
                     $regionId = $row["region_id"];
@@ -28,8 +26,6 @@ if ($connection) {
                 ";
                 $countryQuery = @pg_query($connection, $query);
 
-                $regionArray = array();
-
                 while($row = pg_fetch_assoc($countryQuery))
                 {
                     $countryId = $row["kraj_id"];
@@ -38,13 +34,25 @@ if ($connection) {
                 }
                 echo json_encode($countryArray);
                 break;
+            case 'client':
+                $query = "
+                        SELECT kontrahent_id, kontrahent_nazwa FROM app.tbl_kontrahent
+                ";
+                $clientQuery = @pg_query($connection, $query);
+
+                while($row = pg_fetch_assoc($clientQuery))
+                {
+                    $clientId = $row["kontrahent_id"];
+                    $clientyName = $row["kontrahent_nazwa"];
+                    $clientArray[] = array("kontrahent_id" => $clientId, "kontrahent_nazwa" => $clientyName);
+                }
+                echo json_encode($clientArray);
+                break;
             case 'voivodeship':
                 $query = "
                         SELECT wojewodztwo_id, wojewodztwo_nazwa FROM app.tbl_wojewodztwo
                 ";
                 $voivodeshipQuery = @pg_query($connection, $query);
-
-                $regionArray = array();
 
                 while($row = pg_fetch_assoc($voivodeshipQuery))
                 {

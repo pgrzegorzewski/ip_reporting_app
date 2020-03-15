@@ -140,29 +140,30 @@ $loggedUser = new User();
                     </div>
                     <div class="col-md-6">
                         <div class="md-form form-group">
-                            <input class="form-control" id = "client" name = "client" type="text">
-                            <label for = "client">Kontrahent</label>
+                            <select class="form-control" id = "client" name = "client">
+                                <option selected>Kontrahent</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-4">
                         <div class="md-form form-group">
-                            <select class="form-control" id = "country" name = "country" id = "country">
+                            <select class="form-control" id = "country" name = "country">
                                 <option selected>Kraj</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="md-form form-group">
-                            <select class="form-control" id = "voivodeship" name = "voivodeship" id = "voivodeship">
+                            <select class="form-control" id = "voivodeship" name = "voivodeship">
                                 <option selected>Województwo</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="md-form form-group">
-                            <select class="form-control" id = "region" name = "region" id = "region">
+                            <select class="form-control" id = "region" name = "region" >
                                 <option selected>Region</option>
                             </select>
 
