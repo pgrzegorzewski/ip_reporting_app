@@ -25,7 +25,7 @@ function loadItemChart(chart_data) {
    options: {
      title: {
        display: true,
-       text: 'Top 10 produktów (wartośćs)'
+       text: 'Top 10 produktów (wartość)'
      },
      barValueSpacing: 5,
      scales: {
