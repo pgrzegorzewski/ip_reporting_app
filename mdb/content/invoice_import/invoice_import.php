@@ -97,9 +97,14 @@ $loggedUser = new User();
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="md-form form-group">
+                        <!-- <div class="md-form form-group">
                             <input class="form-control" id = "salesman" name = "salesman" type="text">
                             <label for = "salesman">Sprzedawca</label>
+                        </div> -->
+                        <div class="md-form form-group">
+                            <select class="form-control" id = "salesman" name = "salesman">
+                                <option selected>Sprzedawca</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-2">

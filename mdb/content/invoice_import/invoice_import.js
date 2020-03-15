@@ -64,5 +64,21 @@ $(document).ready(function(){
         }
     });
 
+    $.ajax({
+        url: "./invoice_import_filters.php",
+        type: 'post',
+        data: {type:'salesman'},
+        dataType: 'json',
+        success:function(response){
+            var len = response.length;
+            for( var i = 0; i<len; i++){
+                var salesman_id = response[i]['uzytkownik_id'];
+                var salesman_name = response[i]['uzytkownik_nazwa'];
+
+                $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+            }
+        }
+    });
+
 
 });
