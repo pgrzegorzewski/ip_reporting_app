@@ -25,6 +25,7 @@ require '../core/connect.php';
     <script type="text/javascript" src="./charts/chart.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <script src="../../resources/lodash.js"></script>
 </head>
 
 <body>
@@ -82,14 +83,12 @@ require '../core/connect.php';
             <td>
               <button class="btn btn-info" id="summary_by_client_show">Podsumowanie per kontrahent</button>
             </td>
-          </tr>
-          <tr>
             <td>
                 <button class="btn btn-info" id="summary_by_item_show">Podsumowanie per towar</button>
             </td>
           </tr>
+
         </table>
-        <br><br>
         <hr>
         <div id ="report_div"></div>
         <br><br>

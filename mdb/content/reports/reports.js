@@ -202,10 +202,8 @@ $(document).on('click', '#item_summary_data_refresh', function() {
              var chart_data =  new Array();
              data.forEach((item, index) => {
                chart_data.push({label:item.towar, data:item.suma_wartosci});
-               //char_data.push(item.suma_wartosci);
              });
-             console.log(chart_data);
-             //loadItemChart(labels, char_data)
+             
              loadItemChart(chart_data);
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
