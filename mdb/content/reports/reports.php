@@ -14,6 +14,7 @@ require '../core/connect.php';
     <link rel="stylesheet" href="../../css/mdb.min.css">
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="StyleSheet" href="../../scss/core/app/home.css"/>
+    <link rel="StyleSheet" href="../../scss/core/app/reports.css"/>
 
     <script type="text/javascript" src="../../js/jquery.min.js" ></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
@@ -93,10 +94,17 @@ require '../core/connect.php';
         <div id ="report_div"></div>
         <br><br>
         <hr>
-        <div id ="chart_div">
-          <canvas id ="canvas_chart">
-          </canvas>
+        <div id ="chart_div"></div>
+        <div class = "chart_row">
+          <canvas id ="canvas_chart_1"></canvas>
+          <canvas id ="canvas_chart_2"></canvas>
         </div>
+        <hr>
+        <div class = "chart_row">
+          <canvas id ="canvas_chart_3"></canvas>
+          <canvas id ="canvas_chart_4"></canvas>
+        </div>
+
     </section>
     <div>
 

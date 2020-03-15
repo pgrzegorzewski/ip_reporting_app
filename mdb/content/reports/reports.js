@@ -201,9 +201,9 @@ $(document).on('click', '#item_summary_data_refresh', function() {
              var labels = new Array();
              var chart_data =  new Array();
              data.forEach((item, index) => {
-               chart_data.push({label:item.towar, data:item.suma_wartosci});
+               chart_data.push({label:item.towar, suma_wartosci:parseFloat(item.suma_wartosci), suma_marz:parseFloat(item.suma_marz), procent:parseFloat(item.procent),  ilosc:parseInt(item.ilosc)});
              });
-             
+
              loadItemChart(chart_data);
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
