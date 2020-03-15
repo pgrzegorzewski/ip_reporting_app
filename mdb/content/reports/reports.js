@@ -199,13 +199,14 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                  ]
              });
              var labels = new Array();
-             var char_data =  new Array();
+             var chart_data =  new Array();
              data.forEach((item, index) => {
-               labels.push(item.towar);
-               char_data.push(item.suma_wartosci);
+               chart_data.push({label:item.towar, data:item.suma_wartosci});
+               //char_data.push(item.suma_wartosci);
              });
-             console.log(labels);
-             loadItemChart(labels, char_data)
+             console.log(chart_data);
+             //loadItemChart(labels, char_data)
+             loadItemChart(chart_data);
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
