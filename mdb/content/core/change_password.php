@@ -11,7 +11,7 @@
     $success = true;
 
     try {
-        $result = @pg_query($connection, "SELECT * FROM usr.sf_user_password_get('$login') AS password_string");
+        $result = @pg_query($connection, "SELECT * FROM usr.sf_pobierz_haslo('$login') AS password_string");
         $passwordString = pg_fetch_assoc($result);
 
         if (!password_verify($oldPassword, $passwordString['password_string'])) {
@@ -42,7 +42,7 @@
 
             $newPasswordHashed = password_hash($newPassword, PASSWORD_DEFAULT);
 
-            @pg_query($connection, "SELECT * FROM usr.sp_user_password_update('$login', '$newPasswordHashed', '$oldPasswordHashed')");
+            @pg_query($connection, "SELECT * FROM usr.sp_zaktualizuj_haslo('$login', '$newPasswordHashed', '$oldPasswordHashed')");
             $_SESSION['e_password'] = "Hasło pomyslnie zmienione!";
         }
     } catch(Exception $error) {

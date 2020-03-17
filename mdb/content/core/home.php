@@ -111,13 +111,15 @@
                 </div>
             </div>
         </div>
-        <?php
-        if(isset($_SESSION['e_password'])){
-            echo '<div class = "error">'.$_SESSION['e_password'].'</div>';
-            unset($_SESSION['e_password']);
-        }
-        ?>
-		<section class = "section"></section>
+
+		<section class = "section">
+      <?php
+      if(isset($_SESSION['e_password'])){
+          echo '<div class = "error">'.$_SESSION['e_password'].'</div>';
+          unset($_SESSION['e_password']);
+      }
+      ?>
+    </section>
 		<div class="footer">
 		© 2020 PAWEŁ GRZEGORZEWSKI ALL RIGHTS RESERVED
 		</div>

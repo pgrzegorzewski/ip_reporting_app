@@ -65,7 +65,7 @@ if(isset($_POST['nick']))
     {
         if($connection)
         {
-            $username_check = @pg_query($connection, "SELECT * FROM usr.sf_username_unique_check('$login') AS is_username_unique");
+            $username_check = @pg_query($connection, "SELECT * FROM usr.sf_sprawdz_unikalnosc_login('$login') AS is_username_unique");
             $is_username_check = pg_fetch_assoc($username_check);
 
             if($is_username_check['is_username_unique'] != 1)
@@ -76,7 +76,7 @@ if(isset($_POST['nick']))
             }
             pg_free_result($username_check);
 
-            $email_check = @pg_query($connection, "SELECT * FROM usr.sf_email_unique_check('$email') AS is_email_unique");
+            $email_check = @pg_query($connection, "SELECT * FROM usr.sf_sprawdz_unikalnosc_email('$email') AS is_email_unique");
             $is_email_check = pg_fetch_assoc($email_check);
             if($is_email_check['is_email_unique'] != 1)
             {
@@ -89,7 +89,7 @@ if(isset($_POST['nick']))
 
             if($success == true)
             {
-                @pg_query($connection, "SELECT * FROM usr.sp_user_create('$nick', '$password_hashed', '$first_name', '$last_name', '$email')");
+                @pg_query($connection, "SELECT * FROM usr.sp_dodaj_uzytkownika('$nick', '$password_hashed', '$first_name', '$last_name', '$email')");
                 $_SESSION['registrationSuccessful'] = true;
                 header('Location: register_success.php');
             }
