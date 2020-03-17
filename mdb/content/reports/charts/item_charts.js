@@ -11,7 +11,7 @@ function loadItemChart(chart_data) {
   chart_data_suma_wartosci = _.sortBy(chart_data, parseFloat(['suma_wartosci']));
   console.log(chart_data_suma_wartosci);
 
-  for (index = 0; index <= chart_data_suma_wartosci.length; index++) {
+  for (index = 0; index < chart_data_suma_wartosci.length; index++) {
     datasets.push({label:chart_data_suma_wartosci[index].label, backgroundColor: colors[index], data:[chart_data_suma_wartosci[index].suma_wartosci]});
     if(index == 9) {
       break;
@@ -41,7 +41,7 @@ function loadItemChart(chart_data) {
   datasets = [];
   chart_data_ilosc = _.orderBy(chart_data, ['ilosc'], 'desc');
 
-  for (index = 0; index <= chart_data_ilosc.length; index++) {
+  for (index = 0; index < chart_data_ilosc.length; index++) {
     datasets.push({label:chart_data_ilosc[index].label, backgroundColor: colors[index], data:[chart_data_ilosc[index].ilosc]});
     if(index == 9) {
       break;
@@ -72,7 +72,7 @@ function loadItemChart(chart_data) {
   datasets = [];
   chart_data_procent = _.orderBy(chart_data, ['procent'], 'desc');
 
-  for (index = 0; index <= chart_data_procent.length; index++) {
+  for (index = 0; index < chart_data_procent.length; index++) {
     datasets.push({label:chart_data_procent[index].label, backgroundColor: colors[index], data:[chart_data_procent[index].procent]});
     if(index == 9) {
       break;
@@ -103,7 +103,7 @@ function loadItemChart(chart_data) {
   datasets = [];
   chart_data_marza = _.orderBy(chart_data, ['suma_marz'], 'desc');
 
-  for (index = 0; index <= chart_data_marza.length; index++) {
+  for (index = 0; index < chart_data_marza.length; index++) {
     datasets.push({label:chart_data_marza[index].label, backgroundColor: colors[index], data:[chart_data_marza[index].suma_marz]});
     if(index == 9) {
       break;

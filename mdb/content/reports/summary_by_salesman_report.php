@@ -15,6 +15,7 @@ try {
     {
       array_push($resp, array(
                                 'sprzedawca' => $row['sprzedawca'],
+                                'kolor' => $row['kolor_kod'],
                                 'suma_wartosci' => $row['suma_wartosci'],
                                 'suma_marz' => $row['suma_marz'],
                                 'procent' => $row['procent'])

@@ -8,7 +8,7 @@ function loadClientChart(chart_data) {
 
   chart_data_suma_wartosci = _.orderBy(chart_data, ['suma_wartosci'], 'desc');
 
-  for (index = 0; index <= chart_data_suma_wartosci.length; index++) {
+  for (index = 0; index < chart_data_suma_wartosci.length; index++) {
     datasets.push({label:chart_data_suma_wartosci[index].label, backgroundColor: colors[index], data:[chart_data_suma_wartosci[index].suma_wartosci]});
     if(index == 9) {
       break;
@@ -20,6 +20,8 @@ function loadClientChart(chart_data) {
    type: 'bar',
    data: data,
    options: {
+     responsive:true,
+     maintainAspectRatio: false,
      title: {
        display: true,
        text: 'Top 10 kontrahentów (wartość)'
@@ -38,7 +40,7 @@ function loadClientChart(chart_data) {
   datasets = [];
   chart_data_procent = _.orderBy(chart_data, ['procent'], 'desc');
 
-  for (index = 0; index <= chart_data_procent.length; index++) {
+  for (index = 0; index < chart_data_procent.length; index++) {
     datasets.push({label:chart_data_procent[index].label, backgroundColor: colors[index], data:[chart_data_procent[index].procent]});
     if(index == 9) {
       break;
@@ -69,7 +71,7 @@ function loadClientChart(chart_data) {
   datasets = [];
   chart_data_marza = _.orderBy(chart_data, ['suma_marz'], 'desc');
 
-  for (index = 0; index <= chart_data_marza.length; index++) {
+  for (index = 0; index < chart_data_marza.length; index++) {
     datasets.push({label:chart_data_marza[index].label, backgroundColor: colors[index], data:[chart_data_marza[index].suma_marz]});
     if(index == 9) {
       break;

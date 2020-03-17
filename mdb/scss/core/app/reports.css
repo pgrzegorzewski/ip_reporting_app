@@ -10,6 +10,12 @@
   display: flex;
 }
 
+.chart_chart_row_single canvas
+{
+	height: 500px;
+}
+
+
 .chart_row canvas
 {
   width: 50%;

@@ -74,6 +74,7 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
       $("#data_refresh").attr("disabled", true);
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+      getSalesmanChartTemplate();
 
       $.ajax({
 
@@ -93,6 +94,14 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+
+             var chart_data =  new Array();
+             data.forEach((item, index) => {
+               chart_data.push({label:item.sprzedawca, suma_wartosci:parseFloat(item.suma_wartosci), suma_marz:parseFloat(item.suma_marz), procent:parseFloat(item.procent), kolor:item.kolor});
+             });
+
+             loadSalesmanChart(chart_data);
+
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },
@@ -313,6 +322,29 @@ function getClientChartTemplate() {
          }
     });
 }
+
+function getRegionChartTemplate() {
+  $.ajax({
+          method: "GET",
+          url: "./charts/region_charts_template.php",
+          success: function(data){
+               $('#chart_div').empty();
+               $('#chart_div').append(data);
+         }
+    });
+}
+
+function getSalesmanChartTemplate() {
+  $.ajax({
+          method: "GET",
+          url: "./charts/salesman_charts_template.php",
+          success: function(data){
+               $('#chart_div').empty();
+               $('#chart_div').append(data);
+         }
+    });
+}
+
 
 function clearChartTemplate() {
   $('#chart_div').empty();
