@@ -4,6 +4,12 @@
   display: flex;
 }
 
+.chart_chart_row_single
+{
+	width:100%;
+  display: flex;
+}
+
 .chart_row canvas
 {
   width: 50%;

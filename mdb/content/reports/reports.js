@@ -126,7 +126,7 @@ $(document).on('click', '#client_summary_data_refresh', function() {
       $("#data_refresh").attr("disabled", true);
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
-
+      getClientChartTemplate();
       $.ajax({
 
          method: "POST",
@@ -145,6 +145,14 @@ $(document).on('click', '#client_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+
+             var chart_data =  new Array();
+             data.forEach((item, index) => {
+               chart_data.push({label:item.kontrahent, suma_wartosci:parseFloat(item.suma_wartosci), suma_marz:parseFloat(item.suma_marz), procent:parseFloat(item.procent)});
+             });
+
+             loadClientChart(chart_data);
+
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },
@@ -288,6 +296,17 @@ function getItemChartTemplate() {
   $.ajax({
           method: "GET",
           url: "./charts/item_charts_template.php",
+          success: function(data){
+               $('#chart_div').empty();
+               $('#chart_div').append(data);
+         }
+    });
+}
+
+function getClientChartTemplate() {
+  $.ajax({
+          method: "GET",
+          url: "./charts/client_charts_template.php",
           success: function(data){
                $('#chart_div').empty();
                $('#chart_div').append(data);

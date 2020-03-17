@@ -24,6 +24,7 @@ require '../core/connect.php';
     <script type="text.javascript" src="../../js/addons/datatables.min.js"></script>
     <script type="text/javascript" src="./reports.js"></script>
     <script type="text/javascript" src="./charts/item_charts.js"></script>
+    <script type="text/javascript" src="./charts/client_charts.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <script src="../../resources/lodash.js"></script>
