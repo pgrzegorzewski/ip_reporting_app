@@ -21,6 +21,7 @@ $(document).on('click', '#region_summary_data_refresh', function() {
       $("#data_refresh").attr("disabled", true);
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+      getRegionChartTemplate();
 
       $.ajax({
 
@@ -41,6 +42,13 @@ $(document).on('click', '#region_summary_data_refresh', function() {
                      {data: 'procent'}
                  ]
              });
+
+             var chart_data =  new Array();
+             data.forEach((item, index) => {
+               chart_data.push({label:item.region_nazwa, suma_wartosci:parseFloat(item.suma_wartosci), suma_marz:parseFloat(item.suma_marz), procent:parseFloat(item.procent), kolor:item.kolor});
+             });
+             loadRegionChart(chart_data);
+
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
          },
