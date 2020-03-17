@@ -228,7 +228,8 @@ $(document).on('click', '#item_summary_data_refresh', function() {
 });
 
 $(document).on('click', '#summary_by_region_show', function() {
-$.ajax({
+  clearChartTemplate();
+  $.ajax({
         method: "GET",
         url: "./summary_by_region_report_template.php",
         success: function(data){
@@ -241,7 +242,8 @@ $.ajax({
 });
 
 $(document).on('click', '#summary_by_salesman_show', function() {
-$.ajax({
+  clearChartTemplate();
+  $.ajax({
         method: "GET",
         url: "./summary_by_salesman_report_template.php",
         success: function(data){
@@ -254,7 +256,8 @@ $.ajax({
 });
 
 $(document).on('click', '#summary_by_client_show', function() {
-$.ajax({
+  clearChartTemplate();
+  $.ajax({
         method: "GET",
         url: "./summary_by_client_report_template.php",
         success: function(data){
@@ -267,7 +270,7 @@ $.ajax({
 });
 
 $(document).on('click', '#summary_by_item_show', function() {
-
+  clearChartTemplate();
 $.ajax({
         method: "GET",
         url: "./summary_by_item_report_template.php",
@@ -290,6 +293,10 @@ function getItemChartTemplate() {
                $('#chart_div').append(data);
          }
     });
+}
+
+function clearChartTemplate() {
+  $('#chart_div').empty();
 }
 
 
