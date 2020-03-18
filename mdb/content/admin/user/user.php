@@ -89,34 +89,35 @@
                           <div class="form-row">
                             <div class="col-md-6">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "username" name = "username" type="text">
+                                    <input class="form-control" id = "username" name = "username" type="text" value=" " style="color:white">
                                     <label for = "username">Username</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                               <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="is_active" checked>
+                                <input type="checkbox" class="custom-control-input" id="is_active" checked >
                                 <label class="custom-control-label" for="is_active">Aktywny</label>
                               </div>
                             </div>
 
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "first_name" name = "first_name" type="text">
+                                  <input class="form-control" id = "first_name" name = "first_name" type="text" value=" " style="color:white">
                                   <label for = "first_name">Imię</label>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "last_name" name = "last_name" type="text">
+                                  <input class="form-control" id = "last_name" name = "last_name" type="text" value=" " style="color:white">
                                   <label for = "last_name">Nazwisko</label>
                               </div>
                             </div>
                           </div>
                           Rola: <br />
                           <div class="md-form form-group">
-                              <select class="form-control" id = "role" name = "role">
-                                  <option selected>Rola</option>
+                              <select class="form-control" id = "role" name = "role" style="color:white">
+                                  <option value="admin">Admin</option>
+                                  <option value="handlowiec">handlowiec</option>
                               </select>
                           </div>
 

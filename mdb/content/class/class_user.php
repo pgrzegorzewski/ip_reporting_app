@@ -48,6 +48,28 @@ class User
       echo json_encode($resp);
     }
 
+    public function getUserData($userId)
+    {
+      $query = "SELECT * FROM usr.tf_pobierz_uzytkownika('$userId')";
+      $result = pg_query($this->connection, $query);
+      $resp = array();
+
+      while($row = pg_fetch_assoc($result))
+      {
+        array_push($resp, array(
+                                  'uzytkownik_id' => $row['uzytkownik_id'],
+                                  'username' => $row['username'],
+                                  'imie' => $row['imie'],
+                                  'nazwisko' => $row['nazwisko'],
+                                  'jest_aktywny' => $row['jest_aktywny'],
+                                  'rola_nazwa' => $row['rola_nazwa'],
+                                  'rola_id' => $row['rola_id'])
+                                );
+      }
+      pg_free_result($result);
+      echo json_encode($resp);
+    }
+
 
 }
 

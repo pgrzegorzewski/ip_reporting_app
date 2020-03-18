@@ -5,6 +5,11 @@ require '../../class/class_user.php';
 
 $login = $_SESSION['user'];
 $action = $_POST['action'];
+
+if(isset($_POST['userId'])) {
+  $userId = $_POST['userId'];
+}
+
 $user = new User();
 
 switch ($action) {
@@ -12,8 +17,11 @@ switch ($action) {
     $users = $user->getUserManagementList();
     return $users;
     break;
+  case 'getUserData':
+    $userData = $user->getUserData($userId);
+    return $userId;
+    break;
 }
 
-pg_close($connection);
 
  ?>

@@ -68,7 +68,7 @@ body
 	padding-bottom:60px;
 	background-color:#28546C;
 	margin:0 !important;
-	
+
 }
 
 
@@ -88,7 +88,7 @@ body
     color: #ffffff;
     padding: 8px;
 	text-decoration: none;
-		
+
 }
 
 .menu_header {
@@ -104,7 +104,7 @@ body
 
 
 .section{
-	
+
 	width: 80%;
 	margin:0 auto;
 	background-color: #031B35;
@@ -122,7 +122,7 @@ body
 
 
 .canvas{
-	
+
 	 width: 500px;
 	 height: 300px;
 	 color: #FFFFFF;
@@ -132,7 +132,7 @@ body
 	width:100%;
 	background-color:#AFC2D1;
 	text-align: center;
-	
+
 }
 
 .nav ol
@@ -186,7 +186,7 @@ ol > li
 ol > li:hover
 {
 	background-color:#CAAB15;
-	
+
 }
 
 ol > li a:hover
@@ -209,7 +209,7 @@ ol > li:hover > a
 
 ol > li:first-child
 {
-	border-left:2px solid #28546C;	
+	border-left:2px solid #28546C;
 }
 
 ol > li > ul
@@ -226,7 +226,7 @@ ol > li > ul > li
 {
 	border: 1px solid #28546C;
 	background-color: #AFC2D1;
-	
+
 }
 
 ol > li > ul > li > a
@@ -246,7 +246,7 @@ ol > li > ul > li > a:hover
 }
 
 .section a:link, a:visited {
-    
+
     background-color: #CCCCCC;
 	padding: 3px;
 	width: 50px;
@@ -274,6 +274,9 @@ ol > li > ul > li > a:hover
 	display:none;
 }
 
+#last_name{
+	color: white;
+}
 
 
 @media only screen and (min-width: 768px) and (max-width: 922px) {
