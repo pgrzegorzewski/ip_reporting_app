@@ -9,7 +9,6 @@
 
 ?>
 
-<!DOCTYPE html>
 <html lang = "pl">
 <head>
     <meta charset="UTF-8">
@@ -25,10 +24,12 @@
     <link rel="stylesheet" href="../../../css/style.css">
     <link rel="StyleSheet" href="../../../scss/core/app/home.css"/>
 
-    <script type="text/javascript" src="../../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../js/jquery.min.js" ></script>
+    <script type="text/javascript" src="../../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../../js/popper.min.js"></script>
     <script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../js/mdb.min.js"></script>
+    <script type="text/javascript" src="./user.js"></script>
     <script type="text/javascript"></script>
 	   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
@@ -73,7 +74,24 @@
             unset($_SESSION['e_password']);
         }
         ?>
-		<section class = "section"></section>
+		<section class = "section">
+      <div id= "user_managment" class="table-responsive">
+          <table class="table table-striped table-bordered" id="data-table">
+              <thead>
+              <tr>
+                  <th>ID Uzytkownika</th>
+                  <th>Username</th>
+                  <th>Imię</th>
+                  <th>Nazwisko</th>
+                  <th>Aktywny</th>
+                  <th>Rola</th>
+                  <th>Edycja</th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+          </table>
+      </div>
+    </section>
 		<div class="footer">
 		© 2020 PAWEŁ GRZEGORZEWSKI ALL RIGHTS RESERVED
 		</div>

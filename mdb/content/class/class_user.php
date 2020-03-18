@@ -1,10 +1,18 @@
 <?php
 
-require ($_SERVER["DOCUMENT_ROOT"]. '/reporting-app/mdb/content/core/connect.php');
-
 class User
 {
     public $userId;
+    protected $connection;
+
+    function __construct() {
+      $this->setConnection();
+    }
+
+    private function setConnection() {
+      require ($_SERVER["DOCUMENT_ROOT"]. '/reporting-app/mdb/content/core/connect.php');
+      $this->connection = $connection;
+    }
 
     public function userIdGet($username)
     {
@@ -17,6 +25,29 @@ class User
         return $this->userId;
 
     }
+
+    public function getUsers()
+    {
+      $query = "SELECT * FROM usr.tf_pobierz_uzytkownikow()";
+      $result = pg_query($this->connection, $query);
+      $resp = array();
+
+      while($row = pg_fetch_assoc($result))
+      {
+        array_push($resp, array(
+                                  'uzytkownik_id' => $row['uzytkownik_id'],
+                                  'username' => $row['username'],
+                                  'imie' => $row['imie'],
+                                  'nazwisko' => $row['nazwisko'],
+                                  'jest_aktywny' => $row['jest_aktywny'],
+                                  'rola_nazwa' => $row['rola_nazwa'],
+                                  'edycja'=> "<button style='padding:5px' id='usrId-" . $row['uzytkownik_id'] . "' class='btn btn-info'>edytuj</button>")
+                                );
+      }
+      pg_free_result($result);
+      echo json_encode($resp);
+    }
+
 
 }
 
