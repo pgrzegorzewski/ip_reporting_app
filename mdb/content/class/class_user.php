@@ -26,7 +26,7 @@ class User
 
     }
 
-    public function getUsers()
+    public function getUserManagementList()
     {
       $query = "SELECT * FROM usr.tf_pobierz_uzytkownikow()";
       $result = pg_query($this->connection, $query);
@@ -41,7 +41,7 @@ class User
                                   'nazwisko' => $row['nazwisko'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'rola_nazwa' => $row['rola_nazwa'],
-                                  'edycja'=> "<button style='padding:5px' id='usrId-" . $row['uzytkownik_id'] . "' class='btn btn-info'>edytuj</button>")
+                                  'edycja'=> "<button style='padding:5px' data-id='" . $row['uzytkownik_id'] . "' id='usrId-" . $row['uzytkownik_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editUserModal'>edytuj</button>")
                                 );
       }
       pg_free_result($result);

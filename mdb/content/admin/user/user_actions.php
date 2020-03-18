@@ -9,7 +9,7 @@ $user = new User();
 
 switch ($action) {
   case 'getUsers':
-    $users = $user->getUsers();
+    $users = $user->getUserManagementList();
     return $users;
     break;
 }

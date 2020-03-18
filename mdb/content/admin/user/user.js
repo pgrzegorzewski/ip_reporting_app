@@ -24,3 +24,9 @@ $(document).ready(function () {
   })
 
 });
+
+$(document).ready(function() {
+  $('#editUserModal').on('show.bs.modal', function(e) {
+    var id = $(e.relatedTarget).data('id');
+  });
+});

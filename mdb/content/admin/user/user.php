@@ -74,6 +74,62 @@
             unset($_SESSION['e_password']);
         }
         ?>
+
+        <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserLabel">Edycja </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action = "update_user.php" method="post">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "username" name = "username" type="text">
+                                    <label for = "username">Username</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_active" checked>
+                                <label class="custom-control-label" for="is_active">Aktywny</label>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "first_name" name = "first_name" type="text">
+                                  <label for = "first_name">Imię</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "last_name" name = "last_name" type="text">
+                                  <label for = "last_name">Nazwisko</label>
+                              </div>
+                            </div>
+                          </div>
+                          Rola: <br />
+                          <div class="md-form form-group">
+                              <select class="form-control" id = "role" name = "role">
+                                  <option selected>Rola</option>
+                              </select>
+                          </div>
+
+                          <div class="modal-footer">
+                              <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 		<section class = "section">
       <div id= "user_managment" class="table-responsive">
           <table class="table table-striped table-bordered" id="data-table">

@@ -82,35 +82,35 @@
 			</ol>
 		</div>
 
-        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="changePasswordLabel">Zmień hasło</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form  action = "change_password.php" method="post">
-                            Stare hasło: <br />
-                            <input type = "password" name="old_password"><br /><br />
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordLabel">Zmień hasło</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form  action = "change_password.php" method="post">
+                        Stare hasło: <br />
+                        <input type = "password" name="old_password"><br /><br />
 
-                            Nowe hasło: <br />
-                            <input type = "password" name="new_password"><br /><br />
+                        Nowe hasło: <br />
+                        <input type = "password" name="new_password"><br /><br />
 
-                            Powtórz hasło: <br />
-                            <input type = "password" name="new_password_2"><br /><br />
+                        Powtórz hasło: <br />
+                        <input type = "password" name="new_password_2"><br /><br />
 
-                            <div class="modal-footer">
-                                <input class="btn btn-info" type = "submit" value = "Zmień hasło" />
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-info" type = "submit" value = "Zmień hasło" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
 		<section class = "section">
       <?php
