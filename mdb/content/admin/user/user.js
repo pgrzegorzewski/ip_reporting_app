@@ -42,7 +42,22 @@ $(document).ready(function() {
            } else {
              $('#is_active').prop('checked', false);
            }
+           $('#is_active').val(data[0]['jest_aktywny']);
+           $('#userId').val(id);
        },
     })
   });
+});
+
+$('#update_user_form').submit(function () {
+  var form=document.getElementById('update_user_form');//retrieve the form as a DOM element
+
+  var input = document.createElement('input');//prepare a new input DOM element
+  input.setAttribute('name', 'action');//set the param name
+  input.setAttribute('value', 'updateUser');//set the value
+  input.setAttribute('type', 'hidden')//set the type, like "hidden" or other
+
+  form.appendChild(input);//append the input to the form
+
+  form.submit();
 });

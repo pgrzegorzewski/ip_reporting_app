@@ -85,7 +85,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action = "update_user.php" method="post">
+                        <form action = "user_actions.php" method="post" id="update_user_form">
                           <div class="form-row">
                             <div class="col-md-6">
                                 <div class="md-form form-group">
@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-md-6">
                               <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="is_active" checked >
+                                <input type="checkbox" class="custom-control-input" id="is_active"  name = "is_active" value= "" checked >
                                 <label class="custom-control-label" for="is_active">Aktywny</label>
                               </div>
                             </div>
@@ -120,7 +120,12 @@
                                   <option value="handlowiec">handlowiec</option>
                               </select>
                           </div>
-
+                          <div class="md-form form-group">
+                              <input class="form-control" id = "action" name = "action" type="text" value="updateUser" hidden>
+                          </div>
+                          <div class="md-form form-group">
+                              <input class="form-control" id = "userId" name = "userId" type="text" value ="" hidden>
+                          </div>
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
@@ -132,6 +137,12 @@
         </div>
 
 		<section class = "section">
+      <?php
+      if(isset($_SESSION['e_user_update'])){
+          echo '<div class = "error">'.$_SESSION['e_user_update'].'</div>';
+          unset($_SESSION['e_user_update']);
+      }
+      ?>
       <div id= "user_managment" class="table-responsive">
           <table class="table table-striped table-bordered" id="data-table">
               <thead>

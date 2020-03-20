@@ -70,6 +70,66 @@ class User
       echo json_encode($resp);
     }
 
+    public function updateUserData($userId, $username, $firstName, $lastName, $role, $isActive)
+    {
+      $success = true;
+      if(!$userId) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Błąd podczas przekazania użytkownika</p>';
+        $success = false;
+      }
+      if(strlen(preg_replace('/\s/', '', $username)) < 2) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótki login.</p>';
+        $success = false;
+      }
+      if(strlen(preg_replace('/\s/', '', $firstName)) < 3) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie imię.</p>';
+        $success = false;
+      }
+      if(strlen(preg_replace('/\s/', '', $lastName)) < 3) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie nazwisko.</p>';
+        $success = false;
+      }
+
+      try {
+        $query = "SELECT * FROM usr.sf_sprawdz_unikalnosc_login('$username') AS is_username_unique";
+        $username_unique_check = pg_query($this->connection, $query);
+        $is_username_unique_check = pg_fetch_assoc($username_unique_check);
+
+        $query = "SELECT * FROM usr.sf_pobierz_login($userId) AS old_username";
+        $username_changed_check = pg_query($this->connection, $query);
+        $old_username = pg_fetch_assoc($username_changed_check);
+
+        $usernameChanged = true;
+        if($old_username['old_username'] == $username) {
+          $usernameChanged = false;
+        }
+
+        if($is_username_unique_check['is_username_unique'] != 1 && $usernameChanged)
+        {
+            $success = false;
+            $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">login w użyciu.</p>';
+        }
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
+
+      if($success == true) {
+        try {
+          $query = "SELECT * FROM usr.sp_zaktualizuj_dane_uzytkownika
+                    (   $userId
+                        ,'$username'
+                        ,'$firstName'
+                        ,'$lastName'
+                        ,'$role'
+                        ,$isActive::BIT
+                    )";
+          $result = pg_query($this->connection, $query);
+          $_SESSION['e_user_update'] = '<p style = "color:green; text-align:center;">Użytkownik zaktualizowany pomyślnie.</p>';
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+    }
 
 }
 
