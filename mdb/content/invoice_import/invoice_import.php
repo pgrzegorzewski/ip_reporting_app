@@ -199,8 +199,8 @@ $loggedUser = new User();
                 </div>
             </form>
             <br />
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered" id="data-table">
+            <div class="table-editable" id="editable-table-div">
+                <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
                     <thead>
                     <tr>
                         <th>lp</th>
@@ -210,6 +210,7 @@ $loggedUser = new User();
                         <th>ilosc</th>
                         <th>jm</th>
                         <th>cena</th>
+                        <th>usuń</th>
                     </tr>
                     </thead>
                 </table>
@@ -221,37 +222,3 @@ $loggedUser = new User();
     </div>
 </body>
 </html>
-
-<script>
-
-$(document).ready(function(){
-   $('#upload_csv').on('submit', function (event) {
-        event.preventDefault();
-        $.ajax({
-            url: "./import_csv.php",
-            method: "POST",
-            data: new FormData(this),
-            dataType: 'json',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (jsonData) {
-                $('#csv_file').val('');
-                $('#data-table').DataTable({
-                    data : jsonData,
-                    columns: [
-                        {data: 'lp'},
-                        {data: 'cena zero'},
-                        {data: 'towar'},
-                        {data: 'nazwa'},
-                        {data: 'ilosc'},
-                        {data: 'jm'},
-                        {data: 'cena'}
-                    ]
-                });
-            }
-        })
-   })
-});
-
-</script>

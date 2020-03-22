@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $('#data-table').DataTable();
+
     $.ajax({
         url: "./invoice_import_filters.php",
         type: 'post',
@@ -80,5 +82,45 @@ $(document).ready(function(){
         }
     });
 
+});
 
+$(document).ready(function(){
+   $('#upload_csv').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "./import_csv.php",
+            method: "POST",
+            data: new FormData(this),
+            dataType: 'json',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (jsonData) {
+                $('#csv_file').val('');
+                $("#data-table").dataTable().fnDestroy();
+                $('#data-table').DataTable({
+                    data : jsonData,
+                    columns: [
+                        {data: 'lp'},
+                        {data: 'cena zero'},
+                        {data: 'towar'},
+                        {data: 'nazwa'},
+                        {data: 'ilosc'},
+                        {data: 'jm'},
+                        {data: 'cena'},
+                        {data: 'edytuj'}
+                    ]
+                });
+                $("#data-table tr td").each(function() {
+                  if( $(this).index() < $("#data-table").find("tbody tr:first td").length - 1) {
+                    $(this).attr("contenteditable", true);
+                  }
+                });
+
+                $('.table-remove').bind( "click", function() {
+                  $(this).parents('tr').detach();
+                });
+            }
+        })
+   })
 });
