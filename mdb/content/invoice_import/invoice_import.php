@@ -104,8 +104,8 @@ $loggedUser = new User();
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="md-form form-group" id = "rate">
-                            <select class="custom-select" single>
+                        <div class="md-form form-group">
+                            <select  id = "currency" class="custom-select" single>
                                 <option selected>Waluta</option>
                                 <option value="1">PLN</option>
                                 <option value="2">EUR</option>
@@ -123,21 +123,18 @@ $loggedUser = new User();
                 </div>
                 <div class="form-row">
                     <div class="col-md-6">
-
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="radioType1" name="inlineDefaultRadiosExample" mdbInput>
-                            <label class="custom-control-label" for="radioType1">Eksport</label>
-                        </div>
-
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="radioType2" name="inlineDefaultRadiosExample" mdbInput>
-                            <label class="custom-control-label" for="radioType2">Przelew</label>
-                        </div>
-
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="radioType3" name="inlineDefaultRadiosExample" mdbInput>
-                            <label class="custom-control-label" for="radioType3">Dostawa</label>
-                        </div>
+                      <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
+                        <label class="custom-control-label" for="export_checkbox">Eksport</label>
+                      </div>
+                      <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
+                        <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
+                      </div>
+                      <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
+                        <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
+                      </div>
                     </div>
                     <div class="col-md-6">
                         <div class="md-form form-group">
@@ -216,6 +213,12 @@ $loggedUser = new User();
                 </table>
             </div>
             <div id = "import_invoice_div"></div>
+            <?php
+            if(isset($_SESSION['e_invoice'])){
+                echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
+                unset($_SESSION['e_invoice']);
+            }
+            ?>
         </section>
         <div class="footer">
             © 2020 PAWEŁ GRZEGORZEWSKI ALL RIGHTS RESERVED

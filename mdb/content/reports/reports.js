@@ -27,7 +27,6 @@ $(document).on('click', '#region_summary_data_refresh', function() {
 
          method: "POST",
          data: {dateFrom : $dateFrom, dateTo : $dateTo},
-
          dataType: 'json',
          url: "./summary_by_region_report.php",
          success: function (data) {

@@ -136,5 +136,37 @@ function appendAddInvoice() {
 }
 
 function addInvoice() {
-  console.log('test');
+  var invoice_header = getInviceHeader();
+  console.log(JSON.stringify(invoice_header));
+  $.ajax({
+      url: "./add_invoice.php",
+      method: "POST",
+      data: {data: JSON.stringify(invoice_header)},
+      dataType: 'json',
+      cache: false,
+      success: function (jsonData) {
+          console.log(jsonData);
+      }
+  })
+}
+
+function getInviceHeader() {
+    var invoice_header = {};
+
+    invoice_header.invoice_number = $("#invoice_number").val();
+    invoice_header.invoice_date = $("#invoice_date").val();
+    invoice_header.salesman = $("#salesman").children("option:selected").val();
+    invoice_header.currency = $("#currency").children("option:selected").val();
+    invoice_header.rate = $("#rate").val();
+    invoice_header.export = $("#export_checkbox").is(":checked") == true ? 1 : 0;
+    invoice_header.money_transfer = $("#export_checkbox").is(":checked") == true ? 1 : 0;
+    invoice_header.delivery = $("#delivery_checkbox").is(":checked") == true ? 1 : 0;
+    invoice_header.client = $("#client").children("option:selected").val();
+    invoice_header.country = $("#country").children("option:selected").val();
+    invoice_header.voivodeship = $("#voivodeship").children("option:selected").val();
+    invoice_header.region = $("#region").children("option:selected").val();
+    invoice_header.comment =  $("#comment").val();
+    console.log(JSON.stringify(invoice_header));
+    return invoice_header;
+
 }
