@@ -215,6 +215,7 @@ $loggedUser = new User();
                     </thead>
                 </table>
             </div>
+            <div id = "import_invoice_div"></div>
         </section>
         <div class="footer">
             © 2020 PAWEŁ GRZEGORZEWSKI ALL RIGHTS RESERVED

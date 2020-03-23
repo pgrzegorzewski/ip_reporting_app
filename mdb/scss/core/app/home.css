@@ -134,6 +134,10 @@ body
 	padding:5px;
 }
 
+#import_invoice_div {
+	text-align: center;
+}
+
 .modal-body {
 	background-color: #031B35;
 	color: white;

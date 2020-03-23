@@ -117,6 +117,8 @@ $(document).ready(function(){
                   }
                 });
 
+                appendAddInvoice();
+
                 $('.table-remove').bind( "click", function() {
                   $(this).parents('tr').detach();
                 });
@@ -124,3 +126,15 @@ $(document).ready(function(){
         })
    })
 });
+
+function appendAddInvoice() {
+  $("#import_invoice_div").empty();
+  $("#import_invoice_div").append("<button id ='addInoviceBtn' class='btn btn-success'>Dodaj fakturę</button>");
+  $('#addInoviceBtn').bind( "click", function() {
+    addInvoice();
+  });
+}
+
+function addInvoice() {
+  console.log('test');
+}
