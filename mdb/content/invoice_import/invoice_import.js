@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    appendAddInvoice() ; //to be deleted
     $('#data-table').DataTable();
 
     $.ajax({
@@ -138,6 +138,8 @@ function appendAddInvoice() {
 function addInvoice() {
   var invoice_header = getInviceHeader();
   console.log(JSON.stringify(invoice_header));
+  chechInvoiceHeader(invoice_header);
+
   $.ajax({
       url: "./add_invoice.php",
       method: "POST",
@@ -166,7 +168,92 @@ function getInviceHeader() {
     invoice_header.voivodeship = $("#voivodeship").children("option:selected").val();
     invoice_header.region = $("#region").children("option:selected").val();
     invoice_header.comment =  $("#comment").val();
-    console.log(JSON.stringify(invoice_header));
     return invoice_header;
+}
 
+function chechInvoiceHeader(invoice_header) {
+    $('#invoice_add_error').text('');
+    var success = 1;
+
+    if (!invoice_header.invoice_date) {
+      success = 0;
+      $('#invoice_date').css('border-color', 'red');
+      $('#invoice_add_error').text('Wypełnij datę faktury');
+      timer = setTimeout(function() {
+        $('#invoice_date').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    if (isNaN(invoice_header.salesman)) {
+      success = 0;
+      $('#salesman').css('border-color', 'red');
+      $('#invoice_add_error').append('<br>Dodaj informację o handlowcu');
+      timer2 = setTimeout(function() {
+        $('#salesman').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    if (isNaN(invoice_header.currency)) {
+      success = 0;
+      $('#currency').css('border-color', 'red');
+      $('#invoice_add_error').append('<br>Dodaj informację o walucie');
+      timer3 = setTimeout(function() {
+        $('#currency').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    if (isNaN(invoice_header.rate) || !invoice_header.rate) {
+      success = 0;
+      $('#rate').css('border-color', 'red');
+      $('#invoice_add_error').append('<br>Dodaj informację o kursie');
+      timer4 = setTimeout(function() {
+        $('#rate').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    if (isNaN(invoice_header.client)) {
+      success = 0;
+      $('#client').css('border-color', 'red');
+      $('#invoice_add_error').append('<br>Dodaj informację o kliencie');
+      timer5 = setTimeout(function() {
+        $('#client').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    if (isNaN(invoice_header.country)) {
+      success = 0;
+      $('#country').css('border-color', 'red');
+      $('#invoice_add_error').append('<br>Dodaj informację o kraju');
+      timer6 = setTimeout(function() {
+        $('#country').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    if (isNaN(invoice_header.voivodeship)) {
+      success = 0;
+      $('#voivodeship').css('border-color', 'red');
+      $('#invoice_add_error').append('<br>Dodaj informację o województwie');
+      timer7 = setTimeout(function() {
+        $('#voivodeship').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    if (isNaN(invoice_header.region)) {
+      success = 0;
+      $('#region').css('border-color', 'red');
+      $('#invoice_add_error').append('<br>Dodaj informację o regionie');
+      timer8 = setTimeout(function() {
+        $('#region').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
+    return success;
 }

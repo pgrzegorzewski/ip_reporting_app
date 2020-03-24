@@ -138,6 +138,12 @@ body
 	text-align: center;
 }
 
+#invoice_add_error {
+	text-align: center;
+	color: red;
+	font-weight: bold;
+}
+
 .modal-body {
 	background-color: #031B35;
 	color: white;

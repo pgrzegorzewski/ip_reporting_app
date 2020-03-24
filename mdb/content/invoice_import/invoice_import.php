@@ -217,6 +217,7 @@ $loggedUser = new User();
                 </table>
             </div>
             <div id = "import_invoice_div"></div>
+            <div id = "invoice_add_error"></div>
             <?php
             if(isset($_SESSION['e_invoice'])){
                 echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
