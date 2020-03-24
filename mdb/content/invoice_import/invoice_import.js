@@ -138,18 +138,34 @@ function appendAddInvoice() {
 function addInvoice() {
   var invoice_header = getInviceHeader();
   console.log(JSON.stringify(invoice_header));
-  chechInvoiceHeader(invoice_header);
+  var checkInvoiceHeader = chechInvoiceHeader(invoice_header);
 
-  $.ajax({
-      url: "./add_invoice.php",
-      method: "POST",
-      data: {data: JSON.stringify(invoice_header)},
-      dataType: 'json',
-      cache: false,
-      success: function (jsonData) {
-          console.log(jsonData);
-      }
-  })
+  if(checkInvoiceHeader == true) {
+    $.ajax({
+        url: "./add_invoice.php",
+        method: "POST",
+        data: {data: JSON.stringify(invoice_header)},
+        dataType: 'json',
+        success: function (data) {
+            console.log(data.success);
+            if(data.success == 0) {
+              $('#invoice_number').css('border-color', 'red');
+              $('#invoice_add_error').append('<br>Istnieje faktura o takim numerze');
+              timer = setTimeout(function() {
+                $('#invoice_number').css('border-color', '');
+                $('#invoice_add_error').text('');
+              }, 5000);
+            } else {
+              $('#invoice_add_error').css('color', 'green');
+              $('#invoice_add_error').append('<br>Pomyślnie dodano fakturę!');
+              timer = setTimeout(function() {
+                $('#invoice_add_error').text('');
+                $('#invoice_add_error').css('color', 'red');
+              }, 5000);
+            }
+        }
+    })
+  }
 }
 
 function getInviceHeader() {
@@ -173,10 +189,10 @@ function getInviceHeader() {
 
 function chechInvoiceHeader(invoice_header) {
     $('#invoice_add_error').text('');
-    var success = 1;
+    var success = true;
 
     if (!invoice_header.invoice_date) {
-      success = 0;
+      success = false;
       $('#invoice_date').css('border-color', 'red');
       $('#invoice_add_error').text('Wypełnij datę faktury');
       timer = setTimeout(function() {
@@ -186,7 +202,7 @@ function chechInvoiceHeader(invoice_header) {
     }
 
     if (isNaN(invoice_header.salesman)) {
-      success = 0;
+      success = false;
       $('#salesman').css('border-color', 'red');
       $('#invoice_add_error').append('<br>Dodaj informację o handlowcu');
       timer2 = setTimeout(function() {
@@ -196,7 +212,7 @@ function chechInvoiceHeader(invoice_header) {
     }
 
     if (isNaN(invoice_header.currency)) {
-      success = 0;
+      success = false;
       $('#currency').css('border-color', 'red');
       $('#invoice_add_error').append('<br>Dodaj informację o walucie');
       timer3 = setTimeout(function() {
@@ -206,7 +222,7 @@ function chechInvoiceHeader(invoice_header) {
     }
 
     if (isNaN(invoice_header.rate) || !invoice_header.rate) {
-      success = 0;
+      success = false;
       $('#rate').css('border-color', 'red');
       $('#invoice_add_error').append('<br>Dodaj informację o kursie');
       timer4 = setTimeout(function() {
@@ -216,7 +232,7 @@ function chechInvoiceHeader(invoice_header) {
     }
 
     if (isNaN(invoice_header.client)) {
-      success = 0;
+      success = false;
       $('#client').css('border-color', 'red');
       $('#invoice_add_error').append('<br>Dodaj informację o kliencie');
       timer5 = setTimeout(function() {
@@ -226,7 +242,7 @@ function chechInvoiceHeader(invoice_header) {
     }
 
     if (isNaN(invoice_header.country)) {
-      success = 0;
+      success = false;
       $('#country').css('border-color', 'red');
       $('#invoice_add_error').append('<br>Dodaj informację o kraju');
       timer6 = setTimeout(function() {
@@ -236,7 +252,7 @@ function chechInvoiceHeader(invoice_header) {
     }
 
     if (isNaN(invoice_header.voivodeship)) {
-      success = 0;
+      success = false;
       $('#voivodeship').css('border-color', 'red');
       $('#invoice_add_error').append('<br>Dodaj informację o województwie');
       timer7 = setTimeout(function() {
@@ -246,7 +262,7 @@ function chechInvoiceHeader(invoice_header) {
     }
 
     if (isNaN(invoice_header.region)) {
-      success = 0;
+      success = false;
       $('#region').css('border-color', 'red');
       $('#invoice_add_error').append('<br>Dodaj informację o regionie');
       timer8 = setTimeout(function() {
