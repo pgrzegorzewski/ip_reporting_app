@@ -122,16 +122,20 @@ $loggedUser = new User();
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="col-md-6">
+                    <div class="col-md-2 my-auto" style="text-align: center;">
                       <div class="custom-control custom-checkbox custom-control-inline">
                         <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
                         <label class="custom-control-label" for="export_checkbox">Eksport</label>
                       </div>
-                      <div class="custom-control custom-checkbox custom-control-inline">
+                    </div>
+                    <div class="col-md-2 my-auto" style="text-align: center;">
+                      <div class="custom-control custom-checkbox custom-control-inline" >
                         <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
                         <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
                       </div>
-                      <div class="custom-control custom-checkbox custom-control-inline">
+                    </div>
+                    <div class="col-md-2 my-auto" style="text-align: center;">
+                      <div class="custom-control custom-checkbox custom-control-inline" >
                         <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
                         <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
                       </div>
