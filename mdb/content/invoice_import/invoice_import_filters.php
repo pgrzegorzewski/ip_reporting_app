@@ -6,6 +6,20 @@ $filterType = $_POST['type'];
 if ($connection) {
     try {
         switch ($filterType) {
+          case 'invoice_number':
+              $query = "
+                      SELECT faktura_id, faktura_numer FROM app.tbl_faktura
+              ";
+              $invoiceQuery = @pg_query($connection, $query);
+
+              while($row = pg_fetch_assoc($invoiceQuery))
+              {
+                  $invoiceId = $row["faktura_id"];
+                  $invoiceNumber = $row["faktura_numer"];
+                  $invoiceArray[] = array("faktura_id" => $invoiceId, "faktura_numer" => $invoiceNumber);
+              }
+              echo json_encode($invoiceArray);
+              break;
             case 'region':
                 $query = "
                         SELECT region_id, region_nazwa FROM app.tbl_region

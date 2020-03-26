@@ -1,6 +1,21 @@
 $(document).ready(function(){
-    appendAddInvoice() ; //to be deleted
     $('#data-table').DataTable();
+
+    $.ajax({
+        url: "../invoice_import/invoice_import_filters.php",
+        type: 'post',
+        data: {type:'invoice_number'},
+        dataType: 'json',
+        success:function(response){
+            var len = response.length;
+            for( var i = 0; i<len; i++){
+                var faktura_id = response[i]['faktura_id'];
+                var faktura_numer = response[i]['faktura_numer'];
+
+                $("#invoice_number").append("<option value='"+faktura_id+"'>"+faktura_numer+"</option>");
+            }
+        }
+    });
 
     $.ajax({
         url: "../invoice_import/invoice_import_filters.php",
@@ -126,47 +141,6 @@ $(document).ready(function(){
         })
    })
 });
-
-function appendAddInvoice() {
-  $("#import_invoice_div").empty();
-  $("#import_invoice_div").append("<button id ='addInoviceBtn' class='btn btn-success'>Dodaj fakturę</button>");
-  $('#addInoviceBtn').bind( "click", function() {
-    addInvoice();
-  });
-}
-
-function addInvoice() {
-  var invoice_header = getInviceHeader();
-  console.log(JSON.stringify(invoice_header));
-  var checkInvoiceHeader = chechInvoiceHeader(invoice_header);
-
-  if(checkInvoiceHeader == true) {
-    $.ajax({
-        url: "./add_invoice.php",
-        method: "POST",
-        data: {data: JSON.stringify(invoice_header)},
-        dataType: 'json',
-        success: function (data) {
-            console.log(data.success);
-            if(data.success == 0) {
-              $('#invoice_number').css('border-color', 'red');
-              $('#invoice_add_error').append('<br>Istnieje faktura o takim numerze');
-              timer = setTimeout(function() {
-                $('#invoice_number').css('border-color', '');
-                $('#invoice_add_error').text('');
-              }, 5000);
-            } else {
-              $('#invoice_add_error').css('color', 'green');
-              $('#invoice_add_error').append('<br>Pomyślnie dodano fakturę!');
-              timer = setTimeout(function() {
-                $('#invoice_add_error').text('');
-                $('#invoice_add_error').css('color', 'red');
-              }, 5000);
-            }
-        }
-    })
-  }
-}
 
 function getInviceHeader() {
     var invoice_header = {};

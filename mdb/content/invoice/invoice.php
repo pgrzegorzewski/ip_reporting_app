@@ -84,6 +84,18 @@ $loggedUser = new User();
                 <div class="form-row">
                     <div class="col-md-3">
                         <div class="md-form form-group">
+                            <input class="form-control" id = "report_date_from" name = "report_date_from" type="date">
+                            <label for = "report_date_from">Data początkowa</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="md-form form-group">
+                            <input class="form-control" id = "report_date_to" name = "report_date_to" type="date">
+                            <label for = "report_date_to">Data końcowa</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="md-form form-group">
                           <select class="form-control" id = "invoice_number" name = "invoice_number">
                               <option selected>Numer Faktury</option>
                           </select>
@@ -91,77 +103,35 @@ $loggedUser = new User();
                     </div>
                     <div class="col-md-3">
                         <div class="md-form form-group">
-                            <input class="form-control" id = "report_date_from" name = "report_date_from" type="date">
-                            <label for = "invoice_date">Data początkowa</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="md-form form-group">
-                            <input class="form-control" id = "report_date_to" name = "report_date_to" type="date">
-                            <label for = "invoice_date">Data końcowa</label>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="md-form form-group">
                             <select class="form-control" id = "salesman" name = "salesman">
                                 <option selected>Sprzedawca</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <div class="md-form form-group">
-                            <select  id = "currency" class="custom-select" single>
-                                <option selected>Waluta</option>
-                                <option value="1">PLN</option>
-                                <option value="2">EUR</option>
-                                <option value="3">USD</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
                 <div class="form-row">
-                    <div class="col-md-2 my-auto" style="text-align: center;">
-                      <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
-                        <label class="custom-control-label" for="export_checkbox">Eksport</label>
-                      </div>
-                    </div>
-                    <div class="col-md-2 my-auto" style="text-align: center;">
-                      <div class="custom-control custom-checkbox custom-control-inline" >
-                        <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
-                        <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
-                      </div>
-                    </div>
-                    <div class="col-md-2 my-auto" style="text-align: center;">
-                      <div class="custom-control custom-checkbox custom-control-inline" >
-                        <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
-                        <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="md-form form-group">
-                            <select class="form-control" id = "client" name = "client">
-                                <option selected>Kontrahent</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="md-form form-group">
                             <select class="form-control" id = "country" name = "country">
                                 <option selected>Kraj</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="md-form form-group">
+                            <select class="form-control" id = "client" name = "client">
+                                <option selected>Kontrahent</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="md-form form-group">
                             <select class="form-control" id = "voivodeship" name = "voivodeship">
                                 <option selected>Województwo</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="md-form form-group">
                             <select class="form-control" id = "region" name = "region" >
                                 <option selected>Region</option>
@@ -175,14 +145,27 @@ $loggedUser = new User();
                 <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
                     <thead>
                     <tr>
-                        <th>lp</th>
-                        <th>cena zero</th>
-                        <th>towar</th>
-                        <th>nazwa</th>
-                        <th>ilosc</th>
-                        <th>jm</th>
-                        <th>cena</th>
-                        <th>edycja</th>
+                      <th>Numer faktury</th>
+                      <th>Data</th>
+                      <th>Sprzedawca</th>
+                      <th>Waluta</th>
+                      <th>Kurs</th>
+                      <th>Eksp</th>
+                      <th>Dst</th>
+                      <th>P</th>
+                      <th>Kontrahent</th>
+                      <th>Kraj</th>
+                      <th>Woj</th>
+                      <th>Reg</th>
+                      <th>Poz</th>
+                      <th>Towar</th>
+                      <th>Ilość</th>
+                      <th>Jedn</th>
+                      <th>Cena</th>
+                      <th>Cena zero</th>
+                      <th>Wartość</th>
+                      <th>Marża</th>
+                      <th>Proc</th>
                     </tr>
                     </thead>
                 </table>
