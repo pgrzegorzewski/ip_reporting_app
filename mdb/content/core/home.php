@@ -65,7 +65,7 @@
 					<a href ='../reports/reports.php'>Raporty i podsumowania</a>
 				</li>
 				<li>
-					<a href ='#'>Korekty</a>
+					<a href ='../invoice/invoice.php'>Faktury</a>
 				</li>
                 <?php
                 $query = "

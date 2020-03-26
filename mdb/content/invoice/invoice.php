@@ -33,7 +33,7 @@ $loggedUser = new User();
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
-    <script type="text/javascript" src="./invoice_import.js"></script>
+    <script type="text/javascript" src="./invoice.js"></script>
     <script type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
@@ -57,13 +57,13 @@ $loggedUser = new User();
         <div class="nav">
             <ol>
                 <li>
-                    <a  href = '#' id="visited">Wprowadzenie faktury</a>
+                    <a  href = '../invoice_import/invoice_import.php'>Wprowadzenie faktury</a>
                 </li>
                 <li>
                     <a href ='../reports/reports.php'>Raporty i podsumowania</a>
                 </li>
                 <li>
-                    <a href ='../invoice/invoice.php'>Faktury</a>
+                    <a href ='#' id="visited">Faktury</a>
                 </li>
                 <?php
                 $query = "
@@ -81,29 +81,34 @@ $loggedUser = new User();
         </div>
         <section class = "section">
             <form id="invoice_header_form">
-                <br />
-                <h5>Nagłówek faktury</h5>
                 <div class="form-row">
                     <div class="col-md-3">
                         <div class="md-form form-group">
-                            <input class="form-control" id = "invoice_number" name = "invoice_number" type="text">
-                            <label for = "invoice_number">Numer faktury</label>
+                          <select class="form-control" id = "invoice_number" name = "invoice_number">
+                              <option selected>Numer Faktury</option>
+                          </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="md-form form-group">
-                            <input class="form-control" id = "invoice_date" name = "invoice_date" type="date">
-                            <label for = "invoice_date">Data faktury</label>
+                            <input class="form-control" id = "report_date_from" name = "report_date_from" type="date">
+                            <label for = "invoice_date">Data początkowa</label>
                         </div>
                     </div>
                     <div class="col-md-3">
+                        <div class="md-form form-group">
+                            <input class="form-control" id = "report_date_to" name = "report_date_to" type="date">
+                            <label for = "invoice_date">Data końcowa</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
                         <div class="md-form form-group">
                             <select class="form-control" id = "salesman" name = "salesman">
                                 <option selected>Sprzedawca</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div class="md-form form-group">
                             <select  id = "currency" class="custom-select" single>
                                 <option selected>Waluta</option>
@@ -112,13 +117,6 @@ $loggedUser = new User();
                                 <option value="3">USD</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="md-form form-group">
-                            <input class="form-control" id = "rate" name = "rate" type="number">
-                            <label for = "rate">Kurs</label>
-                        </div>
-
                     </div>
                 </div>
                 <div class="form-row">
@@ -172,34 +170,7 @@ $loggedUser = new User();
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="md-form form-group">
-                            <textarea type="text" id="comment" class="md-textarea form-control" mdbInput></textarea>
-                            <label for="form7">Uwagi</label>
-                        </div>
-                    </div>
-                </div>
             </form>
-            <br/ >
-            <form id ="upload_csv" method="post" enctype="multipart/form-data">
-                <div class="form-row" style ="text-align: center">
-                    <div class="col-md-12">
-                        <div class="input-group" style="vertical-align: middle">
-                            <div class="input-group-prepend" >
-                                <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
-                                       aria-describedby="fileBrowser" acccept=".csv"  style="margin:6px">
-                                <label class="custom-file-label" for="csv_file">Wybierz plik</label>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </form>
-            <br />
             <div class="table-editable" id="editable-table-div">
                 <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
                     <thead>
@@ -211,19 +182,11 @@ $loggedUser = new User();
                         <th>ilosc</th>
                         <th>jm</th>
                         <th>cena</th>
-                        <th>usuń</th>
+                        <th>edycja</th>
                     </tr>
                     </thead>
                 </table>
             </div>
-            <div id = "import_invoice_div"></div>
-            <div id = "invoice_add_error"></div>
-            <?php
-            if(isset($_SESSION['e_invoice'])){
-                echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
-                unset($_SESSION['e_invoice']);
-            }
-            ?>
         </section>
         <div class="footer">
             © 2020 PAWEŁ GRZEGORZEWSKI ALL RIGHTS RESERVED
