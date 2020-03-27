@@ -197,6 +197,5 @@ function checkFilters(filters) {
     if (isNaN(filters.region)) {
       filters.region = null;
     }
-    console.log(filters);
     return filters;
 }

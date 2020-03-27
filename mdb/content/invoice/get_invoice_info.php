@@ -94,7 +94,6 @@
                                 );
       }
       pg_free_result($result);
-      $_SESSION['e_invoice'] = $query;
       echo json_encode($resp);
     } catch(Exception $error) {
         $error->getMessage();
