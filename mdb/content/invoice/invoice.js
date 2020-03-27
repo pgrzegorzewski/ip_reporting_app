@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    appendShowInvoiceInfo();
+
     $('#data-table').DataTable();
 
     $.ajax({
@@ -99,151 +101,102 @@ $(document).ready(function(){
 
 });
 
-$(document).ready(function(){
-   $('#upload_csv').on('submit', function (event) {
-        event.preventDefault();
-        $.ajax({
-            url: "./import_csv.php",
-            method: "POST",
-            data: new FormData(this),
-            dataType: 'json',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (jsonData) {
-                $('#csv_file').val('');
-                $("#data-table").dataTable().fnDestroy();
-                $('#data-table').DataTable({
-                    data : jsonData,
-                    columns: [
-                        {data: 'lp'},
-                        {data: 'cena zero'},
-                        {data: 'towar'},
-                        {data: 'nazwa'},
-                        {data: 'ilosc'},
-                        {data: 'jm'},
-                        {data: 'cena'},
-                        {data: 'edytuj'}
-                    ]
-                });
-                $("#data-table tr td").each(function() {
-                  if( $(this).index() < $("#data-table").find("tbody tr:first td").length - 1) {
-                    $(this).attr("contenteditable", true);
-                  }
-                });
-
-                appendAddInvoice();
-
-                $('.table-remove').bind( "click", function() {
-                  $(this).parents('tr').detach();
-                });
-            }
-        })
-   })
-});
-
-function getInviceHeader() {
-    var invoice_header = {};
-
-    invoice_header.invoice_number = $("#invoice_number").val();
-    invoice_header.invoice_date = $("#invoice_date").val();
-    invoice_header.salesman = $("#salesman").children("option:selected").val();
-    invoice_header.currency = $("#currency").children("option:selected").val();
-    invoice_header.rate = $("#rate").val();
-    invoice_header.export = $("#export_checkbox").is(":checked") == true ? 1 : 0;
-    invoice_header.money_transfer = $("#export_checkbox").is(":checked") == true ? 1 : 0;
-    invoice_header.delivery = $("#delivery_checkbox").is(":checked") == true ? 1 : 0;
-    invoice_header.client = $("#client").children("option:selected").val();
-    invoice_header.country = $("#country").children("option:selected").val();
-    invoice_header.voivodeship = $("#voivodeship").children("option:selected").val();
-    invoice_header.region = $("#region").children("option:selected").val();
-    invoice_header.comment =  $("#comment").val();
-    return invoice_header;
+function appendShowInvoiceInfo() {
+  $('#showInvoiceInfo').bind( "click", function() {
+    showInvoices();
+  });
 }
 
-function chechInvoiceHeader(invoice_header) {
-    $('#invoice_add_error').text('');
-    var success = true;
+function showInvoices(){
+  var filters= getFilters();
+  filters = checkFilters(filters);
 
-    if (!invoice_header.invoice_date) {
-      success = false;
-      $('#invoice_date').css('border-color', 'red');
-      $('#invoice_add_error').text('Wypełnij datę faktury');
-      timer = setTimeout(function() {
-        $('#invoice_date').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+  $.ajax({
+      url: "./get_invoice_info.php",
+      method: "POST",
+      data: {data: JSON.stringify(filters)},
+      dataType: 'json',
+      success: function (jsonData) {
+        $("#data-table").dataTable().fnDestroy();
+        $('#data-table').DataTable({
+            data : jsonData,
+            columns: [
+                {data: 'faktura_numer'},
+                {data: 'data_wystawienia'},
+                {data: 'uzytkownik'},
+                {data: 'waluta_kod'},
+                {data: 'kurs'},
+                {data: 'eksport'},
+                {data: 'dostawa'},
+                {data: 'przelew'},
+                {data: 'kontrahent_nazwa'},
+                {data: 'kraj_kod'},
+                {data: 'wojewodztwo_kod'},
+                {data: 'region_kod'},
+                {data: 'pozycja_faktura'},
+                {data: 'towar_nazwa'},
+                {data: 'ilosc'},
+                {data: 'jednostka'},
+                {data: 'cena'},
+                {data: 'cena_zero'},
+                {data: 'wartosc'},
+                {data: 'marza'},
+                {data: 'procent'}
+            ]
+        });
+      }
+  })
+
+}
+
+function getFilters() {
+    var filters = {};
+
+    filters.invoice_number = $("#invoice_number").val();
+    filters.invoice_date_from = $("#report_date_from").val();
+    filters.invoice_date_to= $("#report_date_to").val();
+    filters.salesman = $("#salesman").children("option:selected").val();
+    filters.client = $("#client").children("option:selected").val();
+    filters.country = $("#country").children("option:selected").val();
+    filters.voivodeship = $("#voivodeship").children("option:selected").val();
+    filters.region = $("#region").children("option:selected").val();
+    return filters;
+}
+
+function checkFilters(filters) {
+
+    if (!filters.invoice_date_from) {
+      filters.invoice_date_from = null;
+
     }
 
-    if (isNaN(invoice_header.salesman)) {
-      success = false;
-      $('#salesman').css('border-color', 'red');
-      $('#invoice_add_error').append('<br>Dodaj informację o handlowcu');
-      timer2 = setTimeout(function() {
-        $('#salesman').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+    if (!filters.invoice_date_to) {
+      filters.invoice_date_to = null;
     }
 
-    if (isNaN(invoice_header.currency)) {
-      success = false;
-      $('#currency').css('border-color', 'red');
-      $('#invoice_add_error').append('<br>Dodaj informację o walucie');
-      timer3 = setTimeout(function() {
-        $('#currency').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+    if (isNaN(filters.invoice_number)) {
+      filters.invoice_number = null;
     }
 
-    if (isNaN(invoice_header.rate) || !invoice_header.rate) {
-      success = false;
-      $('#rate').css('border-color', 'red');
-      $('#invoice_add_error').append('<br>Dodaj informację o kursie');
-      timer4 = setTimeout(function() {
-        $('#rate').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+    if (isNaN(filters.salesman)) {
+      filters.salesman = null;
     }
 
-    if (isNaN(invoice_header.client)) {
-      success = false;
-      $('#client').css('border-color', 'red');
-      $('#invoice_add_error').append('<br>Dodaj informację o kliencie');
-      timer5 = setTimeout(function() {
-        $('#client').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+    if (isNaN(filters.client)) {
+      filters.client = null;
     }
 
-    if (isNaN(invoice_header.country)) {
-      success = false;
-      $('#country').css('border-color', 'red');
-      $('#invoice_add_error').append('<br>Dodaj informację o kraju');
-      timer6 = setTimeout(function() {
-        $('#country').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+    if (isNaN(filters.country)) {
+      filters.country = null;
     }
 
-    if (isNaN(invoice_header.voivodeship)) {
-      success = false;
-      $('#voivodeship').css('border-color', 'red');
-      $('#invoice_add_error').append('<br>Dodaj informację o województwie');
-      timer7 = setTimeout(function() {
-        $('#voivodeship').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+    if (isNaN(filters.voivodeship)) {
+      filters.voivodeship = null;
     }
 
-    if (isNaN(invoice_header.region)) {
-      success = false;
-      $('#region').css('border-color', 'red');
-      $('#invoice_add_error').append('<br>Dodaj informację o regionie');
-      timer8 = setTimeout(function() {
-        $('#region').css('border-color', '');
-        $('#invoice_add_error').text('');
-      }, 5000);
+    if (isNaN(filters.region)) {
+      filters.region = null;
     }
-
-    return success;
+    console.log(filters);
+    return filters;
 }

@@ -141,11 +141,12 @@ $loggedUser = new User();
                     </div>
                 </div>
             </form>
+            <button id ='showInvoiceInfo' class='btn btn-success'>Załaduj</button>
             <div class="table-editable" id="editable-table-div">
                 <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
                     <thead>
                     <tr>
-                      <th>Numer faktury</th>
+                      <th>Nr faktury</th>
                       <th>Data</th>
                       <th>Sprzedawca</th>
                       <th>Waluta</th>
@@ -170,6 +171,12 @@ $loggedUser = new User();
                     </thead>
                 </table>
             </div>
+            <?php
+            if(isset($_SESSION['e_invoice'])){
+                echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
+                unset($_SESSION['e_invoice']);
+            }
+            ?>
         </section>
         <div class="footer">
             © 2020 PAWEŁ GRZEGORZEWSKI ALL RIGHTS RESERVED
