@@ -1,7 +1,9 @@
 $(document).ready(function(){
     appendShowInvoiceInfo();
 
-    $('#data-table').DataTable();
+    $('#data-table').DataTable({
+        "scrollX": true,
+    });
 
     $.ajax({
         url: "../invoice_import/invoice_import_filters.php",
@@ -119,6 +121,7 @@ function showInvoices(){
       success: function (jsonData) {
         $("#data-table").dataTable().fnDestroy();
         $('#data-table').DataTable({
+            "scrollX": true,
             data : jsonData,
             columns: [
                 {data: 'faktura_numer'},
