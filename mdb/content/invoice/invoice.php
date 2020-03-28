@@ -85,13 +85,13 @@ $loggedUser = new User();
                     <div class="col-md-3">
                         <div class="md-form form-group">
                             <input class="form-control" id = "report_date_from" name = "report_date_from" type="date">
-                            <label for = "report_date_from">Data początkowa</label>
+                            <label class="active" for = "report_date_from">Data początkowa</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="md-form form-group">
                             <input class="form-control" id = "report_date_to" name = "report_date_to" type="date">
-                            <label for = "report_date_to">Data końcowa</label>
+                            <label class="active" for = "report_date_to">Data końcowa</label>
                         </div>
                     </div>
                     <div class="col-md-3">

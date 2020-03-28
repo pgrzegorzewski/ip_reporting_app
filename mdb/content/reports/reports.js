@@ -1,5 +1,5 @@
 var today = new Date();
-var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);  // 30 days
+var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 
 $(document).ready(function () {
   $('#dtBasicExample').DataTable({
