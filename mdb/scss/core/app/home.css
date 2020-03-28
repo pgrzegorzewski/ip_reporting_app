@@ -142,8 +142,12 @@ body
 	padding:5px;
 }
 
-#showInvoiceInfo {
-	width: 150px;
+#showInvoiceInfo,
+#client_summary_data_refresh,
+#salesman_summary_data_refresh,
+#region_summary_data_refresh,
+#item_summary_data_refresh {
+	width: 170px;
 	padding: 10px;
 }
 

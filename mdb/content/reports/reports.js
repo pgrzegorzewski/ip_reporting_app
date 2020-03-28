@@ -22,6 +22,8 @@ $(document).on('click', '#region_summary_data_refresh', function() {
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
       getRegionChartTemplate();
+      $('#region_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+      $('#region_summary_data_refresh_span').text('');
 
       $.ajax({
 
@@ -30,6 +32,7 @@ $(document).on('click', '#region_summary_data_refresh', function() {
          dataType: 'json',
          url: "./summary_by_region_report.php",
          success: function (data) {
+             $("#data-table").dataTable().fnDestroy();
              $("#data_refresh").attr("disabled", false);
              $('#data-table').DataTable({
                  data : data,
@@ -47,6 +50,8 @@ $(document).on('click', '#region_summary_data_refresh', function() {
                chart_data.push({label:item.region_nazwa, suma_wartosci:parseFloat(item.suma_wartosci), suma_marz:parseFloat(item.suma_marz), procent:parseFloat(item.procent), kolor:item.kolor});
              });
              loadRegionChart(chart_data);
+             $('#region_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+             $('#region_summary_data_refresh_span').text('Odśwież/załaduj');
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
@@ -82,6 +87,8 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
       getSalesmanChartTemplate();
+      $('#salesman_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+      $('#salesman_summary_data_refresh_span').text('');
 
       $.ajax({
 
@@ -91,6 +98,7 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
          dataType: 'json',
          url: "./summary_by_salesman_report.php",
          success: function (data) {
+             $("#data-table").dataTable().fnDestroy();
              $("#data_refresh").attr("disabled", false);
              $('#data-table').DataTable({
                  data : data,
@@ -108,6 +116,8 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
              });
 
              loadSalesmanChart(chart_data);
+             $('#salesman_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+             $('#salesman_summary_data_refresh_span').text('Odśwież/załaduj');
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
@@ -143,6 +153,8 @@ $(document).on('click', '#client_summary_data_refresh', function() {
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
       getClientChartTemplate();
+      $('#client_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+      $('#client_summary_data_refresh_span').text('');
       $.ajax({
 
          method: "POST",
@@ -151,6 +163,7 @@ $(document).on('click', '#client_summary_data_refresh', function() {
          dataType: 'json',
          url: "./summary_by_client_report.php",
          success: function (data) {
+             $("#data-table").dataTable().fnDestroy();
              $("#data_refresh").attr("disabled", false);
              $('#data-table').DataTable({
                  data : data,
@@ -168,6 +181,8 @@ $(document).on('click', '#client_summary_data_refresh', function() {
              });
 
              loadClientChart(chart_data);
+             $('#client_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+             $('#client_summary_data_refresh_span').text('Odśwież/załaduj');
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
@@ -203,6 +218,8 @@ $(document).on('click', '#item_summary_data_refresh', function() {
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
       getItemChartTemplate();
+      $('#item_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+      $('#item_summary_data_refresh_span').text('');
       $.ajax({
 
          method: "POST",
@@ -211,6 +228,7 @@ $(document).on('click', '#item_summary_data_refresh', function() {
          dataType: 'json',
          url: "./summary_by_item_report.php",
          success: function (data) {
+             $("#data-table").dataTable().fnDestroy();
              $("#data_refresh").attr("disabled", false);
              $('#data-table').DataTable({
                  data : data,
@@ -230,6 +248,8 @@ $(document).on('click', '#item_summary_data_refresh', function() {
              });
 
              loadItemChart(chart_data);
+             $('#item_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+             $('#item_summary_data_refresh_span').text('Odśwież/załaduj');
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));

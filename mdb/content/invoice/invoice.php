@@ -142,7 +142,7 @@ $loggedUser = new User();
                 </div>
             </form>
             <div style="text-align:center">
-              <button id ='showInvoiceInfo' class='btn btn-success'><span id="loadButtonSpan">Załaduj</span></button>
+              <button id ='showInvoiceInfo' class='btn btn-info'><span id="loadButtonSpan">Załaduj</span></button>
             </div>
             <div class="table-editable" id="editable-table-div">
                 <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">

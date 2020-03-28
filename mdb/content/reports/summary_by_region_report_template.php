@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="col-md-1">
-    <button class="btn btn-info" id = "region_summary_data_refresh">Odśwież/załaduj</button>
+    <button class="btn btn-info" id = "region_summary_data_refresh"><span id="region_summary_data_refresh_span">Odśwież/załaduj</span></button>
   </div>
 </div>
 <div style = "text-align:center">
@@ -23,11 +23,11 @@
     <table class="table table-striped table-bordered" id="data-table">
         <thead>
         <tr>
-            <th>region_nazwa</th>
-            <th>region kod</th>
-            <th>suma wartosci</th>
-            <th>suma marz</th>
-            <th>procent</th>
+            <th>Region nazwa</th>
+            <th>Region kod</th>
+            <th>Suma wartości</th>
+            <th>Suma marż</th>
+            <th>Procent</th>
         </tr>
         </thead>
         <tbody></tbody>
