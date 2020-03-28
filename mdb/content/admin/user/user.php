@@ -46,7 +46,7 @@
                   <h1 id="title"><a href ="../../../index.php"><img src="../../../resources/instalplast.png" style="width:300px;"></h1>
               </td>
               <td style = "text-align:right">
-                  <span id="user_span">Zalogowany jako: <?php echo $_SESSION['user'] ?>&ensp;</span><a href = "../logout.php"><button class="btn btn-danger" value="">Wyloguj</button></a>
+                  <span id="user_span">Zalogowany jako: <?php echo $_SESSION['user'] ?>&ensp;</span><a href = "../../core/logout.php"><button class="btn btn-danger" value="">Wyloguj</button></a>
                   </button>
               </td>
           </tr>
@@ -94,7 +94,7 @@
                                     <label for = "username">Username</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 my-auto" style="text-align: center;">
                               <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="is_active"  name = "is_active" value= "" checked >
                                 <label class="custom-control-label" for="is_active">Aktywny</label>
@@ -120,6 +120,23 @@
                                   <option value="admin">Admin</option>
                                   <option value="handlowiec">handlowiec</option>
                               </select>
+                          </div>
+                          <div class="form-row" style="border:#AFC2D1 solid 2px; border-radius: 25px;">
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "password_temporary" name = "password_temporary" type="text" value="" style="color:white">
+                                  <label for = "password_temporary">Hasło tymczasowe</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                <input type="button" class="btn btn-info" id="tmp_password_btn" value="Przypisz hasło"></button>
+                              </div>
+                            </div>
+                            <div class="col-md-12" style="text-align:center">
+                              <span id = "assign_temporary_pwd_error"></span>
+                              <span id = "assign_temporary_pwd_success"></span>
+                            </div>
                           </div>
                           <div class="md-form form-group">
                               <input class="form-control" id = "action" name = "action" type="text" value="updateUser" hidden>

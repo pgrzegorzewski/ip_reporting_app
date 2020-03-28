@@ -25,7 +25,13 @@ $(document).ready(function () {
 });
 
 $(document).ready(function() {
+
   $('#editUserModal').on('show.bs.modal', function(e) {
+
+    $('#assign_temporary_pwd_error').text('');
+    $('#assign_temporary_pwd_success').text('');
+    $('#password_temporary').val('');
+
     var id = $(e.relatedTarget).data('id');
     $.ajax({
        method: "POST",
@@ -46,8 +52,31 @@ $(document).ready(function() {
            $('#userId').val(id);
        },
     })
+
+    $('#tmp_password_btn').click(function () {
+      var password_temporary = $('#password_temporary').val();
+      if(password_temporary.length < 4) {
+        $('#assign_temporary_pwd_error').text('Tymczasowe hasło musi mieć co najmniej 4 znaki');
+      } else {
+        $.ajax({
+           method: "POST",
+           data: {action : "assignTemporaryPassword", userId : id, passwordTemporary : password_temporary},
+           dataType: 'json',
+           url: "./user_actions.php",
+           success: function(data) {
+             console.log('test');
+             $('#assign_temporary_pwd_error').text('');
+             $('#assign_temporary_pwd_success').text('Hasło przypisane pomyślnie');
+           },
+        })
+        $('#assign_temporary_pwd_error').text('');
+        $('#assign_temporary_pwd_success').text('Hasło przypisane pomyślnie');
+      }
+    })
   });
 });
+
+
 
 $('#update_user_form').submit(function () {
   var form=document.getElementById('update_user_form');//retrieve the form as a DOM element

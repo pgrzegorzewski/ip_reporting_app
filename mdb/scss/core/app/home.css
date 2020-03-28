@@ -155,9 +155,15 @@ body
 	text-align: center;
 }
 
-#invoice_add_error {
+#invoice_add_error, #assign_temporary_pwd_error {
 	text-align: center;
 	color: red;
+	font-weight: bold;
+}
+
+#assign_temporary_pwd_success{
+	text-align: center;
+	color: green;
 	font-weight: bold;
 }
 

@@ -30,6 +30,11 @@ if(isset($_POST['is_active'])) {
   $isActive = $_POST['is_active'];
 }
 
+if(isset($_POST['passwordTemporary'])) {
+  $passwordTemporary = $_POST['passwordTemporary'];
+}
+
+
 
 $user = new User();
 
@@ -45,6 +50,10 @@ switch ($action) {
   case 'updateUser':
     $userData = $user->updateUserData($userId, $username, $firstName, $lastName, $role, $isActive);
     header('Location:./user.php');
+    break;
+  case 'assignTemporaryPassword':
+    $userData = $user->assignTemporaryPassword($userId, $passwordTemporary);
+    return $userData;
     break;
 }
 

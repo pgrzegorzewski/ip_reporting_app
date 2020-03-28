@@ -131,6 +131,23 @@ class User
       }
     }
 
+    public function assignTemporaryPassword($userId, $passwordTemporary) {
+
+      $passwordTemporaryHashed = password_hash($passwordTemporary, PASSWORD_DEFAULT);
+      try {
+        $query = "SELECT * FROM usr.sp_przypisz_haslo_tymczasowe
+                  (   $userId
+                      ,'$passwordTemporaryHashed'
+                  )";
+        $result = pg_query($this->connection, $query);
+        echo 'haslo przypisane';
+      } catch(Exception $error) {
+          $error->getMessage();
+          $_SESSION['e_password_temporary_update'] = 'coś poszło nie tak:(';
+      }
+
+    }
+
 }
 
 ?>
