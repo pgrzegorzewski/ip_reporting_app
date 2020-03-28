@@ -95,6 +95,10 @@ body
 
 }
 
+#user_span{
+	color: #ffffff;
+}
+
 .menu_header {
 	width:80%;
     background-color: #CCCCCC;

@@ -25,9 +25,9 @@
     <link rel="StyleSheet" href="../../../scss/core/app/home.css"/>
 
     <script type="text/javascript" src="../../../js/jquery.min.js" ></script>
-    <script type="text/javascript" src="../../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../../js/popper.min.js"></script>
     <script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../../js/mdb.min.js"></script>
     <script type="text/javascript" src="./user.js"></script>
     <script type="text/javascript"></script>
@@ -39,18 +39,19 @@
 
 <div class="container-fluid">
 
-	<header class ="header">
-		<table width = 100%>
-			<tr>
-				<td style = "text-align:left">
-					<h1 id="title"><a href ="../../../index.php"><img src="../../../resources/instalplast.png" style="width:300px;"></h1>
-				</td>
-				<td style = "text-align:right">
-					<span>Zalogowany jako: <?php echo $_SESSION['user'] ?>&ensp;</span><a href = "../../core/logout.php"><button class="btn btn-danger" value="">Wyloguj</button></a>
-				</td>
-			</tr>
-		</table>
-	</header>
+  <header class ="header">
+      <table width = 100%>
+          <tr>
+              <td style = "text-align:left">
+                  <h1 id="title"><a href ="../../../index.php"><img src="../../../resources/instalplast.png" style="width:300px;"></h1>
+              </td>
+              <td style = "text-align:right">
+                  <span id="user_span">Zalogowany jako: <?php echo $_SESSION['user'] ?>&ensp;</span><a href = "../logout.php"><button class="btn btn-danger" value="">Wyloguj</button></a>
+                  </button>
+              </td>
+          </tr>
+      </table>
+  </header>
 		<div class="nav">
 			<ol>
 				<li>
