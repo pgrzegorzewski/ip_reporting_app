@@ -48,6 +48,10 @@ input
 	padding-bottom:12px;
 }
 
+.form-control option {
+	color:black;
+}
+
 html {
     font-family: "Lucida Sans", sans-serif;
     background-color:#28546C;
