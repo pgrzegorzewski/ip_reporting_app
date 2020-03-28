@@ -142,6 +142,11 @@ body
 	padding:5px;
 }
 
+#showInvoiceInfo {
+	width: 150px;
+	padding: 10px;
+}
+
 #import_invoice_div {
 	text-align: center;
 }

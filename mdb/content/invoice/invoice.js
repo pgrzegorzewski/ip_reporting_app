@@ -148,6 +148,8 @@ function loadFilterValues() {
 function appendShowInvoiceInfo() {
   $('#showInvoiceInfo').bind( "click", function() {
     showInvoices();
+    $('#loadButtonSpan').addClass("spinner-border spinner-border-sm text-light");
+    $('#loadButtonSpan').text("");
   });
 }
 
@@ -189,6 +191,8 @@ function showInvoices(){
                 {data: 'procent'}
             ]
         });
+        $('#loadButtonSpan').removeClass("spinner-border spinner-border-sm text-danger");
+        $('#loadButtonSpan').text("Załaduj");
       }
   })
 
