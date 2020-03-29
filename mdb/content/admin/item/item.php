@@ -92,11 +92,11 @@
                     </div>
                     <div class="modal-body">
                         <form action = "item_actions.php" method="post" id="update_item_form">
-                          <!-- <div class="form-row">
+                          <div class="form-row">
                             <div class="col-md-6">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "username" name = "username" type="text" value=" " style="color:white">
-                                    <label for = "username">Username</label>
+                                    <input class="form-control" id = "item_name" name = "item_name" type="text" value=" " style="color:white">
+                                    <label for = "item_name">Towar</label>
                                 </div>
                             </div>
                             <div class="col-md-6 my-auto" style="text-align: center;">
@@ -108,51 +108,51 @@
 
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "first_name" name = "first_name" type="text" value=" " style="color:white">
-                                  <label for = "first_name">Imię</label>
+                                  <input class="form-control" id = "group_name" name = "group_name" type="text" value=" " style="color:white">
+                                  <label for = "group_name">Szereg</label>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "last_name" name = "last_name" type="text" value=" " style="color:white">
-                                  <label for = "last_name">Nazwisko</label>
+                                  <input class="form-control" id = "type_name" name = "type_name" type="text" value=" " style="color:white">
+                                  <label for = "type_name">Rodzaj</label>
                               </div>
                             </div>
-                          </div>
-                          Rola: <br />
-                          <div class="md-form form-group">
-                              <select class="form-control" id = "role" name = "role" style="color:white">
-                                  <option value="admin">Admin</option>
-                                  <option value="handlowiec">handlowiec</option>
-                              </select>
-                          </div>
-                          <div class="form-row" style="border:#AFC2D1 solid 2px; border-radius: 25px;">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "password_temporary" name = "password_temporary" type="text" value="" style="color:white">
-                                  <label for = "password_temporary">Hasło tymczasowe</label>
+                                  <input class="form-control" id = "price_go" name = "price_go" type="number" value=" " style="color:white">
+                                  <label for = "price_go">Cena go</label>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
-                                <input type="button" class="btn btn-info" id="tmp_password_btn" value="Przypisz hasło"></button>
+                                  <input class="form-control" id = "price_po" name = "price_po" type="number" value=" " style="color:white">
+                                  <label for = "price_po">Cena po</label>
                               </div>
                             </div>
-                            <div class="col-md-12" style="text-align:center">
-                              <span id = "assign_temporary_pwd_error"></span>
-                              <span id = "assign_temporary_pwd_success"></span>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "price_gd" name = "price_gd" type="number" value=" " style="color:white">
+                                  <label for = "price_gd">Cena gd</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "price_pd" name = "price_pd" type="number" value=" " style="color:white">
+                                  <label for = "price_pd">Cena pd</label>
+                              </div>
                             </div>
                           </div>
                           <div class="md-form form-group">
-                              <input class="form-control" id = "action" name = "action" type="text" value="updateUser" hidden>
+                              <input class="form-control" id = "action" name = "action" type="text" value="updateItem" hidden>
                           </div>
                           <div class="md-form form-group">
-                              <input class="form-control" id = "userId" name = "userId" type="text" value ="" hidden>
+                              <input class="form-control" id = "itemId" name = "itemId" type="text" value ="" hidden>
                           </div>
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                          </div> -->
+                          </div> 
                         </form>
                     </div>
                 </div>
