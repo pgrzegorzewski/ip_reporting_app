@@ -7,8 +7,8 @@ $(document).ready(function () {
      url: "./item_actions.php",
      success: function (data) {
          $("#data_refresh").attr("disabled", false);
-         console.log('test');
          $('#data-table').DataTable({
+            "scrollX": true,
              data : data,
              columns: [
                  {data: 'towar_id'},
@@ -28,31 +28,28 @@ $(document).ready(function () {
 });
 
 $(document).ready(function() {
-
-  $('#editUserModal').on('show.bs.modal', function(e) {
-
-    $('#assign_temporary_pwd_error').text('');
-    $('#assign_temporary_pwd_success').text('');
-    $('#password_temporary').val('');
-
+  $('#editItemModal').on('show.bs.modal', function(e) {
     var id = $(e.relatedTarget).data('id');
     $.ajax({
        method: "POST",
-       data: {action : "getUserData", userId : id},
+       data: {action : "getItemData", itemId : id},
        dataType: 'json',
-       url: "./user_actions.php",
+       url: "./item_actions.php",
        success: function (data) {
-           $('#username').val(data[0]['username']);
-           $('#last_name').val(data[0]['nazwisko']);
-           $('#first_name').val(data[0]['imie']);
-           $('#role').val(data[0]['rola_nazwa']).change();
+           $('#item_name').val(data[0]['towar_nazwa']);
+           $('#group_name').val(data[0]['szereg_nazwa']);
+           $('#type_name').val(data[0]['rodzaj_nazwa']);
            if(data[0]['jest_aktywny'] == 1) {
              $('#is_active').prop('checked', true);
            } else {
              $('#is_active').prop('checked', false);
            }
            $('#is_active').val(data[0]['jest_aktywny']);
-           $('#userId').val(id);
+           $('#price_go').val(data[0]['cena_go']).siblings().addClass('active');
+           $('#price_po').val(data[0]['cena_po']).siblings().addClass('active');
+           $('#price_gd').val(data[0]['cena_gd']).siblings().addClass('active');
+           $('#price_pd').val(data[0]['cena_pd']).siblings().addClass('active');
+           $('#itemId').val(id);
        },
     })
   });
@@ -60,12 +57,12 @@ $(document).ready(function() {
 
 
 
-$('#update_user_form').submit(function () {
-  var form=document.getElementById('update_user_form');//retrieve the form as a DOM element
+$('#update_item_form').submit(function () {
+  var form=document.getElementById('update_item_form');//retrieve the form as a DOM element
 
   var input = document.createElement('input');//prepare a new input DOM element
   input.setAttribute('name', 'action');//set the param name
-  input.setAttribute('value', 'updateUser');//set the value
+  input.setAttribute('value', 'updateItem');//set the value
   input.setAttribute('type', 'hidden')//set the type, like "hidden" or other
 
   form.appendChild(input);//append the input to the form

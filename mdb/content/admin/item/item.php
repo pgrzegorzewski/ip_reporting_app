@@ -120,26 +120,26 @@
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_go" name = "price_go" type="number" value=" " style="color:white">
-                                  <label for = "price_go">Cena go</label>
+                                  <input class="form-control" id = "price_go" name = "price_go" type="number"  style="color:white">
+                                  <label for="price_go">Cena go</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_po" name = "price_po" type="number" value=" " style="color:white">
-                                  <label for = "price_po">Cena po</label>
+                                  <input class="form-control" id = "price_po" name = "price_po" type="number"  style="color:white">
+                                  <label for="price_po" >Cena po</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_gd" name = "price_gd" type="number" value=" " style="color:white">
-                                  <label for = "price_gd">Cena gd</label>
+                                  <input class="form-control" id = "price_gd" name = "price_gd" type="number"  style="color:white">
+                                  <label for="price_gd">Cena gd</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_pd" name = "price_pd" type="number" value=" " style="color:white">
-                                  <label for = "price_pd">Cena pd</label>
+                                  <input class="form-control" id = "price_pd" name = "price_pd" type="number"  style="color:white">
+                                  <label for="price_pd">Cena pd</label>
                               </div>
                             </div>
                           </div>
@@ -152,7 +152,7 @@
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                          </div> 
+                          </div>
                         </form>
                     </div>
                 </div>

@@ -37,4 +37,29 @@ class Item
       pg_free_result($result);
       echo json_encode($resp);
     }
+
+    public function getItemData($itemId)
+    {
+      $query = "SELECT * FROM app.tf_pobierz_towar($itemId)";
+      $result = pg_query($this->connection, $query);
+      $resp = array();
+
+      while($row = pg_fetch_assoc($result))
+      {
+        array_push($resp, array(
+                                  'towar_id' => $row['towar_id'],
+                                  'towar_nazwa' => $row['towar_nazwa'],
+                                  'jest_aktywny' => $row['jest_aktywny'],
+                                  'szereg_nazwa' => $row['szereg_nazwa'],
+                                  'rodzaj_nazwa' => $row['rodzaj_nazwa'],
+                                  'cena_go' => $row['cena_go'],
+                                  'cena_po' => $row['cena_po'],
+                                  'cena_gd' => $row['cena_gd'],
+                                  'cena_pd' => $row['cena_pd'])
+                                );
+      }
+      pg_free_result($result);
+      echo json_encode($resp);
+    }
+
 }

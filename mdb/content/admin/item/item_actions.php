@@ -5,7 +5,13 @@ require '../../class/class_item.php';
 
 $login = $_SESSION['user'];
 $action = $_POST['action'];
+
+if(isset($_POST['itemId'])) {
+  $itemId = $_POST['itemId'];
+}
+
 $item = new Item();
+
 
 switch ($action) {
   case 'getItems':
