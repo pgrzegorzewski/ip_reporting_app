@@ -167,6 +167,17 @@ body
 	font-weight: bold;
 }
 
+.userClassElement
+{
+	background-color: #4D658D;
+	color: #AFC2D1;
+}
+
+.userClassElement a
+{
+	color: #AFC2D1;
+}
+
 .modal-body {
 	background-color: #031B35;
 	color: white;
@@ -217,22 +228,11 @@ ol > li
 	height:46px;
 	color: #28546C;
 	background-color:#AFC2D1;
-	border-right:2px solid #28546C;
+	border-right:1px solid #28546C;
 	float:left;
 	display: table-cell;
 	z-index:200;
-    position:relative;
-}
-
-.userClassElement
-{
-	background-color: #4D658D;
-	color: #AFC2D1;
-}
-
-.userClassElement a
-{
-	color: #AFC2D1;
+  position:relative;
 }
 
 ol > li:hover
@@ -260,7 +260,7 @@ ol > li:hover > a
 
 ol > li:first-child
 {
-	border-left:2px solid #28546C;
+	border-left:1px solid #28546C;
 }
 
 ol > li > ul
@@ -275,6 +275,8 @@ ol > li > ul
 
 ol > li > ul > li
 {
+	height:46px;
+	width: 200px;
 	border: 1px solid #28546C;
 	background-color: #AFC2D1;
 
@@ -282,12 +284,12 @@ ol > li > ul > li
 
 ol > li > ul > li > a
 {
-	width: 160px;
+	width: 200px;
 }
 
 ol > li > ul > li:hover
 {
-	background-color:#CAAB15;
+	background-color:#416fb0;
 }
 
 ol > li > ul > li > a:hover
@@ -298,10 +300,10 @@ ol > li > ul > li > a:hover
 
 .section a:link, a:visited {
 
-    background-color: #CCCCCC;
+  background-color: #CCCCCC;
 	padding: 3px;
 	width: 50px;
-    text-decoration: none;
+  text-decoration: none;
 }
 
 

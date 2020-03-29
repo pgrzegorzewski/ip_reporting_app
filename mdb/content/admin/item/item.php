@@ -66,8 +66,8 @@
         <li>
           <a href ='#'><i class='fas fa-cog'></i> Ustawienia</a>
           <ul>
-            <li><a href ='#' id="visited"><i class='fas fa-users-cog'></i> Użytkownicy</a></li>
-            <li><a href ='../item/item.php'><i class='fas fa-cubes'></i> Towary</a></li>
+            <li><a href ='../user/user.php' ><i class='fas fa-users-cog'></i> Użytkownicy</a></li>
+            <li><a href ='#' id = 'visited'><i class='fas fa-cubes'></i> Towary</a></li>
             <li><a href ='../client/client.php'><i class='fas fa-user-tie'></i> Klienci</a></li>
           </ul>
         </li>
