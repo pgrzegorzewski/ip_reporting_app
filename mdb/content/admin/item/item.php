@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../../js/mdb.min.js"></script>
-    <script type="text/javascript" src="./user.js"></script>
+    <script type="text/javascript" src="./item.js"></script>
     <script type="text/javascript"></script>
 	   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
@@ -81,18 +81,18 @@
         }
         ?>
 
-        <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
+        <div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="editItemLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editUserLabel">Edycja </h5>
+                        <h5 class="modal-title" id="editItemLabel">Edycja </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action = "user_actions.php" method="post" id="update_user_form">
-                          <div class="form-row">
+                        <form action = "item_actions.php" method="post" id="update_item_form">
+                          <!-- <div class="form-row">
                             <div class="col-md-6">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "username" name = "username" type="text" value=" " style="color:white">
@@ -152,7 +152,7 @@
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                          </div>
+                          </div> -->
                         </form>
                     </div>
                 </div>
@@ -161,22 +161,25 @@
 
 		<section class = "section">
       <?php
-      if(isset($_SESSION['e_user_update'])){
-          echo '<div class = "error">'.$_SESSION['e_user_update'].'</div>';
-          unset($_SESSION['e_user_update']);
+      if(isset($_SESSION['e_item_update'])){
+          echo '<div class = "error">'.$_SESSION['e_item_update'].'</div>';
+          unset($_SESSION['e_item_update']);
       }
       ?>
-      <div id= "user_managment" class="table-responsive">
+      <div id= "item_managment" class="table-responsive">
           <table class="table table-striped table-bordered" id="data-table">
               <thead>
               <tr>
-                  <th>ID Uzytkownika</th>
-                  <th>Username</th>
-                  <th>Imię</th>
-                  <th>Nazwisko</th>
+                  <th>ID towaru</th>
+                  <th>Nazwa</th>
                   <th>Aktywny</th>
-                  <th>Rola</th>
-                  <th>Edycja</th>
+                  <th>Szereg</th>
+                  <th>Rodzaj</th>
+                  <th>Cena go</th>
+                  <th>Cena po</th>
+                  <th>Cena gd</th>
+                  <th>Cena pd</th>
+                  <th>Edytuj</th>
               </tr>
               </thead>
               <tbody></tbody>
