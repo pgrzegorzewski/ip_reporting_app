@@ -173,7 +173,6 @@ $loggedUser = new User();
                             <select class="form-control" id = "region" name = "region" >
                                 <option selected>Region</option>
                             </select>
-
                         </div>
                     </div>
                 </div>

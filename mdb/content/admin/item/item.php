@@ -108,14 +108,16 @@
 
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "group_name" name = "group_name" type="text" value=" " style="color:white">
-                                  <label for = "group_name">Szereg</label>
+                                  <select class="form-control" id = "group_name" name = "group_name" >
+                                      <option selected>Szereg</option>
+                                  </select>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "type_name" name = "type_name" type="text" value=" " style="color:white">
-                                  <label for = "type_name">Rodzaj</label>
+                                  <select class="form-control" id = "type_name" name = "type_name" >
+                                      <option selected>Rodzaj</option>
+                                  </select>
                               </div>
                             </div>
                             <div class="col-md-3">

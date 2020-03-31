@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+  getTypeSelect();
+  getGroupSelect();
+
   $.ajax({
      method: "POST",
      data: {action : "getItems"},
@@ -37,8 +40,8 @@ $(document).ready(function() {
        url: "./item_actions.php",
        success: function (data) {
            $('#item_name').val(data[0]['towar_nazwa']);
-           $('#group_name').val(data[0]['szereg_nazwa']);
-           $('#type_name').val(data[0]['rodzaj_nazwa']);
+           $('#group_name').val(data[0]['szereg_id']).change();
+           $('#type_name').val(data[0]['rodzaj_id']).change();
            if(data[0]['jest_aktywny'] == 1) {
              $('#is_active').prop('checked', true);
            } else {
@@ -53,8 +56,9 @@ $(document).ready(function() {
        },
     })
   });
-});
 
+
+});
 
 
 $('#update_item_form').submit(function () {
@@ -69,3 +73,44 @@ $('#update_item_form').submit(function () {
 
   form.submit();
 });
+
+
+function getTypeSelect() {
+  $.ajax({
+      url: "./item_select_values.php",
+      type: 'post',
+      data: {type:'type'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              console.log('elo');
+              var type_id = response[i]['rodzaj_id'];
+              var type_name = response[i]['rodzaj_nazwa'];
+
+              $("#type_name").append("<option value='"+type_id+"'>"+type_name+"</option>");
+          }
+      }
+  });
+}
+
+
+function getGroupSelect() {
+  $.ajax({
+      url: "./item_select_values.php",
+      type: 'post',
+      data: {type:'group'},
+      dataType: 'json',
+      success:function(response){
+        console.log('elo2');
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var group_id = response[i]['szereg_id'];
+
+              var group_name = response[i]['szereg_nazwa'];
+              console.log(group_name);
+              $("#group_name").append("<option value='"+group_id+"'>"+group_name+"</option>");
+          }
+      }
+  });
+}
