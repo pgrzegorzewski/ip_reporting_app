@@ -120,25 +120,25 @@
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_go" name = "price_go" type="number"  style="color:white">
+                                  <input class="form-control" id = "price_go" name = "price_go" type="number" step="0.01" style="color:white">
                                   <label for="price_go">Cena go</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_po" name = "price_po" type="number"  style="color:white">
+                                  <input class="form-control" id = "price_po" name = "price_po" type="number" step="0.01" style="color:white">
                                   <label for="price_po" >Cena po</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_gd" name = "price_gd" type="number"  style="color:white">
+                                  <input class="form-control" id = "price_gd" name = "price_gd" type="number" step="0.01" style="color:white">
                                   <label for="price_gd">Cena gd</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "price_pd" name = "price_pd" type="number"  style="color:white">
+                                  <input class="form-control" id = "price_pd" name = "price_pd" type="number" step="0.01" style="color:white">
                                   <label for="price_pd">Cena pd</label>
                               </div>
                             </div>
