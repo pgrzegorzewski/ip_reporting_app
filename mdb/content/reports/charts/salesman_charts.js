@@ -30,7 +30,7 @@ function loadSalesmanChart(chart_data) {
      responsive:true,
      maintainAspectRatio: false,
      title: {
-       display: true,
+       display: false,
        text: 'Podsumowanie per wartość całkowita'
      },
    }
@@ -50,7 +50,7 @@ function loadSalesmanChart(chart_data) {
    data: data,
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Podsumowanie per procent'
      },
      barValueSpacing: 5,
@@ -82,7 +82,7 @@ function loadSalesmanChart(chart_data) {
          },
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Podsumowanie per marża'
      },
    }

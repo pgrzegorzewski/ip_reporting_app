@@ -24,7 +24,7 @@ function loadItemChart(chart_data) {
    data: data,
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Top 10 produktów (wartość)'
      },
      barValueSpacing: 5,
@@ -55,7 +55,7 @@ function loadItemChart(chart_data) {
    data: data,
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Top 10 produktów (ilość)'
      },
      barValueSpacing: 5,
@@ -86,7 +86,7 @@ function loadItemChart(chart_data) {
    data: data,
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Top 10 produktów (procent)'
      },
      barValueSpacing: 5,

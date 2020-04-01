@@ -29,7 +29,7 @@ function loadRegionChart(chart_data) {
      responsive:true,
      maintainAspectRatio: false,
      title: {
-       display: true,
+       display: false,
        text: 'Podsumowanie per wartość całkowita'
      },
    }
@@ -49,7 +49,7 @@ function loadRegionChart(chart_data) {
    data: data,
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Podsumowanie per procent'
      },
      barValueSpacing: 5,
@@ -81,7 +81,7 @@ function loadRegionChart(chart_data) {
          },
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Podsumowanie per marża'
      },
    }

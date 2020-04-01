@@ -23,7 +23,7 @@ function loadClientChart(chart_data) {
      responsive:true,
      maintainAspectRatio: false,
      title: {
-       display: true,
+       display: false,
        text: 'Top 10 kontrahentów (wartość)'
      },
      barValueSpacing: 5,
@@ -54,7 +54,7 @@ function loadClientChart(chart_data) {
    data: data,
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Top 10 kontahentów (procent)'
      },
      barValueSpacing: 5,
@@ -84,7 +84,7 @@ function loadClientChart(chart_data) {
    data: data,
    options: {
      title: {
-       display: true,
+       display: false,
        text: 'Top 10 produktów (marża)'
      },
      barValueSpacing: 5,
