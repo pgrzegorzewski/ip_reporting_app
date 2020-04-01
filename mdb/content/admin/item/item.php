@@ -101,21 +101,21 @@
                             </div>
                             <div class="col-md-6 my-auto" style="text-align: center;">
                               <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="is_active"  name = "is_active" value= "" checked >
+                                <input type="checkbox" class="custom-control-input" id="is_active"  name = "is_active" checked >
                                 <label class="custom-control-label" for="is_active">Aktywny</label>
                               </div>
                             </div>
 
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <select class="form-control" id = "group_name" name = "group_name" >
+                                  <select class="form-control" id = "group_name" name = "group" >
                                       <option selected>Szereg</option>
                                   </select>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <select class="form-control" id = "type_name" name = "type_name" >
+                                  <select class="form-control" id = "type_name" name = "type" >
                                       <option selected>Rodzaj</option>
                                   </select>
                               </div>

@@ -10,16 +10,22 @@ if(isset($_POST['itemId'])) {
   $itemId = $_POST['itemId'];
 }
 
+if(isset($_POST['item_name'])) {
+  $itemName = $_POST['item_name'];
+}
+
 if(isset($_POST['is_active'])) {
   $isActive = $_POST['is_active'];
+} else {
+  $isActive = 0;
 }
 
-if(isset($_POST['group_id'])) {
-  $categoryId = $_POST['category_id'];
+if(isset($_POST['group'])) {
+  $groupId = $_POST['group'];
 }
 
-if(isset($_POST['type_id'])) {
-  $typeId = $_POST['type_id'];
+if(isset($_POST['type'])) {
+  $typeId = $_POST['type'];
 }
 
 if(isset($_POST['price_go'])) {
@@ -50,7 +56,7 @@ switch ($action) {
     return $itemId;
     break;
   case 'updateItem':
-    $itemData = $item->updateItemData($itemId, $isActive);
+    $itemData = $item->updateItemData($itemId, $itemName, $isActive, $groupId, $typeId, $priceGo, $pricePo, $priceGd, $pricePd);
     header('Location:./item.php');
     break;
 }

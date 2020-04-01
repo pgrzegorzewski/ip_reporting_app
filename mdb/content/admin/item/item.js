@@ -56,10 +56,7 @@ $(document).ready(function() {
        },
     })
   });
-
-
 });
-
 
 $('#update_item_form').submit(function () {
   var form=document.getElementById('update_item_form');//retrieve the form as a DOM element
@@ -84,10 +81,8 @@ function getTypeSelect() {
       success:function(response){
           var len = response.length;
           for( var i = 0; i<len; i++){
-              console.log('elo');
               var type_id = response[i]['rodzaj_id'];
               var type_name = response[i]['rodzaj_nazwa'];
-
               $("#type_name").append("<option value='"+type_id+"'>"+type_name+"</option>");
           }
       }
@@ -102,13 +97,10 @@ function getGroupSelect() {
       data: {type:'group'},
       dataType: 'json',
       success:function(response){
-        console.log('elo2');
           var len = response.length;
           for( var i = 0; i<len; i++){
               var group_id = response[i]['szereg_id'];
-
               var group_name = response[i]['szereg_nazwa'];
-              console.log(group_name);
               $("#group_name").append("<option value='"+group_id+"'>"+group_name+"</option>");
           }
       }
