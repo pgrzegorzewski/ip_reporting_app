@@ -15,7 +15,7 @@ if(isset($_POST['item_name'])) {
 }
 
 if(isset($_POST['is_active'])) {
-  $isActive = $_POST['is_active'];
+  $isActive = 1;
 } else {
   $isActive = 0;
 }

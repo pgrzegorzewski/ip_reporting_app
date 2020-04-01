@@ -27,7 +27,9 @@ if(isset($_POST['role'])) {
 }
 
 if(isset($_POST['is_active'])) {
-  $isActive = $_POST['is_active'];
+  $isActive = 1;
+} else {
+  $isActive = 0;
 }
 
 if(isset($_POST['passwordTemporary'])) {
