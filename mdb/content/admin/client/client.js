@@ -1,28 +1,25 @@
 $(document).ready(function () {
 
-  getTypeSelect();
-  getGroupSelect();
-
   $.ajax({
      method: "POST",
-     data: {action : "getItems"},
+     data: {action : "getClients"},
      dataType: 'json',
-     url: "./item_actions.php",
+     url: "./client_actions.php",
      success: function (data) {
          $("#data_refresh").attr("disabled", false);
          $('#data-table').DataTable({
             "scrollX": true,
              data : data,
              columns: [
-                 {data: 'towar_id'},
-                 {data: 'towar_nazwa'},
+                 {data: 'kontrahent_id'},
+                 {data: 'kontrahent_nazwa'},
+                 {data: 'ulica'},
+                 {data: 'nr_domu'},
+                 {data: 'kod_pocztowy'},
+                 {data: 'miasto'},
+                 {data: 'kraj'},
                  {data: 'jest_aktywny'},
-                 {data: 'szereg_nazwa'},
-                 {data: 'rodzaj_nazwa'},
-                 {data: 'cena_go'},
-                 {data: 'cena_po'},
-                 {data: 'cena_gd'},
-                 {data: 'cena_pd'},
+                 {data: 'czarna_lista'},
                  {data: 'edycja'}
              ]
          });
@@ -31,13 +28,13 @@ $(document).ready(function () {
 });
 
 $(document).ready(function() {
-  $('#editItemModal').on('show.bs.modal', function(e) {
+  $('#editClientModal').on('show.bs.modal', function(e) {
     var id = $(e.relatedTarget).data('id');
     $.ajax({
        method: "POST",
-       data: {action : "getItemData", itemId : id},
+       data: {action : "getClientData", itemId : id},
        dataType: 'json',
-       url: "./item_actions.php",
+       url: "./client_actions.php",
        success: function (data) {
            $('#item_name').val(data[0]['towar_nazwa']);
            $('#group_name').val(data[0]['szereg_id']).change();
@@ -70,39 +67,3 @@ $('#update_item_form').submit(function () {
 
   form.submit();
 });
-
-
-function getTypeSelect() {
-  $.ajax({
-      url: "./item_select_values.php",
-      type: 'post',
-      data: {type:'type'},
-      dataType: 'json',
-      success:function(response){
-          var len = response.length;
-          for( var i = 0; i<len; i++){
-              var type_id = response[i]['rodzaj_id'];
-              var type_name = response[i]['rodzaj_nazwa'];
-              $("#type_name").append("<option value='"+type_id+"'>"+type_name+"</option>");
-          }
-      }
-  });
-}
-
-
-function getGroupSelect() {
-  $.ajax({
-      url: "./item_select_values.php",
-      type: 'post',
-      data: {type:'group'},
-      dataType: 'json',
-      success:function(response){
-          var len = response.length;
-          for( var i = 0; i<len; i++){
-              var group_id = response[i]['szereg_id'];
-              var group_name = response[i]['szereg_nazwa'];
-              $("#group_name").append("<option value='"+group_id+"'>"+group_name+"</option>");
-          }
-      }
-  });
-}

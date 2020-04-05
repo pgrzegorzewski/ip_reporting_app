@@ -168,8 +168,8 @@
           unset($_SESSION['e_item_update']);
       }
       ?>
-      <div id= "item_managment" class="table-responsive">
-          <table class="table table-striped table-bordered" id="data-table">
+      <div id= "item_management" class="table-responsive">
+          <table class="table table-striped table-bordered" id="data-table" style="width:100%">
               <thead>
               <tr>
                   <th>ID towaru</th>

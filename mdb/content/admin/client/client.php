@@ -169,8 +169,8 @@
           unset($_SESSION['e_client_update']);
       }
       ?>
-      <div id= "client_managment" class="table-responsive">
-          <table class="table table-striped table-bordered" id="data-table">
+      <div id= "client_management" class="table-responsive">
+          <table class="table table-striped table-bordered" id="data-table" style="width:100%">
               <thead>
               <tr>
                   <th>ID Kontrahenta</th>
@@ -182,6 +182,7 @@
                   <th>Kraj</th>
                   <th>Aktywny</th>
                   <th>Czarna lista</th>
+                  <th>Edycja</th>
               </tr>
               </thead>
               <tbody></tbody>

@@ -8,6 +8,7 @@ $(document).ready(function () {
      success: function (data) {
          $("#data_refresh").attr("disabled", false);
          $('#data-table').DataTable({
+             "scrollX": true,
              data : data,
              columns: [
                  {data: 'uzytkownik_id'},

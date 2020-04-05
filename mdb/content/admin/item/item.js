@@ -26,6 +26,7 @@ $(document).ready(function () {
                  {data: 'edycja'}
              ]
          });
+         //$('#data-table').width("100%");
      },
   })
 });

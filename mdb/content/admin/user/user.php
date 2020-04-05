@@ -166,8 +166,8 @@
           unset($_SESSION['e_user_update']);
       }
       ?>
-      <div id= "user_managment" class="table-responsive">
-          <table class="table table-striped table-bordered" id="data-table">
+      <div id= "user_management" class="table-responsive">
+          <table class="table table-striped table-bordered" id="data-table" style="width:100%">
               <thead>
               <tr>
                   <th>ID Uzytkownika</th>
