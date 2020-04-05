@@ -58,12 +58,12 @@ $(document).ready(function() {
   });
 });
 
-$('#update_item_form').submit(function () {
-  var form=document.getElementById('update_item_form');//retrieve the form as a DOM element
+$('#update_client_form').submit(function () {
+  var form=document.getElementById('update_client_form');//retrieve the form as a DOM element
 
   var input = document.createElement('input');//prepare a new input DOM element
   input.setAttribute('name', 'action');//set the param name
-  input.setAttribute('value', 'updateItem');//set the value
+  input.setAttribute('value', 'updateClient');//set the value
   input.setAttribute('type', 'hidden')//set the type, like "hidden" or other
 
   form.appendChild(input);//append the input to the form

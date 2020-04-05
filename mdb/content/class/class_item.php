@@ -66,7 +66,6 @@ class Item
 
     public function updateItemData($itemId, $itemName, $isActive, $groupId, $typeId, $priceGo, $pricePo, $priceGd, $pricePd)
     {
-      echo '$groupId';
       $success = true;
       if(!$itemId) {
         $_SESSION['e_item_update'] = '<p style = "color:red; text-align:center;">Błąd podczas przekazania id towaru</p>';
@@ -86,7 +85,7 @@ class Item
       }
 
       try {
-        $query = "SELECT * FROM usr.sf_sprawdz_unikalnosc_towaru('$itemName') AS is_item_name_unique";
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_towaru('$itemName') AS is_item_name_unique";
         $item_name_unique_check = pg_query($this->connection, $query);
         $is_item_name_unique_check = pg_fetch_assoc($item_name_unique_check);
 
@@ -123,7 +122,7 @@ class Item
                     )";
           $result = pg_query($this->connection, $query);
           $_SESSION['e_item_update'] = '<p style = "color:green; text-align:center;">Towar zaktualizowany pomyślnie.</p>';
-          
+
         } catch(Exception $error) {
             $error->getMessage();
         }
