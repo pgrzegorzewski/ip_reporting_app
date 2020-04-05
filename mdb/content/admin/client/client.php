@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../../js/mdb.min.js"></script>
-    <script type="text/javascript" src="./user.js"></script>
+    <script type="text/javascript" src="./client.js"></script>
     <script type="text/javascript"></script>
 	   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
@@ -81,73 +81,76 @@
         }
         ?>
 
-        <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
+        <div class="modal fade" id="editClientModal" tabindex="-1" role="dialog" aria-labelledby="editClientLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editUserLabel">Edycja </h5>
+                        <h5 class="modal-title" id="editClientLabel">Edycja </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action = "user_actions.php" method="post" id="update_user_form">
+                        <form action = "client_actions.php" method="post" id="update_client_form">
                           <div class="form-row">
                             <div class="col-md-6">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "username" name = "username" type="text" value=" " style="color:white">
-                                    <label for = "username">Username</label>
+                                    <input class="form-control" id = "client_name" name = "client_name" type="text" value=" " style="color:white">
+                                    <label for = "client_name">Klient</label>
                                 </div>
                             </div>
-                            <div class="col-md-6 my-auto" style="text-align: center;">
+                            <div class="col-md-3 my-auto" style="text-align: center;">
                               <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="is_active"  name = "is_active" value= "" checked >
                                 <label class="custom-control-label" for="is_active">Aktywny</label>
                               </div>
                             </div>
+                            <div class="col-md-3 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="black_list"  name = "black_list" value= "" checked >
+                                <label class="custom-control-label" for="black_list">Czarna lista</label>
+                              </div>
+                            </div>
+
+                            <div class="col-md-4">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "street" name = "street" type="text" value=" " style="color:white">
+                                  <label for = "street">Ulica</label>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "address_2" name = "address_2" type="text" value=" " style="color:white">
+                                  <label for = "address_2">Nr domu</label>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "post_code" name = "post_code" type="text" value=" " style="color:white">
+                                  <label for = "post_code">Kod pocztowy</label>
+                              </div>
+                            </div>
 
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "first_name" name = "first_name" type="text" value=" " style="color:white">
-                                  <label for = "first_name">Imię</label>
+                                  <input class="form-control" id = "city" name = "city" type="text" value=" " style="color:white">
+                                  <label for = "city">Miasto</label>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "last_name" name = "last_name" type="text" value=" " style="color:white">
-                                  <label for = "last_name">Nazwisko</label>
+                                  <input class="form-control" id = "country" name = "country" type="text" value=" " style="color:white">
+                                  <label for = "country">Kraj</label>
                               </div>
                             </div>
+
                           </div>
-                          Rola: <br />
+
                           <div class="md-form form-group">
-                              <select class="form-control" id = "role" name = "role" style="color:white">
-                                  <option value="admin">Admin</option>
-                                  <option value="handlowiec">handlowiec</option>
-                              </select>
-                          </div>
-                          <div class="form-row" style="border:#AFC2D1 solid 2px; border-radius: 25px;">
-                            <div class="col-md-6">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "password_temporary" name = "password_temporary" type="text" value="" style="color:white">
-                                  <label for = "password_temporary">Hasło tymczasowe</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="md-form form-group">
-                                <input type="button" class="btn btn-info" id="tmp_password_btn" value="Przypisz hasło"></button>
-                              </div>
-                            </div>
-                            <div class="col-md-12" style="text-align:center">
-                              <span id = "assign_temporary_pwd_error"></span>
-                              <span id = "assign_temporary_pwd_success"></span>
-                            </div>
+                              <input class="form-control" id = "action" name = "action" type="text" value="updateClient" hidden>
                           </div>
                           <div class="md-form form-group">
-                              <input class="form-control" id = "action" name = "action" type="text" value="updateUser" hidden>
-                          </div>
-                          <div class="md-form form-group">
-                              <input class="form-control" id = "userId" name = "userId" type="text" value ="" hidden>
+                              <input class="form-control" id = "clientId" name = "clientId" type="text" value ="" hidden>
                           </div>
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
@@ -161,22 +164,24 @@
 
 		<section class = "section">
       <?php
-      if(isset($_SESSION['e_user_update'])){
-          echo '<div class = "error">'.$_SESSION['e_user_update'].'</div>';
-          unset($_SESSION['e_user_update']);
+      if(isset($_SESSION['e_client_update'])){
+          echo '<div class = "error">'.$_SESSION['e_client_update'].'</div>';
+          unset($_SESSION['e_client_update']);
       }
       ?>
-      <div id= "user_managment" class="table-responsive">
+      <div id= "client_managment" class="table-responsive">
           <table class="table table-striped table-bordered" id="data-table">
               <thead>
               <tr>
-                  <th>ID Uzytkownika</th>
-                  <th>Username</th>
-                  <th>Imię</th>
-                  <th>Nazwisko</th>
+                  <th>ID Kontrahenta</th>
+                  <th>Nazwa</th>
+                  <th>Ulica</th>
+                  <th>Nr domu</th>
+                  <th>Kod pocztowy</th>
+                  <th>Miasto</th>
+                  <th>Kraj</th>
                   <th>Aktywny</th>
-                  <th>Rola</th>
-                  <th>Edycja</th>
+                  <th>Czarna lista</th>
               </tr>
               </thead>
               <tbody></tbody>
