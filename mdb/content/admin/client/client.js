@@ -32,24 +32,27 @@ $(document).ready(function() {
     var id = $(e.relatedTarget).data('id');
     $.ajax({
        method: "POST",
-       data: {action : "getClientData", itemId : id},
+       data: {action : "getClientData", clientId : id},
        dataType: 'json',
        url: "./client_actions.php",
        success: function (data) {
-           $('#item_name').val(data[0]['towar_nazwa']);
-           $('#group_name').val(data[0]['szereg_id']).change();
-           $('#type_name').val(data[0]['rodzaj_id']).change();
+           $('#client_name').val(data[0]['kontrahent_nazwa']);
+           $('#street').val(data[0]['ulica']);
+           $('#address_2').val(data[0]['nr_domu']);
+           $('#post_code').val(data[0]['kod_pocztowy']);
+           $('#city').val(data[0]['miasto']);
+           $('#country').val(data[0]['kraj']);
            if(data[0]['jest_aktywny'] == 1) {
              $('#is_active').prop('checked', true);
            } else {
              $('#is_active').prop('checked', false);
            }
-           $('#is_active').val(data[0]['jest_aktywny']);
-           $('#price_go').val(data[0]['cena_go']).siblings().addClass('active');
-           $('#price_po').val(data[0]['cena_po']).siblings().addClass('active');
-           $('#price_gd').val(data[0]['cena_gd']).siblings().addClass('active');
-           $('#price_pd').val(data[0]['cena_pd']).siblings().addClass('active');
-           $('#itemId').val(id);
+           if(data[0]['czarna_lista'] == 1) {
+             $('#black_list').prop('checked', true);
+           } else {
+             $('#black_list').prop('checked', false);
+           }
+           $('#clientId').val(id);
        },
     })
   });

@@ -38,31 +38,29 @@ class Client
       echo json_encode($resp);
     }
 
-    // public function getItemData($itemId)
-    // {
-    //   $query = "SELECT * FROM app.tf_pobierz_towar($itemId)";
-    //   $result = pg_query($this->connection, $query);
-    //   $resp = array();
-    //
-    //   while($row = pg_fetch_assoc($result))
-    //   {
-    //     array_push($resp, array(
-    //                               'towar_id' => $row['towar_id'],
-    //                               'towar_nazwa' => $row['towar_nazwa'],
-    //                               'jest_aktywny' => $row['jest_aktywny'],
-    //                               'szereg_nazwa' => $row['szereg_nazwa'],
-    //                               'szereg_id' => $row['szereg_id'],
-    //                               'rodzaj_nazwa' => $row['rodzaj_nazwa'],
-    //                               'rodzaj_id' => $row['rodzaj_id'],
-    //                               'cena_go' => $row['cena_go'],
-    //                               'cena_po' => $row['cena_po'],
-    //                               'cena_gd' => $row['cena_gd'],
-    //                               'cena_pd' => $row['cena_pd'])
-    //                             );
-    //   }
-    //   pg_free_result($result);
-    //   echo json_encode($resp);
-    // }
+    public function getClientData($clientId)
+    {
+      $query = "SELECT * FROM app.tf_pobierz_kontrahenta($clientId)";
+      $result = pg_query($this->connection, $query);
+      $resp = array();
+
+      while($row = pg_fetch_assoc($result))
+      {
+        array_push($resp, array(
+                                  'kontrahent_id' => $row['kontrahent_id'],
+                                  'kontrahent_nazwa' => $row['kontrahent_nazwa'],
+                                  'ulica' => $row['ulica'],
+                                  'nr_domu' => $row['nr_domu'],
+                                  'kod_pocztowy' => $row['kod_pocztowy'],
+                                  'miasto' => $row['miasto'],
+                                  'kraj' => $row['kraj'],
+                                  'jest_aktywny' => $row['jest_aktywny'],
+                                  'czarna_lista' => $row['czarna_lista'])
+                                );
+      }
+      pg_free_result($result);
+      echo json_encode($resp);
+    }
     //
     // public function updateItemData($itemId, $itemName, $isActive, $groupId, $typeId, $priceGo, $pricePo, $priceGd, $pricePd)
     // {
