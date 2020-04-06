@@ -59,14 +59,26 @@ $(document).ready(function() {
 });
 
 $('#update_client_form').submit(function () {
-  var form=document.getElementById('update_client_form');//retrieve the form as a DOM element
+  var form=document.getElementById('update_client_form');
+  var input = document.createElement('input');
+  input.setAttribute('name', 'action');
+  input.setAttribute('value', 'updateClient');
+  input.setAttribute('type', 'hidden')
 
-  var input = document.createElement('input');//prepare a new input DOM element
-  input.setAttribute('name', 'action');//set the param name
-  input.setAttribute('value', 'updateClient');//set the value
-  input.setAttribute('type', 'hidden')//set the type, like "hidden" or other
+  form.appendChild(input);
+  form.submit();
+});
 
-  form.appendChild(input);//append the input to the form
+
+$('#add_client_form').submit(function () {
+  var form=document.getElementById('add_client_form');
+
+  var input = document.createElement('input');
+  input.setAttribute('name', 'action');
+  input.setAttribute('value', 'addClient');
+  input.setAttribute('type', 'hidden')
+
+  form.appendChild(input);
 
   form.submit();
 });

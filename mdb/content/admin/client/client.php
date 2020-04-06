@@ -162,7 +162,88 @@
             </div>
         </div>
 
+        <div class="modal fade" id="addClientModal" tabindex="-1" role="dialog" aria-labelledby="addClientLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addClientLabel">Nowy klient </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action = "client_actions.php" method="post" id="add_client_form">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "client_name_new" name = "client_name_new" type="text" value=" " style="color:white">
+                                    <label for = "client_name_new">Klient</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_active_new"  name = "is_active_new" value= "" checked >
+                                <label class="custom-control-label" for="is_active_new">Aktywny</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="black_list_new"  name = "black_list_new" value= "" checked >
+                                <label class="custom-control-label" for="black_list_new">Czarna lista</label>
+                              </div>
+                            </div>
+
+                            <div class="col-md-4">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "street_new" name = "street_new" type="text" value=" " style="color:white">
+                                  <label for = "street_new">Ulica</label>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "address_2_new" name = "address_2_new" type="text" value=" " style="color:white">
+                                  <label for = "address_2_new">Nr domu</label>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "post_code_new" name = "post_code_new" type="text" value=" " style="color:white">
+                                  <label for = "post_code_new">Kod pocztowy</label>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "city_new" name = "city_new" type="text" value=" " style="color:white">
+                                  <label for = "city_new">Miasto</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "country_new" name = "country_new" type="text" value=" " style="color:white">
+                                  <label for = "country_new">Kraj</label>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="md-form form-group">
+                              <input class="form-control" id = "action" name = "action" type="text" value="addClient" hidden>
+                          </div>
+                          <div class="modal-footer">
+                              <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 		<section class = "section">
+      <div style="text-align:right">
+        <button class= "btn btn-success" data-toggle="modal" data-target="#addClientModal">Dodaj nowego klienta</button>
+      </div>
       <?php
       if(isset($_SESSION['e_client_update'])){
           echo '<div class = "error">'.$_SESSION['e_client_update'].'</div>';

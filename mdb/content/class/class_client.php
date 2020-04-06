@@ -118,4 +118,51 @@ class Client
         }
       }
     }
+
+    public function addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew)
+    {
+      $success = true;
+
+      if(strlen(preg_replace('/\s/', '', $clientNameNew)) < 3) {
+        $_SESSION['e_client_update'] = '<p style = "color:red; text-align:center;">Zbyt krótka nazwa kontrahenta</p>';
+        $success = false;
+      }
+
+      try {
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_kontrahenta('$clientNameNew') AS is_client_name_unique";
+        $client_name_unique_check = pg_query($this->connection, $query);
+        $is_client_name_unique_check = pg_fetch_assoc($client_name_unique_check);
+
+        if($is_client_name_unique_check['is_client_name_unique'] != 1 )
+        {
+            $success = false;
+            $_SESSION['e_client_update'] = '<p style = "color:red; text-align:center;">Kontrahent o takiej nazwie już istnieje.</p>';
+        }
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
+
+      if($success == true) {
+        try {
+          $query = "SELECT * FROM app.sp_dodaj_kontrahenta
+                    (
+                        '$clientNameNew'
+                        ,'$streetNew'
+                        ,'$address2New'
+                        ,'$postCodeNew'
+                        ,'$cityNew'
+                        ,'$countryNew'
+                        ,$isActiveNew::BIT
+                        ,$isBlackListNew::BIT
+                    )";
+          $result = pg_query($this->connection, $query);
+          $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent dodany pomyślnie.</p>';
+
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+
+    }
+
 }
