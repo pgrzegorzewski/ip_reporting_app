@@ -161,6 +161,83 @@
             </div>
         </div>
 
+        <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addItemLabel">Edycja </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action = "item_actions.php" method="post" id="add_item_form">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "item_name_new" name = "item_name_new" type="text" value=" " style="color:white">
+                                    <label for = "item_name_new">Towar</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_active_new"  name = "is_active_new" checked >
+                                <label class="custom-control-label" for="is_active_new">Aktywny</label>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <select class="form-control" id = "group_name_new" name = "group_new" >
+                                      <option selected>Szereg</option>
+                                  </select>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <select class="form-control" id = "type_name_new" name = "type_new" >
+                                      <option selected>Rodzaj</option>
+                                  </select>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "price_go_new" name = "price_go_new" type="number" value="0" step="0.01" style="color:white">
+                                  <label for="price_go_new">Cena go</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "price_po_new" name = "price_po_new" type="number" value="0" step="0.01" style="color:white">
+                                  <label for="price_po_new" >Cena po</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "price_gd_new" name = "price_gd_new" type="number" value="0" step="0.01" style="color:white">
+                                  <label for="price_gd_new">Cena gd</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "price_pd_new" name = "price_pd_new" type="number" value="0" step="0.01" style="color:white">
+                                  <label for="price_pd_new">Cena pd</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="md-form form-group">
+                              <input class="form-control" id = "action" name = "action" type="text" value="addItem" hidden>
+                          </div>
+                          <div class="modal-footer">
+                              <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 		<section class = "section">
       <?php
       if(isset($_SESSION['e_item_update'])){
@@ -168,6 +245,9 @@
           unset($_SESSION['e_item_update']);
       }
       ?>
+      <div style="text-align:right">
+        <button class= "btn btn-success" data-toggle="modal" data-target="#addItemModal">Dodaj nowy towar</button>
+      </div>
       <div id= "item_management" class="table-responsive">
           <table class="table table-striped table-bordered" id="data-table" style="width:100%">
               <thead>

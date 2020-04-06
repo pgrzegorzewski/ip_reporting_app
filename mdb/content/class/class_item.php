@@ -128,4 +128,56 @@ class Item
         }
       }
     }
+
+    public function addItem($itemNameNew, $isActiveNew, $groupIdNew, $typeIdNew, $priceGoNew, $pricePoNew, $priceGdNew, $pricePdNew)
+    {
+      $success = true;
+
+      if(strlen(preg_replace('/\s/', '', $itemNameNew)) < 2) {
+        $_SESSION['e_item_update'] = '<p style = "color:red; text-align:center;">Zbyt krótka nazwa towaru</p>';
+        $success = false;
+      }
+
+      if(!$groupIdNew || intval($groupIdNew) <= 0) {
+        $_SESSION['e_item_update'] = '<p style = "color:red; text-align:center;">Brak szeregu</p>';
+        $success = false;
+      }
+      if(!$typeIdNew || intval($typeIdNew) <= 0) {
+        $_SESSION['e_item_update'] = '<p style = "color:red; text-align:center;">Brak rodzaju</p>';
+        $success = false;
+      }
+
+      try {
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_towaru('$itemNameNew') AS is_item_name_unique";
+        $item_name_unique_check = pg_query($this->connection, $query);
+        $is_item_name_unique_check = pg_fetch_assoc($item_name_unique_check);
+
+        if($is_item_name_unique_check['is_item_name_unique'] != 1)
+        {
+            $success = false;
+            $_SESSION['e_item_update'] = '<p style = "color:red; text-align:center;">Towar o takiej nazwie już istnieje.</p>';
+        }
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
+
+      if($success == true) {
+        try {
+          $query = "SELECT * FROM app.sp_dodaj_towar
+                    (   '$itemNameNew'
+                        ,$isActiveNew::BIT
+                        ,$typeIdNew
+                        ,$groupIdNew
+                        ,$priceGoNew
+                        ,$pricePoNew
+                        ,$priceGdNew
+                        ,$pricePdNew
+                    )";
+          $result = pg_query($this->connection, $query);
+          $_SESSION['e_item_update'] = '<p style = "color:green; text-align:center;">Towar dodany pomyślnie.</p>';
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+    }
 }

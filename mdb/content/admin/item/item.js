@@ -26,7 +26,6 @@ $(document).ready(function () {
                  {data: 'edycja'}
              ]
          });
-         //$('#data-table').width("100%");
      },
   })
 });
@@ -60,18 +59,29 @@ $(document).ready(function() {
 });
 
 $('#update_item_form').submit(function () {
-  var form=document.getElementById('update_item_form');//retrieve the form as a DOM element
+  var form=document.getElementById('update_item_form');
 
-  var input = document.createElement('input');//prepare a new input DOM element
-  input.setAttribute('name', 'action');//set the param name
-  input.setAttribute('value', 'updateItem');//set the value
-  input.setAttribute('type', 'hidden')//set the type, like "hidden" or other
+  var input = document.createElement('input');
+  input.setAttribute('name', 'action');
+  input.setAttribute('value', 'updateItem');
+  input.setAttribute('type', 'hidden')
 
-  form.appendChild(input);//append the input to the form
+  form.appendChild(input);
 
   form.submit();
 });
 
+$('#update_item_form').submit(function () {
+  var form=document.getElementById('add_item_form');
+  var input = document.createElement('input');
+  input.setAttribute('name', 'action');
+  input.setAttribute('value', 'addItem');
+  input.setAttribute('type', 'hidden')
+
+  form.appendChild(input);
+
+  form.submit();
+});
 
 function getTypeSelect() {
   $.ajax({
@@ -85,6 +95,7 @@ function getTypeSelect() {
               var type_id = response[i]['rodzaj_id'];
               var type_name = response[i]['rodzaj_nazwa'];
               $("#type_name").append("<option value='"+type_id+"'>"+type_name+"</option>");
+              $("#type_name_new").append("<option value='"+type_id+"'>"+type_name+"</option>");
           }
       }
   });
@@ -103,6 +114,7 @@ function getGroupSelect() {
               var group_id = response[i]['szereg_id'];
               var group_name = response[i]['szereg_nazwa'];
               $("#group_name").append("<option value='"+group_id+"'>"+group_name+"</option>");
+              $("#group_name_new").append("<option value='"+group_id+"'>"+group_name+"</option>");
           }
       }
   });
