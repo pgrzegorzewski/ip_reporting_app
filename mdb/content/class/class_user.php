@@ -199,7 +199,6 @@ class User
                         ,$isActive::BIT
                     )";
           $result = pg_query($this->connection, $query);
-          //$_SESSION['e_user_update'] = '<p style = "color:green; text-align:center;">Użytkownik dodany.</p>';
           $_SESSION['e_user_update'] = $query;
         } catch(Exception $error) {
             $error->getMessage();

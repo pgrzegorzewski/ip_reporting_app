@@ -30,5 +30,13 @@
         </tr>
         </thead>
         <tbody></tbody>
+        <tfoot>
+            <tr>
+                <th>Podsumowanie:</th>
+                <th style="text-align:right"></th>
+                <th style="text-align:right"></th>
+                <th style="text-align:right"></th>
+            </tr>
+        </tfoot>
     </table>
 </div>

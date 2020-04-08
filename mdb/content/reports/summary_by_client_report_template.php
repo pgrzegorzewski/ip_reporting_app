@@ -19,16 +19,24 @@
     <span id="error_msg" style="color:red"></span>
     <br><br>
 </div>
-<div class="table-responsive">
+<div class="table-responsive" >
     <table class="table table-striped table-bordered" id="data-table">
         <thead>
         <tr>
             <th>Kontrahent</th>
-            <th>Suma wartości</th>
-            <th>Suma marż</th>
-            <th>Procent</th>
+            <th style="text-align:right">Suma wartości</th>
+            <th style="text-align:right">Suma marż</th>
+            <th style="text-align:right">Procent</th>
         </tr>
         </thead>
         <tbody></tbody>
+        <tfoot>
+            <tr>
+                <th>Podsumowanie:</th>
+                <th style="text-align:right"></th>
+                <th style="text-align:right"></th>
+                <th style="text-align:right"></th>
+            </tr>
+        </tfoot>
     </table>
 </div>

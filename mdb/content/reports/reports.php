@@ -98,6 +98,7 @@ require '../core/connect.php';
 
         </table>
         <hr>
+
         <div id ="report_div"></div>
         <br><br>
         <hr>

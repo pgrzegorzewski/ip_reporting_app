@@ -8,6 +8,7 @@ $(document).ready(function () {
   $('#data-table').DataTable();
 });
 
+
 $(document).on('click', '#region_summary_data_refresh', function() {
 
   if ($('#report_date_from').val() && $('#report_date_to').val()) {
@@ -42,7 +43,56 @@ $(document).on('click', '#region_summary_data_refresh', function() {
                      {data: 'suma_wartosci'},
                      {data: 'suma_marz'},
                      {data: 'procent'}
-                 ]
+                 ],
+                 footerCallback: function ( row, data, start, end, display ) {
+                     var api = this.api(), data;
+                     var intVal = function ( i ) {
+                         return typeof i === 'string' ?
+                             i.replace(/[\$,]/g, '') * 1 :
+                             typeof i === 'number' ?
+                                 i : 0;
+                     };
+
+                     totalValue = api
+                         .column(2)
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                     pageTotalValue = api
+                         .column( 2, { page: 'current'} )
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                       totalMargin = api
+                           .column(3)
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalmargin = api
+                           .column( 3, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                     $( api.column( 2 ).footer() ).html(
+                        'karta:  ' + pageTotalValue.toFixed(3) + '  suma całkowita:  ' + totalValue.toFixed(3)
+                     );
+
+                     $( api.column( 3).footer() ).html(
+                         'karta:  ' + pageTotalmargin.toFixed(3) + '  suma całkowita:  ' + totalMargin.toFixed(3)
+                     );
+
+                     $( api.column( 4 ).footer() ).html(
+                         'karta:  ' + ((pageTotalmargin / pageTotalValue) * 100).toFixed(3) + '%  całkowita:  ' + ((totalMargin / totalValue) * 100).toFixed(3) + '%'
+                     );
+                 },
              });
 
              var chart_data =  new Array();
@@ -107,7 +157,56 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
                      {data: 'suma_wartosci'},
                      {data: 'suma_marz'},
                      {data: 'procent'}
-                 ]
+                 ],
+                 footerCallback: function ( row, data, start, end, display ) {
+                     var api = this.api(), data;
+                     var intVal = function ( i ) {
+                         return typeof i === 'string' ?
+                             i.replace(/[\$,]/g, '') * 1 :
+                             typeof i === 'number' ?
+                                 i : 0;
+                     };
+
+                     totalValue = api
+                         .column(1)
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                     pageTotalValue = api
+                         .column( 1, { page: 'current'} )
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                       totalMargin = api
+                           .column(2)
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalMargin = api
+                           .column( 2, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                     $( api.column( 1 ).footer() ).html(
+                        'karta:  ' + pageTotalValue.toFixed(3) + '  suma całkowita:  ' + totalValue.toFixed(3)
+                     );
+
+                     $( api.column( 2).footer() ).html(
+                         'karta:  ' + pageTotalMargin.toFixed(3) + '  suma całkowita:  ' + totalMargin.toFixed(3)
+                     );
+
+                     $( api.column( 3 ).footer() ).html(
+                         'karta:  ' + ((pageTotalMargin / pageTotalValue) * 100).toFixed(3) + '%  całkowita:  ' + ((totalMargin / totalValue) * 100).toFixed(3) + '%'
+                     );
+                 },
              });
 
              var chart_data =  new Array();
@@ -172,7 +271,56 @@ $(document).on('click', '#client_summary_data_refresh', function() {
                      {data: 'suma_wartosci'},
                      {data: 'suma_marz'},
                      {data: 'procent'}
-                 ]
+                 ],
+                 footerCallback: function ( row, data, start, end, display ) {
+                     var api = this.api(), data;
+                     var intVal = function ( i ) {
+                         return typeof i === 'string' ?
+                             i.replace(/[\$,]/g, '') * 1 :
+                             typeof i === 'number' ?
+                                 i : 0;
+                     };
+
+                     totalValue = api
+                         .column(1)
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                     pageTotalValue = api
+                         .column( 1, { page: 'current'} )
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                       totalMargin = api
+                           .column(2)
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalMargin = api
+                           .column( 2, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                     $( api.column( 1 ).footer() ).html(
+                        'karta:  ' + pageTotalValue.toFixed(3) + '  suma całkowita:  ' + totalValue.toFixed(3)
+                     );
+
+                     $( api.column( 2 ).footer() ).html(
+                         'karta:  ' + pageTotalMargin.toFixed(3) + '  suma całkowita:  ' + totalMargin.toFixed(3)
+                     );
+
+                     $( api.column( 3 ).footer() ).html(
+                         'karta:  ' + ((pageTotalMargin/pageTotalValue)*100).toFixed(3) + '%  całkowita:  ' + ((totalMargin/totalValue)*100).toFixed(3) + '%'
+                     );
+                 },
              });
 
              var chart_data =  new Array();
@@ -238,7 +386,74 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                      {data: 'suma_wartosci'},
                      {data: 'suma_marz'},
                      {data: 'procent'}
-                 ]
+                 ],
+                 footerCallback: function ( row, data, start, end, display ) {
+                     var api = this.api(), data;
+                     var intVal = function ( i ) {
+                         return typeof i === 'string' ?
+                             i.replace(/[\$,]/g, '') * 1 :
+                             typeof i === 'number' ?
+                                 i : 0;
+                     };
+
+                     totalAmount = api
+                         .column(1)
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                     pageTotalAmount = api
+                         .column( 1, { page: 'current'} )
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                       totalValue = api
+                           .column(2)
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalValue = api
+                           .column( 2, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       totalMargin = api
+                           .column(3)
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalMargin = api
+                           .column( 3, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                     $( api.column( 1 ).footer() ).html(
+                        'karta:  ' + pageTotalAmount.toFixed(3) + '  suma całkowita:  ' + totalAmount.toFixed(3)
+                     );
+
+                     $( api.column( 2).footer() ).html(
+                         'karta:  ' + pageTotalValue.toFixed(3) + '  suma całkowita:  ' + totalValue.toFixed(3)
+                     );
+
+                     $( api.column( 3).footer() ).html(
+                         'karta:  ' + pageTotalMargin.toFixed(3) + '  suma całkowita:  ' + totalMargin.toFixed(3)
+                     );
+
+                     $( api.column( 4 ).footer() ).html(
+                         'karta:  ' + ((pageTotalMargin / pageTotalValue) * 100).toFixed(3) + '%  całkowita:  ' + ((totalMargin / totalValue) * 100).toFixed(3) + '%'
+                     );
+                 },
              });
 
 
