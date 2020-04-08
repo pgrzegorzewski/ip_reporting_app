@@ -77,17 +77,28 @@ $(document).ready(function() {
   });
 });
 
-
-
 $('#update_user_form').submit(function () {
-  var form=document.getElementById('update_user_form');//retrieve the form as a DOM element
+  var form=document.getElementById('update_user_form');
 
-  var input = document.createElement('input');//prepare a new input DOM element
-  input.setAttribute('name', 'action');//set the param name
-  input.setAttribute('value', 'updateUser');//set the value
-  input.setAttribute('type', 'hidden')//set the type, like "hidden" or other
+  var input = document.createElement('input');
+  input.setAttribute('name', 'action');
+  input.setAttribute('value', 'updateUser');
+  input.setAttribute('type', 'hidden');
 
-  form.appendChild(input);//append the input to the form
+  form.appendChild(input);
+
+  form.submit();
+});
+
+$('#add_user_form').submit(function () {
+  var form=document.getElementById('add_user_form');
+
+  var input = document.createElement('input');
+  input.setAttribute('name', 'action');
+  input.setAttribute('value', 'addUser');
+  input.setAttribute('type', 'hidden');
+
+  form.appendChild(input);
 
   form.submit();
 });

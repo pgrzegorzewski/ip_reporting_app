@@ -175,7 +175,7 @@
                           <div class="form-row">
                             <div class="col-md-6">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "item_name_new" name = "item_name_new" type="text" value=" " style="color:white">
+                                    <input class="form-control" id = "item_name_new" name = "item_name_new" type="text" value="" style="color:white">
                                     <label for = "item_name_new">Towar</label>
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
                             </div>
                           </div>
                           <div class="md-form form-group">
-                              <input class="form-control" id = "action" name = "action" type="text" value="addItem" hidden>
+                              <input class="form-control" id = "action_add_item" name = "action" type="text" value="addItem" hidden>
                           </div>
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />

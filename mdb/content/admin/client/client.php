@@ -176,7 +176,7 @@
                           <div class="form-row">
                             <div class="col-md-6">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "client_name_new" name = "client_name_new" type="text" value=" " style="color:white">
+                                    <input class="form-control" id = "client_name_new" name = "client_name_new" type="text" value="" style="color:white">
                                     <label for = "client_name_new">Klient</label>
                                 </div>
                             </div>
@@ -195,40 +195,39 @@
 
                             <div class="col-md-4">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "street_new" name = "street_new" type="text" value=" " style="color:white">
+                                  <input class="form-control" id = "street_new" name = "street_new" type="text" value="" style="color:white">
                                   <label for = "street_new">Ulica</label>
                               </div>
                             </div>
                             <div class="col-md-4">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "address_2_new" name = "address_2_new" type="text" value=" " style="color:white">
+                                  <input class="form-control" id = "address_2_new" name = "address_2_new" type="text" value="" style="color:white">
                                   <label for = "address_2_new">Nr domu</label>
                               </div>
                             </div>
                             <div class="col-md-4">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "post_code_new" name = "post_code_new" type="text" value=" " style="color:white">
+                                  <input class="form-control" id = "post_code_new" name = "post_code_new" type="text" value="" style="color:white">
                                   <label for = "post_code_new">Kod pocztowy</label>
                               </div>
                             </div>
 
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "city_new" name = "city_new" type="text" value=" " style="color:white">
+                                  <input class="form-control" id = "city_new" name = "city_new" type="text" value="" style="color:white">
                                   <label for = "city_new">Miasto</label>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "country_new" name = "country_new" type="text" value=" " style="color:white">
+                                  <input class="form-control" id = "country_new" name = "country_new" type="text" value="" style="color:white">
                                   <label for = "country_new">Kraj</label>
                               </div>
                             </div>
 
                           </div>
-
                           <div class="md-form form-group">
-                              <input class="form-control" id = "action" name = "action" type="text" value="addClient" hidden>
+                              <input class="form-control" id = "action_add_client" name = "action" type="text" value="addClient" hidden>
                           </div>
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />

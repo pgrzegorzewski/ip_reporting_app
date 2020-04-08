@@ -148,6 +148,65 @@ class User
 
     }
 
+    public function addUser($username, $firstName, $lastName, $role, $isActive, $passwordTemporary)
+    {
+      $success = true;
+
+      if(strlen(preg_replace('/\s/', '', $username)) < 2) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótki login.</p>';
+        $success = false;
+      }
+      if(strlen(preg_replace('/\s/', '', $firstName)) < 3) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie imię.</p>';
+        $success = false;
+      }
+      if(strlen(preg_replace('/\s/', '', $lastName)) < 3) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie nazwisko.</p>';
+        $success = false;
+      }
+      if(strlen(preg_replace('/\s/', '', $passwordTemporary)) < 5) {
+        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie hasło.</p>';
+        $success = false;
+      }
+      if(!$role || intval($role) <= 0) {
+        $_SESSION['e_item_update'] = '<p style = "color:red; text-align:center;">Brak rodzaju</p>';
+        $success = false;
+      }
+
+      try {
+        $query = "SELECT * FROM usr.sf_sprawdz_unikalnosc_login('$username') AS is_username_unique";
+        $username_unique_check = pg_query($this->connection, $query);
+        $is_username_unique_check = pg_fetch_assoc($username_unique_check);
+
+        if($is_username_unique_check['is_username_unique'] != 1)
+        {
+            $success = false;
+            $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">login w użyciu.</p>';
+        }
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
+
+      $passwordTemporary = password_hash($passwordTemporary, PASSWORD_DEFAULT);
+      if($success == true) {
+        try {
+          $query = "SELECT * FROM usr.sp_dodaj_uzytkownika_v2
+                    (   '$username'
+                        ,'$firstName'
+                        ,'$lastName'
+                        ,'$passwordTemporary'
+                        ,$role
+                        ,$isActive::BIT
+                    )";
+          $result = pg_query($this->connection, $query);
+          //$_SESSION['e_user_update'] = '<p style = "color:green; text-align:center;">Użytkownik dodany.</p>';
+          $_SESSION['e_user_update'] = $query;
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+    }
+
 }
 
 ?>

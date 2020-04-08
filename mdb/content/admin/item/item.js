@@ -71,7 +71,7 @@ $('#update_item_form').submit(function () {
   form.submit();
 });
 
-$('#update_item_form').submit(function () {
+$('#add_item_form').submit(function () {
   var form=document.getElementById('add_item_form');
   var input = document.createElement('input');
   input.setAttribute('name', 'action');

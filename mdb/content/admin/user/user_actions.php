@@ -36,7 +36,9 @@ if(isset($_POST['passwordTemporary'])) {
   $passwordTemporary = $_POST['passwordTemporary'];
 }
 
-
+if(isset($_POST['password_temporary'])) {
+  $passwordTemporaryNew = $_POST['password_temporary'];
+}
 
 $user = new User();
 
@@ -56,6 +58,10 @@ switch ($action) {
   case 'assignTemporaryPassword':
     $userData = $user->assignTemporaryPassword($userId, $passwordTemporary);
     return $userData;
+    break;
+  case 'addUser':
+    $userData = $user->addUser($username, $firstName, $lastName, $role, $isActive, $passwordTemporaryNew);
+    header('Location:./user.php');
     break;
 }
 

@@ -159,6 +159,74 @@
             </div>
         </div>
 
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserLabel">Edycja </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action = "user_actions.php" method="post" id="add_user_form">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "username_new" name = "username" type="text" value="" style="color:white">
+                                    <label for = "username_new">Username</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "password_temporary_new" name = "password_temporary" type="text" value="" style="color:white">
+                                  <label for = "password_temporary_new">Hasło tymczasowe</label>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "first_name_new" name = "first_name" type="text" value="" style="color:white">
+                                  <label for = "first_name_new">Imię</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "last_name_new" name = "last_name" type="text" value="" style="color:white">
+                                  <label for = "last_name_new">Nazwisko</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="col-md-6">
+                              Rola: <br />
+                              <div class="md-form form-group">
+                                  <select class="form-control" id = "role_new" name = "role" style="color:white">
+                                      <option value="1">Admin</option>
+                                      <option value="2">handlowiec</option>
+                                  </select>
+                              </div>
+                            </div>
+                            <div class="col-md-6 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_active_new"  name = "is_active" value= "" checked >
+                                <label class="custom-control-label" for="is_active_new">Aktywny</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="md-form form-group">
+                              <input class="form-control" id = "action_add_user" name = "action" type="text" value="addUser" hidden>
+                          </div>
+                          <div class="modal-footer">
+                              <input class="btn btn-info" type = "submit" value ="Dodaj użytkownika" />
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 		<section class = "section">
       <?php
       if(isset($_SESSION['e_user_update'])){
@@ -166,6 +234,9 @@
           unset($_SESSION['e_user_update']);
       }
       ?>
+      <div style="text-align:right">
+        <button class= "btn btn-success" data-toggle="modal" data-target="#addUserModal">Dodaj użytkownika</button>
+      </div>
       <div id= "user_management" class="table-responsive">
           <table class="table table-striped table-bordered" id="data-table" style="width:100%">
               <thead>
