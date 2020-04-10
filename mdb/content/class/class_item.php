@@ -40,8 +40,8 @@ class Item
 
     public function getItemData($itemId)
     {
-      $query = "SELECT * FROM app.tf_pobierz_towar($itemId)";
-      $result = pg_query($this->connection, $query);
+      $query = "SELECT * FROM app.tf_pobierz_towar($1)";
+      $result = pg_query_params($this->connection, $query, array($itemId));
       $resp = array();
 
       while($row = pg_fetch_assoc($result))
@@ -85,12 +85,12 @@ class Item
       }
 
       try {
-        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_towaru('$itemName') AS is_item_name_unique";
-        $item_name_unique_check = pg_query($this->connection, $query);
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_towaru($1) AS is_item_name_unique";
+        $item_name_unique_check = pg_query_params($this->connection, $query, array($itemName));
         $is_item_name_unique_check = pg_fetch_assoc($item_name_unique_check);
 
-        $query = "SELECT towar_nazwa AS old_item_name FROM app.tbl_towar WHERE towar_id = $itemId ";
-        $item_name_changed_check = pg_query($this->connection, $query);
+        $query = "SELECT towar_nazwa AS old_item_name FROM app.tbl_towar WHERE towar_id = $1 ";
+        $item_name_changed_check = pg_query_params($this->connection, $query, array($itemId));
         $old_item_name = pg_fetch_assoc($item_name_changed_check);
 
         $itemNameChanged = true;
@@ -109,18 +109,8 @@ class Item
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_towaru
-                    (   $itemId
-                        ,'$itemName'
-                        ,$isActive::BIT
-                        ,$typeId
-                        ,$groupId
-                        ,$priceGo
-                        ,$pricePo
-                        ,$priceGd
-                        ,$pricePd
-                    )";
-          $result = pg_query($this->connection, $query);
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_towaru($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+          $result = pg_query_params($this->connection, $query, array($itemId, $itemName, $isActive, $typeId, $groupId, $priceGo, $pricePo, $priceGd, $pricePd));
           $_SESSION['e_item_update'] = '<p style = "color:green; text-align:center;">Towar zaktualizowany pomyślnie.</p>';
 
         } catch(Exception $error) {
@@ -148,8 +138,8 @@ class Item
       }
 
       try {
-        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_towaru('$itemNameNew') AS is_item_name_unique";
-        $item_name_unique_check = pg_query($this->connection, $query);
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_towaru($1) AS is_item_name_unique";
+        $item_name_unique_check = pg_query_params($this->connection, $query, array($itemNameNew));
         $is_item_name_unique_check = pg_fetch_assoc($item_name_unique_check);
 
         if($is_item_name_unique_check['is_item_name_unique'] != 1)
@@ -163,17 +153,8 @@ class Item
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_dodaj_towar
-                    (   '$itemNameNew'
-                        ,$isActiveNew::BIT
-                        ,$typeIdNew
-                        ,$groupIdNew
-                        ,$priceGoNew
-                        ,$pricePoNew
-                        ,$priceGdNew
-                        ,$pricePdNew
-                    )";
-          $result = pg_query($this->connection, $query);
+          $query = "SELECT * FROM app.sp_dodaj_towar($1, $2, $3, $4, $5, $6, $7, $8)";
+          $result = pg_query_params($this->connection, $query, array($itemNameNew, $isActiveNew, $typeIdNew, $groupIdNew, $priceGoNew, $pricePoNew, $priceGdNew, $pricePdNew));
           $_SESSION['e_item_update'] = '<p style = "color:green; text-align:center;">Towar dodany pomyślnie.</p>';
         } catch(Exception $error) {
             $error->getMessage();

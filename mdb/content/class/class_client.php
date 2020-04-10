@@ -40,8 +40,8 @@ class Client
 
     public function getClientData($clientId)
     {
-      $query = "SELECT * FROM app.tf_pobierz_kontrahenta($clientId)";
-      $result = pg_query($this->connection, $query);
+      $query = "SELECT * FROM app.tf_pobierz_kontrahenta($1)";
+      $result = pg_query_params($this->connection, $query, array($clientId));
       $resp = array();
 
       while($row = pg_fetch_assoc($result))
@@ -75,12 +75,12 @@ class Client
       }
 
       try {
-        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_kontrahenta('$clientName') AS is_client_name_unique";
-        $client_name_unique_check = pg_query($this->connection, $query);
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_kontrahenta($1) AS is_client_name_unique";
+        $client_name_unique_check = pg_query_params($this->connection, $query, array($clientName));
         $is_client_name_unique_check = pg_fetch_assoc($client_name_unique_check);
 
-        $query = "SELECT kontrahent_nazwa AS old_client_name FROM app.tbl_kontrahent WHERE kontrahent_id = $clientId ";
-        $client_name_changed_check = pg_query($this->connection, $query);
+        $query = "SELECT kontrahent_nazwa AS old_client_name FROM app.tbl_kontrahent WHERE kontrahent_id = $1";
+        $client_name_changed_check = pg_query_params($this->connection, $query, array($clientId));
         $old_client_name = pg_fetch_assoc($client_name_changed_check);
 
         $clientNameChanged = true;
@@ -99,18 +99,8 @@ class Client
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta
-                    (   $clientId
-                        ,'$clientName'
-                        ,'$street'
-                        ,'$address2'
-                        ,'$postCode'
-                        ,'$city'
-                        ,'$country'
-                        ,$isActive::BIT
-                        ,$isBlackList::BIT
-                    )";
-          $result = pg_query($this->connection, $query);
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+          $result = pg_query_params($this->connection, $query, array($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList));
           $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent zaktualizowany pomyślnie.</p>';
 
         } catch(Exception $error) {
@@ -129,8 +119,8 @@ class Client
       }
 
       try {
-        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_kontrahenta('$clientNameNew') AS is_client_name_unique";
-        $client_name_unique_check = pg_query($this->connection, $query);
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_kontrahenta($1) AS is_client_name_unique";
+        $client_name_unique_check = pg_query_params($this->connection, $query, array($clientNameNew));
         $is_client_name_unique_check = pg_fetch_assoc($client_name_unique_check);
 
         if($is_client_name_unique_check['is_client_name_unique'] != 1 )
@@ -144,18 +134,8 @@ class Client
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_dodaj_kontrahenta
-                    (
-                        '$clientNameNew'
-                        ,'$streetNew'
-                        ,'$address2New'
-                        ,'$postCodeNew'
-                        ,'$cityNew'
-                        ,'$countryNew'
-                        ,$isActiveNew::BIT
-                        ,$isBlackListNew::BIT
-                    )";
-          $result = pg_query($this->connection, $query);
+          $query = "SELECT * FROM app.sp_dodaj_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8)";
+          $result = pg_query_params($this->connection, $query, array($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew));
           $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent dodany pomyślnie.</p>';
 
         } catch(Exception $error) {

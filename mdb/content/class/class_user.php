@@ -17,7 +17,7 @@ class User
     public function userIdGet($username)
     {
 
-        $result =  pg_query($connection, "SELECT user_id FROM usr.tbl_user WHERE username = '$username'");
+        $result =  pg_query_params($connection, "SELECT user_id FROM usr.tbl_user WHERE username = $1", array($username));
         $row = pg_fetch_row($result);
 
         $this->userId = $row['user_id'];
@@ -50,8 +50,8 @@ class User
 
     public function getUserData($userId)
     {
-      $query = "SELECT * FROM usr.tf_pobierz_uzytkownika('$userId')";
-      $result = pg_query($this->connection, $query);
+      $query = "SELECT * FROM usr.tf_pobierz_uzytkownika($1)";
+      $result = pg_query_params($this->connection, $query, array($userId));
       $resp = array();
 
       while($row = pg_fetch_assoc($result))
@@ -91,12 +91,12 @@ class User
       }
 
       try {
-        $query = "SELECT * FROM usr.sf_sprawdz_unikalnosc_login('$username') AS is_username_unique";
-        $username_unique_check = pg_query($this->connection, $query);
+        $query = "SELECT * FROM usr.sf_sprawdz_unikalnosc_login($1) AS is_username_unique";
+        $username_unique_check = pg_query_params($this->connection, $query, array($username));
         $is_username_unique_check = pg_fetch_assoc($username_unique_check);
 
-        $query = "SELECT * FROM usr.sf_pobierz_login($userId) AS old_username";
-        $username_changed_check = pg_query($this->connection, $query);
+        $query = "SELECT * FROM usr.sf_pobierz_login($1) AS old_username";
+        $username_changed_check = pg_query_params($this->connection, $query, array($userId));
         $old_username = pg_fetch_assoc($username_changed_check);
 
         $usernameChanged = true;
@@ -115,15 +115,8 @@ class User
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM usr.sp_zaktualizuj_dane_uzytkownika
-                    (   $userId
-                        ,'$username'
-                        ,'$firstName'
-                        ,'$lastName'
-                        ,'$role'
-                        ,$isActive::BIT
-                    )";
-          $result = pg_query($this->connection, $query);
+          $query = "SELECT * FROM usr.sp_zaktualizuj_dane_uzytkownika($1, $2, $3, $4, $5, $6)";
+          $result = pg_query_params($this->connection, $query, array($userId, $username, $firstName, $lastName, $role, $isActive));
           $_SESSION['e_user_update'] = '<p style = "color:green; text-align:center;">Użytkownik zaktualizowany pomyślnie.</p>';
         } catch(Exception $error) {
             $error->getMessage();
@@ -135,11 +128,8 @@ class User
 
       $passwordTemporaryHashed = password_hash($passwordTemporary, PASSWORD_DEFAULT);
       try {
-        $query = "SELECT * FROM usr.sp_przypisz_haslo_tymczasowe
-                  (   $userId
-                      ,'$passwordTemporaryHashed'
-                  )";
-        $result = pg_query($this->connection, $query);
+        $query = "SELECT * FROM usr.sp_przypisz_haslo_tymczasowe($1, $2)";
+        $result = pg_query_params($this->connection, $query, array($userId, $passwordTemporaryHashed));
         echo 'haslo przypisane';
       } catch(Exception $error) {
           $error->getMessage();
@@ -174,8 +164,8 @@ class User
       }
 
       try {
-        $query = "SELECT * FROM usr.sf_sprawdz_unikalnosc_login('$username') AS is_username_unique";
-        $username_unique_check = pg_query($this->connection, $query);
+        $query = "SELECT * FROM usr.sf_sprawdz_unikalnosc_login($1) AS is_username_unique";
+        $username_unique_check = pg_query_params($this->connection, $query, array($username));
         $is_username_unique_check = pg_fetch_assoc($username_unique_check);
 
         if($is_username_unique_check['is_username_unique'] != 1)
@@ -190,15 +180,8 @@ class User
       $passwordTemporary = password_hash($passwordTemporary, PASSWORD_DEFAULT);
       if($success == true) {
         try {
-          $query = "SELECT * FROM usr.sp_dodaj_uzytkownika_v2
-                    (   '$username'
-                        ,'$firstName'
-                        ,'$lastName'
-                        ,'$passwordTemporary'
-                        ,$role
-                        ,$isActive::BIT
-                    )";
-          $result = pg_query($this->connection, $query);
+          $query = "SELECT * FROM usr.sp_dodaj_uzytkownika_v2($1, $2, $3, $4, $5, $6)";
+          $result = pg_query_params($this->connection, $query, array($username, $firstName, $lastName, $passwordTemporary, $role, $isActive));
           $_SESSION['e_user_update'] = '<p style = "color:green; text-align:center;">Użytkownik pomyślnie dodany.</p>';
         } catch(Exception $error) {
             $error->getMessage();
