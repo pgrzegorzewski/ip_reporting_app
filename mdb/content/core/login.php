@@ -9,7 +9,7 @@ $login = htmlentities($login, ENT_QUOTES, "UTF-8");
 
 try
 {
-    $result =  @pg_query($connection, "SELECT * FROM usr.sf_zweryfikuj_haslo('$login') AS success");
+    $result =  @pg_query_params($connection, "SELECT * FROM usr.sf_zweryfikuj_haslo($1) AS success", array($login));
     $row = pg_fetch_assoc($result);
 
     if($row['success'] == 1)
@@ -18,7 +18,7 @@ try
 
         try
         {
-            $user_password = @pg_query($connection, "SELECT * FROM usr.sf_pobierz_haslo('$login') AS password_string");
+            $user_password = @pg_query_params($connection, "SELECT * FROM usr.sf_pobierz_haslo($1) AS password_string", array($login));
             $password_string = pg_fetch_assoc($user_password);
 
             if(password_verify($password, $password_string['password_string']))

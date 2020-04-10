@@ -60,9 +60,9 @@ require '../core/connect.php';
             </li>
             <?php
             $query = "
-                       SELECT * FROM  usr.sf_sprawdz_prawo_dostepu('" . $_SESSION['user'] . "', 1)
+                       SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1,  1)
                 ";
-            $hasAccessQuery = @pg_query($connection, $query);
+            $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user'] ));
             $hasAccess = pg_fetch_assoc($hasAccessQuery);
             if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
                 echo "<li>
