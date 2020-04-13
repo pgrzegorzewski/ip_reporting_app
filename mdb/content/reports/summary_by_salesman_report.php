@@ -7,8 +7,8 @@ $dateFrom = $_POST['dateFrom'];
 $dateTo = $_POST['dateTo'];
 
 try {
-    $query = "SELECT * FROM app.tf_podsumowanie_sprzedazy_per_sprzedawca($1, $2)";
-    $result = pg_query_params($connection, $query, array($dateFrom, $dateTo));
+    $query = "SELECT * FROM app.tf_podsumowanie_sprzedazy_per_sprzedawca($1, $2, $3)";
+    $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $login));
     $resp = array();
 
     while($row = pg_fetch_assoc($result))
