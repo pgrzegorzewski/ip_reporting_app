@@ -19,16 +19,8 @@
 
   foreach ($invoiceFilters as $key => $value) {
     if(!$value) {
-      $invoiceFilters->$key = "NULL";
+      $invoiceFilters->$key = NULL;
     }
-  }
-
-  if($invoiceFilters->invoice_date_from != "NULL") {
-    $invoiceFilters->invoice_date_from = "'".$invoiceFilters->invoice_date_from."'";
-  }
-
-  if($invoiceFilters->invoice_date_to != "NULL") {
-    $invoiceFilters->invoice_date_to = "'".$invoiceFilters->invoice_date_to."'";
   }
 
   try {
@@ -54,19 +46,9 @@
                 wartosc,
                 marza,
                 procent
-            FROM app.tf_pobierz_informacje_o_fakturach
-            (
-                $invoiceFilters->invoice_date_from::date
-                ,$invoiceFilters->invoice_date_to::date
-                ,$invoiceFilters->invoice_number
-                ,$invoiceFilters->salesman
-                ,$invoiceFilters->client
-                ,$invoiceFilters->country
-                ,$invoiceFilters->voivodeship
-                ,$invoiceFilters->region
-            )";
+            FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8)";
       $resp = array();
-      $result = pg_query($connection, $query);
+      $result = pg_query_params($connection, $query, array($invoiceFilters->invoice_date_from, $invoiceFilters->invoice_date_to, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region));
       while($row = pg_fetch_assoc($result))
       {
         array_push($resp, array(
