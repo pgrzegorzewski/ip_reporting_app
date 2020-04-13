@@ -58,24 +58,48 @@ require '../core/connect.php';
             <li>
                 <a href ='../invoice/invoice.php'><i class="fas fa-file-invoice-dollar"></i> Faktury</a>
             </li>
-            <?php
-            $query = "
-                       SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1,  1)
+            <li>
+              <a href ='#'><i class='fas fa-cog'></i> Ustawienia</a>
+              <ul>
+                <?php
+                  $query = "
+                         SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 1)
+                  ";
+                  $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+                  $hasAccess = pg_fetch_assoc($hasAccessQuery);
+                  if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+                      echo "
+                                <li><a href ='../admin/user/user.php'><i class='fas fa-users-cog'></i> Użytkownicy</a></li>
+                           ";
+                  }
+      	       ?>
+               <?php
+                 $query = "
+                        SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 5)
+                 ";
+                 $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+                 $hasAccess = pg_fetch_assoc($hasAccessQuery);
+                 if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+                     echo "
+                               <li><a href ='../admin/item/item.php'><i class='fas fa-cubes'></i> Towary</a></li>
+                          ";
+                 }
+              ?>
+              <?php
+                $query = "
+                       SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 7)
                 ";
-            $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user'] ));
-            $hasAccess = pg_fetch_assoc($hasAccessQuery);
-            if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
-                echo "<li>
-                        <a href ='#'><i class='fas fa-cog'></i> Ustawienia</a>
-                        <ul>
-                          <li><a href ='../admin/user/user.php'><i class='fas fa-users-cog'></i> Użytkownicy</a></li>
-                          <li><a href ='../admin/item/item.php'><i class='fas fa-cubes'></i> Towary</a></li>
-                          <li><a href ='../admin/client/client.php'><i class='fas fa-user-tie'></i> Klienci</a></li>
-                        </ul>
-                      </li>";
-            }
-            ?>
-        </ol>
+                $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+                $hasAccess = pg_fetch_assoc($hasAccessQuery);
+                if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+                    echo "
+                              <li><a href ='../admin/client/client.php'><i class='fas fa-user-tie'></i> Klienci</a></li>
+                         ";
+                }
+                ?>
+              </ul>
+            </li>
+    			</ol>
     </div>
     <section class = "section">
         W tej sekcji możesz sporządzić różne raporty i podsumowania. Wybierz interesujący Cię raport z listy.
