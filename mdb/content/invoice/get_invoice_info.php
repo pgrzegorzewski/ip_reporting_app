@@ -46,9 +46,9 @@
                 wartosc,
                 marza,
                 procent
-            FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8)";
+            FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8, $9)";
       $resp = array();
-      $result = pg_query_params($connection, $query, array($invoiceFilters->invoice_date_from, $invoiceFilters->invoice_date_to, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region));
+      $result = pg_query_params($connection, $query, array($invoiceFilters->invoice_date_from, $invoiceFilters->invoice_date_to, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region, $user));
       while($row = pg_fetch_assoc($result))
       {
         array_push($resp, array(
