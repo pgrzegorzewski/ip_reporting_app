@@ -8,6 +8,10 @@
 	padding:0;
 }
 
+.editInvoiceItemModal {
+	 margin: auto;
+}
+
 h1 > a
 {
 	text-decoration:none;
