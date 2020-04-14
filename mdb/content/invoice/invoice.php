@@ -189,6 +189,23 @@ $loggedUser = new User();
                       <th>Kraj</th>
                       <th>Woj</th>
                       <th>Reg</th>
+                      <?php
+                        $query = "
+                               SELECT pelny_przeglad FROM  usr.tbl_uzytkownik
+                               WHERE username = $1
+                        ";
+                        $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+                        $hasAccess = pg_fetch_assoc($hasAccessQuery);
+                        if($hasAccess['pelny_przeglad'] == 1) {
+                            echo "
+                                      <th>Edycja</th>
+                                 ";
+                        } else {
+                          echo "
+                                    <th hidden=true>Edycja</th>
+                               ";
+                        }
+            	        ?>
                       <th>Poz</th>
                       <th>Towar</th>
                       <th>Ilość</th>

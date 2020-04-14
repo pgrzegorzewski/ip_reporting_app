@@ -163,6 +163,11 @@ function showInvoices(){
       data: {data: JSON.stringify(filters)},
       dataType: 'json',
       success: function (jsonData) {
+        var edictionAvailable = 0
+        if(jsonData.length > 0) {
+          var editionCheck = jsonData[0].edycja;
+          edictionAvailable = jsonData[0].edycja == 0 ? false : true;
+        }
         $("#data-table").dataTable().fnDestroy();
         $('#data-table').DataTable({
             "scrollX": true,
@@ -180,6 +185,10 @@ function showInvoices(){
                 {data: 'kraj_kod'},
                 {data: 'wojewodztwo_kod'},
                 {data: 'region_kod'},
+                {
+                    data: 'edycja',
+                    visible: edictionAvailable,
+                },
                 {data: 'pozycja_faktura'},
                 {data: 'towar_nazwa'},
                 {data: 'ilosc'},

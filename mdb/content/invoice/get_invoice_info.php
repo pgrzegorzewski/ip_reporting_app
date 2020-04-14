@@ -26,6 +26,7 @@
   try {
     $query = "SELECT
                 faktura_numer,
+                faktura_pozycja_id,
                 data_wystawienia,
                 uzytkownik,
                 waluta_kod,
@@ -37,6 +38,7 @@
                 kraj_kod,
                 wojewodztwo_kod,
                 region_kod,
+                edycja,
                 pozycja_faktura,
                 towar_nazwa,
                 ilosc,
@@ -49,6 +51,7 @@
             FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8, $9)";
       $resp = array();
       $result = pg_query_params($connection, $query, array($invoiceFilters->invoice_date_from, $invoiceFilters->invoice_date_to, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region, $user));
+      $loopCnt = 0;
       while($row = pg_fetch_assoc($result))
       {
         array_push($resp, array(
@@ -72,8 +75,15 @@
                                   'cena_zero' => $row['cena_zero'],
                                   'wartosc' => $row['wartosc'],
                                   'marza' => $row['marza'],
-                                  'procent' => $row['procent'])
+                                  'procent' => $row['procent']
+                                  )
                                 );
+        if($row['edycja'] == 0){
+          $resp[$loopCnt] += ['edycja'=>$row['edycja']];
+        } else {
+          $resp[$loopCnt] += ['edycja'=> "<button style='padding:5px' data-id='" . $row['faktura_pozycja_id'] . "' id='fpId-" . $row['faktura_pozycja_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editInvoiceItemModal'>Edytuj</button>"];
+        }
+        $loopCnt++;
       }
       pg_free_result($result);
       echo json_encode($resp);
