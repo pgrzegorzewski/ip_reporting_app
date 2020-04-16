@@ -201,6 +201,13 @@ body
 	border-top: 1px dotted white;
 }
 
+.modal-body select {
+	color: white;
+}
+
+.modal-body input {
+	color: white;
+}
  .canvas{
 
 	 width: 500px;

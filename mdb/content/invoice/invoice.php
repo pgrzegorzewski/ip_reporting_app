@@ -123,14 +123,14 @@ $loggedUser = new User();
                           <div class="form-row">
                             <div class="col-md-3">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "invoiceNumberEdit" name = "invoiceNumberEdit" type="text" value="" style="color:white">
+                                    <input class="form-control" id = "invoiceNumberEdit" name = "invoiceNumberEdit" type="text" value = " ">
                                     <label for = "invoiceNumberEdit">Numer Faktury</label>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "invoiceDateEdit" name = "invoiceDateEdit" type="date" value="" style="color:white">
-                                    <label for = "invoiceDateEdit">Data</label>
+                                    <input class="form-control" id = "invoiceDateEdit" name = "invoiceDateEdit" type="date" >
+                                    <label for = "invoiceDateEdit" class="active">Data</label>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -153,7 +153,7 @@ $loggedUser = new User();
                             <div class="col-md-1">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "rateEdit" name = "rate" type="number">
-                                    <label for = "rateEdit">Kurs</label>
+                                    <label for = "rateEdit" class="active">Kurs</label>
                                 </div>
                             </div>
                             <div class="col-md-2 my-auto" style="text-align: center;">
@@ -221,43 +221,43 @@ $loggedUser = new User();
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "amountEdit" name = "amountEdit" type="number" style="color:white">
+                                  <input class="form-control" id = "amountEdit" name = "amountEdit" type="number" >
                                   <label for="amountEdit">Ilość</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "marginEdit" name = "marginEdit" type="number" step="0.01" style="color:white">
+                                  <input class="form-control" id = "marginEdit" name = "marginEdit" type="number" step="0.01" >
                                   <label for="marginEdit">Marża</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "percentEdit" name = "percentEdit" type="number" step="0.01" style="color:white">
+                                  <input class="form-control" id = "percentEdit" name = "percentEdit" type="number" step="0.01" >
                                   <label for="percentEdit">Procent</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "priceGoEdit" name = "priceGoEdit" type="number" step="0.01" style="color:white">
+                                  <input class="form-control" id = "priceGoEdit" name = "priceGoEdit" type="number" step="0.01" >
                                   <label for="priceGoEdit">Cena go</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "pricePoEdit" name = "pricePoEdit" type="number" step="0.01" style="color:white">
+                                  <input class="form-control" id = "pricePoEdit" name = "pricePoEdit" type="number" step="0.01" >
                                   <label for="pricePoEdit" >Cena po</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "priceGdEdit" name = "priceGdEdit" type="number" step="0.01" style="color:white">
+                                  <input class="form-control" id = "priceGdEdit" name = "priceGdEdit" type="number" step="0.01" >
                                   <label for="priceGdEdit">Cena gd</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "pricePdEdit" name = "pricePdEdit" type="number" step="0.01" style="color:white">
+                                  <input class="form-control" id = "pricePdEdit" name = "pricePdEdit" type="number" step="0.01">
                                   <label for="pricePdEdit">Cena pd</label>
                               </div>
                             </div>
