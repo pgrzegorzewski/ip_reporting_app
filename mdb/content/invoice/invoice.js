@@ -3,43 +3,9 @@ var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 
 $(document).ready(function(){
     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
-
       var id = $(e.relatedTarget).data('id');
-      $.ajax({
-         method: "POST",
-         data: {action : "getInvoiceHeaderData", invoiceItemId : id},
-         dataType: 'json',
-         url: "./invoice_actions.php",
-         success: function (data) {
-             $('#invoiceNumberEdit').val(data[0]['faktura_numer']);
-             $('#invoiceDateEdit').val(data[0]['data_wystawienia']);
-             $('#salesmanEdit').val(data[0]['uzytkownik_id']).change();
-             $('#currencyEdit').val(data[0]['waluta_id']).change();
-             $('#rateEdit').val(data[0]['kurs']).change();
-             if(data[0]['eksport'] == 1) {
-               $('#exportCheckboxEdit').prop('checked', true);
-             } else {
-               $('#exportCheckboxEdit').prop('checked', false);
-             }
-             if(data[0]['dostawa'] == 1) {
-               $('#deliveryCheckboxEdit').prop('checked', true);
-             } else {
-               $('#deliveryCheckboxEdit').prop('checked', false);
-             }
-             if(data[0]['przelew'] == 1) {
-               $('#transferCheckboxEdit').prop('checked', true);
-             } else {
-               $('#transferCheckboxEdit').prop('checked', false);
-             }
-             $('#clientEdit').val(data[0]['kontrahent_id']).change();
-             $('#countryEdit').val(data[0]['kraj_id']).change();
-             $('#voivodeshipEdit').val(data[0]['wojewodztwo_id']).change();
-             $('#regionEdit').val(data[0]['region_id']).change();
-
-         },
-      })
-
-      //item
+      getInvoiceHeaderData(id);
+      getInvoiceItemData(id);
     });
 
     appendShowInvoiceInfo();
@@ -49,6 +15,61 @@ $(document).ready(function(){
         "scrollX": true,
     });
 });
+
+function getInvoiceHeaderData(id) {
+  $.ajax({
+     method: "POST",
+     data: {action : "getInvoiceHeaderData", invoiceItemId : id},
+     dataType: 'json',
+     url: "./invoice_actions.php",
+     success: function (data) {
+         $('#invoiceNumberEdit').val(data[0]['faktura_numer']);
+         $('#invoiceDateEdit').val(data[0]['data_wystawienia']);
+         $('#salesmanEdit').val(data[0]['uzytkownik_id']).change();
+         $('#currencyEdit').val(data[0]['waluta_id']).change();
+         $('#rateEdit').val(data[0]['kurs']).change();
+         if(data[0]['eksport'] == 1) {
+           $('#exportCheckboxEdit').prop('checked', true);
+         } else {
+           $('#exportCheckboxEdit').prop('checked', false);
+         }
+         if(data[0]['dostawa'] == 1) {
+           $('#deliveryCheckboxEdit').prop('checked', true);
+         } else {
+           $('#deliveryCheckboxEdit').prop('checked', false);
+         }
+         if(data[0]['przelew'] == 1) {
+           $('#transferCheckboxEdit').prop('checked', true);
+         } else {
+           $('#transferCheckboxEdit').prop('checked', false);
+         }
+         $('#clientEdit').val(data[0]['kontrahent_id']).change();
+         $('#countryEdit').val(data[0]['kraj_id']).change();
+         $('#voivodeshipEdit').val(data[0]['wojewodztwo_id']).change();
+         $('#regionEdit').val(data[0]['region_id']).change();
+
+     },
+  })
+}
+
+function getInvoiceItemData(id) {
+  $.ajax({
+     method: "POST",
+     data: {action : "getInvoiceItemData", invoiceItemId : id},
+     dataType: 'json',
+     url: "./invoice_actions.php",
+     success: function (data) {
+         $('#itemEdit').val(data[0]['towar_id']).change();
+         $('#amountEdit').val(data[0]['ilosc']);
+         $('#unitEdit').val(data[0]['jednostka']);
+         $('#priceEdit').val(data[0]['cena']);
+         $('#priceZeroEdit').val(data[0]['cena_zero']);
+         $('#valueEdit').val(data[0]['wartosc']);
+         $('#marginEdit').val(data[0]['marza']);
+         $('#percentEdit').val(data[0]['procent']);
+     },
+  })
+}
 
 function getInvoiceNumbersFilter() {
   $.ajax({

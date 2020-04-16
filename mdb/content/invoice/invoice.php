@@ -221,44 +221,44 @@ $loggedUser = new User();
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "amountEdit" name = "amountEdit" type="number" >
+                                  <input class="form-control" id = "amountEdit" name = "amountEdit" type="number" value="0">
                                   <label for="amountEdit">Ilość</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "marginEdit" name = "marginEdit" type="number" step="0.01" >
+                                  <input class="form-control" id = "unitEdit" name = "unitEdit" type="text" value = " " >
+                                  <label for="unitEdit">Jednostka</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "priceEdit" name = "priceEdit" type="number" step="0.01" value="0">
+                                  <label for="priceEdit">Cena</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "priceZeroEdit" name = "priceZeroEdit" type="number" step="0.01" value="0">
+                                  <label for="priceZeroEdit">Cena zero</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "valueEdit" name = "valueEdit" type="number" step="0.01" value="0">
+                                  <label for="valueEdit">Wartość</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "marginEdit" name = "marginEdit" type="number" step="0.01" value="0">
                                   <label for="marginEdit">Marża</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "percentEdit" name = "percentEdit" type="number" step="0.01" >
+                                  <input class="form-control" id = "percentEdit" name = "percentEdit" type="number" step="0.01" value="0">
                                   <label for="percentEdit">Procent</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "priceGoEdit" name = "priceGoEdit" type="number" step="0.01" >
-                                  <label for="priceGoEdit">Cena go</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "pricePoEdit" name = "pricePoEdit" type="number" step="0.01" >
-                                  <label for="pricePoEdit" >Cena po</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "priceGdEdit" name = "priceGdEdit" type="number" step="0.01" >
-                                  <label for="priceGdEdit">Cena gd</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "pricePdEdit" name = "pricePdEdit" type="number" step="0.01">
-                                  <label for="pricePdEdit">Cena pd</label>
                               </div>
                             </div>
                           </div>

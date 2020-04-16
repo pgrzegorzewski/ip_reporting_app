@@ -14,7 +14,7 @@ $invoice = new Invoice();
 
 switch ($action) {
   case 'getInvoiceHeaderData':
-    $invoiceHeaderData = $invoice->getInvoiceHeader($invoiceItemId);
+    $invoiceHeaderData = $invoice->getInvoiceHeaderData($invoiceItemId);
     return $invoiceHeaderData;
     break;
   case 'getInvoiceItemData':
