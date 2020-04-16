@@ -12,6 +12,7 @@
 	 margin: auto;
 }
 
+
 h1 > a
 {
 	text-decoration:none;
@@ -194,6 +195,10 @@ body
 	background-color: #031B35;
 	color: white;
 	text-align: center;
+}
+
+.modal-body hr {
+	border-top: 1px dotted white;
 }
 
  .canvas{
