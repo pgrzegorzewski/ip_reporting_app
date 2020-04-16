@@ -44,6 +44,7 @@ function getRegionFilter() {
               var region_name = response[i]['region_nazwa'];
 
               $("#region").append("<option value='"+region_id+"'>"+region_name+"</option>");
+              $("#regionEdit").append("<option value='"+region_id+"'>"+region_name+"</option>");
           }
           if(getCookie('region') != 'null') {
             $('#region').val(getCookie('region'));
@@ -65,6 +66,7 @@ function getCountryFilter() {
               var country_name = response[i]['kraj_nazwa'];
 
               $("#country").append("<option value='"+country_id+"'>"+country_name+"</option>");
+              $("#countryEdit").append("<option value='"+country_id+"'>"+country_name+"</option>");
           }
           if(getCookie('country') != 'null') {
             $('#country').val(getCookie('country'));
@@ -86,6 +88,7 @@ function getVoivodeshipFilter() {
               var voivodeship_name = response[i]['wojewodztwo_nazwa'];
 
               $("#voivodeship").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
+              $("#voivodeshipEdit").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
           }
           if(getCookie('voivodeship') != 'null') {
             $('#voivodeship').val(getCookie('voivodeship'));
@@ -107,6 +110,7 @@ function getClientFilter() {
               var client_name = response[i]['kontrahent_nazwa'];
 
               $("#client").append("<option value='"+client_id+"'>"+client_name+"</option>");
+              $("#clientEdit").append("<option value='"+client_id+"'>"+client_name+"</option>");
           }
           if(getCookie('client') != 'null') {
             $('#client').val(getCookie('client'));
@@ -128,9 +132,28 @@ function getSalesmanFilter() {
               var salesman_name = response[i]['uzytkownik_nazwa'];
 
               $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+              $("#salesmanEdit").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
           }
           if(getCookie('salesman') != 'null') {
             $('#salesman').val(getCookie('salesman'));
+          }
+      }
+  });
+}
+
+function getItemFilter() {
+  $.ajax({
+      url: "../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type:'item'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var item_id = response[i]['towar_id'];
+              var item_name = response[i]['towar_nazwa'];
+
+              $("#itemEdit").append("<option value='"+item_id+"'>"+item_name+"</option>");
           }
       }
   });
@@ -143,6 +166,7 @@ function loadFilterValues() {
   getVoivodeshipFilter();
   getClientFilter();
   getSalesmanFilter();
+  getItemFilter();
 }
 
 function appendShowInvoiceInfo() {

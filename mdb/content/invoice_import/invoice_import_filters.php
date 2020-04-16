@@ -23,6 +23,7 @@ if ($connection) {
             case 'region':
                 $query = "
                         SELECT region_id, region_nazwa FROM app.tbl_region
+                        WHERE jest_wybieralne = 1::BIT
                 ";
                 $regionQuery = @pg_query($connection, $query);
 
@@ -37,6 +38,7 @@ if ($connection) {
             case 'country':
                 $query = "
                         SELECT kraj_id, kraj_nazwa FROM app.tbl_kraj
+                        WHERE jest_wybieralne = 1::BIT
                 ";
                 $countryQuery = @pg_query($connection, $query);
 
@@ -70,7 +72,7 @@ if ($connection) {
                   FROM usr.tbl_uzytkownik tu
                   WHERE
                      jest_aktywny = 1::BIT
-                     AND rola_id = 2
+                     AND stanowisko_id = 1
                   ORDER BY nazwisko
                 ";
                 $salesmanQuery = @pg_query($connection, $query);
@@ -86,6 +88,7 @@ if ($connection) {
             case 'voivodeship':
                 $query = "
                         SELECT wojewodztwo_id, wojewodztwo_nazwa FROM app.tbl_wojewodztwo
+                        WHERE jest_wybieralne = 1::BIT
                 ";
                 $voivodeshipQuery = @pg_query($connection, $query);
 
@@ -96,6 +99,20 @@ if ($connection) {
                     $voivodeshipArray[] = array("wojewodztwo_id" => $voivodeshipId, "wojewodztwo_nazwa" => $voivodeshipName);
                 }
                 echo json_encode($voivodeshipArray);
+                break;
+            case 'item':
+                $query = "
+                        SELECT towar_id, towar_nazwa FROM app.tbl_towar
+                ";
+                $itemQuery = @pg_query($connection, $query);
+
+                while($row = pg_fetch_assoc($itemQuery))
+                {
+                    $itemId = $row["towar_id"];
+                    $itemName = $row["towar_nazwa"];
+                    $itemArray[] = array("towar_id" => $itemId, "towar_nazwa" => $itemName);
+                }
+                echo json_encode($itemArray);
                 break;
             }
     } catch(Exception $err)
