@@ -32,13 +32,6 @@ if(isset($_POST['nick']))
         $_SESSION['e_nick'] = "Nick musi zawierać wyłącznie znaki alfanumeryczne nie zawierające akcentów";
     }
 
-    $email = $_POST['email'];
-    $emailSanitised = filter_var($email, FILTER_SANITIZE_EMAIL);
-    if(!filter_var($emailSanitised, FILTER_VALIDATE_EMAIL) || $email != $emailSanitised)
-    {
-        $success = false;
-        $_SESSION['e_email'] = "Niepoprawny adres email";
-    }
 
     $password = $_POST['password'];
     $password_2 = $_POST['password_2'];
@@ -65,7 +58,7 @@ if(isset($_POST['nick']))
     {
         if($connection)
         {
-            $username_check = @pg_query_params($connection, "SELECT * FROM usr.sf_sprawdz_unikalnosc_login($1) AS is_username_unique", array($login));
+            $username_check = pg_query_params($connection, "SELECT * FROM usr.sf_sprawdz_unikalnosc_login($1) AS is_username_unique", array($nick));
             $is_username_check = pg_fetch_assoc($username_check);
 
             if($is_username_check['is_username_unique'] != 1)
@@ -76,20 +69,14 @@ if(isset($_POST['nick']))
             }
             pg_free_result($username_check);
 
-            $email_check = @pg_query_params($connection, "SELECT * FROM usr.sf_sprawdz_unikalnosc_email($1) AS is_email_unique", array($email));
-            $is_email_check = pg_fetch_assoc($email_check);
-            if($is_email_check['is_email_unique'] != 1)
-            {
-                $success = false;
-                $_SESSION['e_email'] = "Email w użyciu";
-
-            }
-
-            pg_free_result($email_check);
 
             if($success == true)
             {
-                @pg_query_params($connection, "SELECT * FROM usr.sp_dodaj_uzytkownika($1, $2, $3, $4, $5)", array($nick, $password_hashed, $first_name, $last_name, $email));
+                $role = 5;
+                $isActive = true;
+                //@pg_query_params($connection, "SELECT * FROM usr.sp_dodaj_uzytkownika($1, $2, $3, $4, $5)", array($nick, $password_hashed, $first_name, $last_name, $email));
+                $query = "SELECT * FROM usr.sp_dodaj_uzytkownika($1, $2, $3, $4, $5, $6)";
+                pg_query_params($connection, $query, array($nick, $first_name, $last_name, $password_hashed, $role, $isActive));
                 $_SESSION['registrationSuccessful'] = true;
                 header('Location: register_success.php');
             }
@@ -136,7 +123,7 @@ if(isset($_POST['nick']))
 <div class="container-fluid">
     <div class = "container section-dark">
         <div class="form"><img src="../../resources/instalplast.png" style="width:300px;"></div><br />
-        <div class="form"><h4>Formularz rejestracji</h4></div>
+        <div class="form"><h5 class="form-h">Formularz rejestracji</h4><br></div>
         <div class="form">
             <form method="post">
 
@@ -180,16 +167,6 @@ if(isset($_POST['nick']))
                 if(isset($_SESSION['e_password'])){
                     echo '<div class = "error">'.$_SESSION['e_password'].'</div>';
                     unset($_SESSION['e_password']);
-                }
-                ?>
-
-                Email: <br />
-                <input type = "email" name="email"><br /><br />
-
-                <?php
-                if(isset($_SESSION['e_email'])){
-                    echo '<div class = "error">'.$_SESSION['e_email'].'</div>';
-                    unset($_SESSION['e_email']);
                 }
                 ?>
 

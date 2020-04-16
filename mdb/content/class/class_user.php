@@ -180,7 +180,7 @@ class User
       $passwordTemporary = password_hash($passwordTemporary, PASSWORD_DEFAULT);
       if($success == true) {
         try {
-          $query = "SELECT * FROM usr.sp_dodaj_uzytkownika_v2($1, $2, $3, $4, $5, $6)";
+          $query = "SELECT * FROM usr.sp_dodaj_uzytkownika($1, $2, $3, $4, $5, $6)";
           $result = pg_query_params($this->connection, $query, array($username, $firstName, $lastName, $passwordTemporary, $role, $isActive));
           $_SESSION['e_user_update'] = '<p style = "color:green; text-align:center;">Użytkownik pomyślnie dodany.</p>';
         } catch(Exception $error) {
