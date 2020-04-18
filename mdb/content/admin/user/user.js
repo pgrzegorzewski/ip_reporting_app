@@ -65,7 +65,6 @@ $(document).ready(function() {
            dataType: 'json',
            url: "./user_actions.php",
            success: function(data) {
-             console.log('test');
              $('#assign_temporary_pwd_error').text('');
              $('#assign_temporary_pwd_success').text('Hasło przypisane pomyślnie');
            },

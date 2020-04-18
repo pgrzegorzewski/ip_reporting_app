@@ -181,7 +181,7 @@ $loggedUser = new User();
                             </div>
                             <div class="col-md-6">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "clientEdit" name = "group" >
+                                <select class="form-control" id = "clientEdit" name = "clientEdit" >
                                     <option selected>Kontrahent</option>
                                 </select>
                                 <span id="clientError" style="font-weight:bold; color:red"></span>
@@ -189,7 +189,7 @@ $loggedUser = new User();
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "countryEdit" name = "group" >
+                                <select class="form-control" id = "countryEdit" name = "countryEdit" >
                                     <option selected>Kraj</option>
                                 </select>
                                 <span id="countryError" style="font-weight:bold; color:red"></span>
@@ -197,7 +197,7 @@ $loggedUser = new User();
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "voivodeshipEdit" name = "group" >
+                                <select class="form-control" id = "voivodeshipEdit" name = "voivodeshipEdit" >
                                     <option selected>Województwo</option>
                                 </select>
                                 <span id="voivodeshipError" style="font-weight:bold; color:red"></span>
@@ -205,7 +205,7 @@ $loggedUser = new User();
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "regionEdit" name = "group" >
+                                <select class="form-control" id = "regionEdit" name = "regionEdit" >
                                     <option selected>Region</option>
                                 </select>
                                 <span id="regionError" style="font-weight:bold; color:red"></span>
@@ -219,6 +219,7 @@ $loggedUser = new User();
                               </div>
                             </div>
                           </div>
+                          <span id="invoiceHeaderUpdateResult" style="font-weight:bold; color:white"></span>
                           <hr>
                           <div class="row">
                             <div class="col-md-3">

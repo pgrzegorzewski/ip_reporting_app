@@ -4,33 +4,56 @@ var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 $(document).ready(function(){
     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
       clearErrorMessages();
-      var id = $(e.relatedTarget).data('id');
-      getInvoiceHeaderData(id);
-      getInvoiceItemData(id);
+      var invoiceItemId = $(e.relatedTarget).data('id');
+      getInvoiceHeaderData(invoiceItemId);
+      getInvoiceItemData(invoiceItemId);
+      $('#invoiceHeaderEditButton').click(function () {
+        updateInvoiceHeader(invoiceItemId);
+      })
     });
 
     appendShowInvoiceInfo();
     loadFilterValues();
     loadDateCookies();
-    updateInvoiceHeader();
 
     $('#data-table').DataTable({
         "scrollX": true,
     });
 });
 
-function updateInvoiceHeader()
+function updateInvoiceHeader(id)
 {
-  $('#invoiceHeaderEditButton').click(function () {
+  if(checkInvoiceHeaderInput() == true) {
+    console.log(id);
+    console.log($('#invoiceNumberEdit').val());
 
-    if(checkInvoiceHeaderInput() == true) {
+    $.ajax({
+       method: "POST",
+       data: {
+         action : "updateInvoiceHeader",
+         invoiceNumber : $('#invoiceNumberEdit').val(),
+         invoiceDate : $('#invoiceDateEdit').val(),
+         salesman: $('#salesmanEdit').val(),
+         currency: $('#currencyEdit').val(),
+         rate: $('#rateEdit').val(),
+         export: $('#exportCheckboxEdit').is(':checked')  ? 1 : 0,
+         transfer: $('#transferCheckboxEdit').is(':checked') ? 1 : 0,
+         delivery: $('#deliveryCheckboxEdit').is(':checked') ? 1 : 0,
+         client: $('#clientEdit').val(),
+         country: $('#countryEdit').val(),
+         voivodship: $('#voivodeshipEdit').val(),
+         region: $('#regionEdit').val(),
+         invoiceItemId: id
+       },
+       dataType: 'json',
+       url: "./invoice_actions.php",
+       success: function(data) {
+         console.log('test');
+         $('#invoiceHeaderUpdateResult').text(data);
 
-    } else {
-
-    }
-
-  })
-
+       },
+    })
+  }
 }
 
 function checkInvoiceHeaderInput() {

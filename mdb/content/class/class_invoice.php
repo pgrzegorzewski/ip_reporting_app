@@ -66,4 +66,70 @@ class Invoice
       pg_free_result($result);
       echo json_encode($resp);
     }
+
+
+    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $login)
+    {
+      $success = true;
+      try {
+        $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_faktura_numer($1) AS is_invoice_number_unique";
+        $result = pg_query_params($this->connection, $query, array($invoiceNumber));
+        $invoiceNumberCheck = pg_fetch_assoc($result);
+
+        $query = "SELECT DISTINCT tf.faktura_numer FROM app.tbl_faktura tf INNER JOIN app.tbl_faktura_pozycja tfp ON tf.faktura_id =  tfp.faktura_id WHERE tfp.faktura_pozycja_id = $1";
+        $invoiceNumberChangedCheck = pg_query_params($this->connection, $query, array($invoiceItemId));
+        $oldInvoiceNumber = pg_fetch_assoc($invoiceNumberChangedCheck);
+
+        $query = "SELECT DISTINCT tfp.faktura_id FROM app.tbl_faktura_pozycja tfp WHERE tfp.faktura_pozycja_id = $1";
+        $invoiceIdQuery = pg_query_params($this->connection, $query, array($invoiceItemId));
+        $invoiceId = pg_fetch_assoc($invoiceIdQuery);
+        $invoiceId = $invoiceId['faktura_id'];
+
+        $invoiceNumberChanged = true;
+        if($oldInvoiceNumber['faktura_numer'] == $invoiceNumber) {
+          $invoiceNumberChanged = false;
+        }
+
+        if($invoiceNumberCheck['is_invoice_number_unique'] != 1 && $invoiceNumberChanged) {
+          $success = false;
+          echo json_encode('Faktura o takiej nazwie już istnieje.');
+        }
+        pg_free_result($result);
+
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
+      $notes = ' ';
+      if($success) {
+        try {
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+          $result = pg_query_params(
+            $this->connection,
+            $query,
+            array(
+              $invoiceId,
+              $invoiceNumber,
+              $invoiceDate,
+              $salesman,
+              $currency,
+              $rate,
+              $export,
+              $transfer,
+              $delivery,
+              $client,
+              $country,
+              $voivodship,
+              $region,
+              $notes,
+              $login
+          ));
+          
+        echo json_encode('Faktura zaktualizowana pomyślnie');
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+
+    }
+
 }
