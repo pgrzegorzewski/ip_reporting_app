@@ -38,6 +38,7 @@
                 kraj_kod,
                 wojewodztwo_kod,
                 region_kod,
+                uwagi,
                 edycja,
                 pozycja_faktura,
                 towar_nazwa,
@@ -75,7 +76,8 @@
                                   'cena_zero' => $row['cena_zero'],
                                   'wartosc' => $row['wartosc'],
                                   'marza' => $row['marza'],
-                                  'procent' => $row['procent']
+                                  'procent' => $row['procent'],
+                                  'uwagi' => $row['uwagi']
                                   )
                                 );
         if($row['edycja'] == 0){

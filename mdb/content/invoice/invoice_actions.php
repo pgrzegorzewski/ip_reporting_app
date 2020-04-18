@@ -58,6 +58,11 @@ if(isset($_POST['region'])) {
   $region = $_POST['region'];
 }
 
+if(isset($_POST['note'])) {
+  $note = $_POST['note'];
+}
+
+
 $invoice = new Invoice();
 
 switch ($action) {
@@ -70,7 +75,7 @@ switch ($action) {
     return $invoiceItemData;
     break;
   case 'updateInvoiceHeader':
-    $invoiceItemData = $invoice->updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $login);
+    $invoiceItemData = $invoice->updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $login);
     return $invoiceItemData;
     break;
 

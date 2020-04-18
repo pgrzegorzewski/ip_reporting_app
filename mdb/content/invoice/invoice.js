@@ -43,6 +43,7 @@ function updateInvoiceHeader(id)
          country: $('#countryEdit').val(),
          voivodship: $('#voivodeshipEdit').val(),
          region: $('#regionEdit').val(),
+         note : $('#noteEdit').val(),
          invoiceItemId: id
        },
        dataType: 'json',
@@ -144,6 +145,7 @@ function clearErrorMessages() {
   $('#countryError').text('');
   $('#voivodeshipError').text('');
   $('#regionError').text('');
+  $('#invoiceHeaderUpdateResult').text('');
 }
 
 function getInvoiceHeaderData(id) {
@@ -177,6 +179,7 @@ function getInvoiceHeaderData(id) {
          $('#countryEdit').val(data[0]['kraj_id']).change();
          $('#voivodeshipEdit').val(data[0]['wojewodztwo_id']).change();
          $('#regionEdit').val(data[0]['region_id']).change();
+         $('#noteEdit').val(data[0]['uwagi']);
 
      },
   })
@@ -412,7 +415,8 @@ function showInvoices(){
                 {data: 'cena_zero'},
                 {data: 'wartosc'},
                 {data: 'marza'},
-                {data: 'procent'}
+                {data: 'procent'},
+                {data: 'uwagi'}
             ]
         });
         $('#loadButtonSpan').removeClass("spinner-border spinner-border-sm text-danger");

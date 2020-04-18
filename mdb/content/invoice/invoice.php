@@ -187,7 +187,7 @@ $loggedUser = new User();
                                 <span id="clientError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                               <div class="md-form form-group">
                                 <select class="form-control" id = "countryEdit" name = "countryEdit" >
                                     <option selected>Kraj</option>
@@ -195,7 +195,7 @@ $loggedUser = new User();
                                 <span id="countryError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                               <div class="md-form form-group">
                                 <select class="form-control" id = "voivodeshipEdit" name = "voivodeshipEdit" >
                                     <option selected>Województwo</option>
@@ -203,7 +203,7 @@ $loggedUser = new User();
                                 <span id="voivodeshipError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                               <div class="md-form form-group">
                                 <select class="form-control" id = "regionEdit" name = "regionEdit" >
                                     <option selected>Region</option>
@@ -211,7 +211,13 @@ $loggedUser = new User();
                                 <span id="regionError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                <input class="form-control" id = "noteEdit" name = "noteEdit" type="text" value = " ">
+                                <label for = "noteEdit">Uwagi</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
                               <div class="md-form form-group">
                                 <div class="md-form form-group">
                                   <input type="button" class="btn btn-info" id="invoiceHeaderEditButton" value="Zaktualizuj nagłówek"></button>
@@ -392,6 +398,7 @@ $loggedUser = new User();
                       <th>Wartość</th>
                       <th>Marża</th>
                       <th>Proc</th>
+                      <th>Uwagi</th>
                     </tr>
                     </thead>
                 </table>

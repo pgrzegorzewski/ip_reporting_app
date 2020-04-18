@@ -35,7 +35,8 @@ class Invoice
                                   'kontrahent_id' => $row['kontrahent_id'],
                                   'kraj_id' => $row['kraj_id'],
                                   'wojewodztwo_id' => $row['wojewodztwo_id'],
-                                  'region_id' => $row['region_id'])
+                                  'region_id' => $row['region_id'],
+                                  'uwagi' => $row['uwagi'])
                                 );
       }
       pg_free_result($result);
@@ -68,7 +69,7 @@ class Invoice
     }
 
 
-    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $login)
+    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $login)
     {
       $success = true;
       try {
@@ -99,7 +100,6 @@ class Invoice
       } catch(Exception $error) {
           $error->getMessage();
       }
-      $notes = ' ';
       if($success) {
         try {
           $query = "SELECT * FROM app.sp_zaktualizuj_dane_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
@@ -120,10 +120,10 @@ class Invoice
               $country,
               $voivodship,
               $region,
-              $notes,
+              $note,
               $login
           ));
-          
+
         echo json_encode('Faktura zaktualizowana pomyślnie');
         } catch(Exception $error) {
             $error->getMessage();
