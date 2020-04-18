@@ -3,6 +3,7 @@ var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 
 $(document).ready(function(){
     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
+      clearErrorMessages();
       var id = $(e.relatedTarget).data('id');
       getInvoiceHeaderData(id);
       getInvoiceItemData(id);
@@ -21,6 +22,7 @@ $(document).ready(function(){
 function updateInvoiceHeader()
 {
   $('#invoiceHeaderEditButton').click(function () {
+
     if(checkInvoiceHeaderInput() == true) {
 
     } else {
@@ -91,7 +93,6 @@ function checkInvoiceHeaderInput() {
       $('#countryError').text('');
   }
 
-
   var voivodeship = $('#voivodeshipEdit').val();
   if(!voivodeship || isNaN(voivodeship)) {
     $('#voivodeshipError').text('Wybierz województwo');
@@ -108,6 +109,18 @@ function checkInvoiceHeaderInput() {
       $('#regionError').text('');
   }
   return success;
+}
+
+function clearErrorMessages() {
+  $('#invoiceNumberError').text('');
+  $('#invoiceDateError').text('');
+  $('#salesmanError').text('');
+  $('#currencyError').text('');
+  $('#rateError').text('');
+  $('#clientError').text('');
+  $('#countryError').text('');
+  $('#voivodeshipError').text('');
+  $('#regionError').text('');
 }
 
 function getInvoiceHeaderData(id) {
