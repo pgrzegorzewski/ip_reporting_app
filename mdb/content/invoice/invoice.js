@@ -11,10 +11,104 @@ $(document).ready(function(){
     appendShowInvoiceInfo();
     loadFilterValues();
     loadDateCookies();
+    updateInvoiceHeader();
+
     $('#data-table').DataTable({
         "scrollX": true,
     });
 });
+
+function updateInvoiceHeader()
+{
+  $('#invoiceHeaderEditButton').click(function () {
+    if(checkInvoiceHeaderInput() == true) {
+
+    } else {
+
+    }
+
+  })
+
+}
+
+function checkInvoiceHeaderInput() {
+  var success = true;
+  var invoiceNumber = $('#invoiceNumberEdit').val();
+
+  if(!invoiceNumber || invoiceNumber.length < 4) {
+    $('#invoiceNumberError').text('Numer faktury musi mieć ponad 3 znaki');
+    success = false;
+  } else {
+      $('#invoiceNumberError').text('');
+  }
+
+  var today = new Date();
+  var invoiceDate = new Date($('#invoiceDateEdit').val());
+  if(!invoiceDate || isNaN(invoiceDate.getTime()) || invoiceDate.getTime() > today.getTime() ) {
+    $('#invoiceDateError').text('Nieprawidłowa data');
+    success = false;
+  } else {
+      $('#invoiceDateError').text('');
+  }
+
+  var salesman = $('#salesmanEdit').val();
+  if(!salesman || isNaN(salesman)) {
+    $('#salesmanError').text('Wybierz sprzedawcę');
+    success = false;
+  } else {
+      $('#salesmanError').text('');
+  }
+
+  var currency = $('#currencyEdit').val();
+  if(!currency || isNaN(currency)) {
+    $('#currencyError').text('Wybierz walutę');
+    success = false;
+  } else {
+      $('#currencyError').text('');
+  }
+
+  var rate = $('#rateEdit').val();
+  if(!rate || isNaN(rate)) {
+    $('#rateError').text('Brak kursu');
+    success = false;
+  } else {
+      $('#rateError').text('');
+  }
+
+  var client = $('#clientEdit').val();
+  if(!client || isNaN(client)) {
+    $('#clientError').text('Wybierz kontrahenta');
+    success = false;
+  } else {
+      $('#clientError').text('');
+  }
+
+  var country = $('#countryEdit').val();
+  if(!country || isNaN(country)) {
+    $('#countryError').text('Wybierz kraj');
+    success = false;
+  } else {
+      $('#countryError').text('');
+  }
+
+
+  var voivodeship = $('#voivodeshipEdit').val();
+  if(!voivodeship || isNaN(voivodeship)) {
+    $('#voivodeshipError').text('Wybierz województwo');
+    success = false;
+  } else {
+      $('#voivodeshipError').text('');
+  }
+
+  var region = $('#regionEdit').val();
+  if(!region || isNaN(region)) {
+    $('#regionError').text('Wybierz region');
+    success = false;
+  } else {
+      $('#regionError').text('');
+  }
+  return success;
+}
 
 function getInvoiceHeaderData(id) {
   $.ajax({

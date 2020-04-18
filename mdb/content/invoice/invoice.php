@@ -125,12 +125,14 @@ $loggedUser = new User();
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "invoiceNumberEdit" name = "invoiceNumberEdit" type="text" value = " ">
                                     <label for = "invoiceNumberEdit">Numer Faktury</label>
+                                    <span id="invoiceNumberError" style="font-weight:bold; color:red"></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "invoiceDateEdit" name = "invoiceDateEdit" type="date" >
                                     <label for = "invoiceDateEdit" class="active">Data</label>
+                                    <span id="invoiceDateError" style="font-weight:bold; color:red"></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -138,6 +140,7 @@ $loggedUser = new User();
                                 <select class="form-control" id = "salesmanEdit" name = "group" >
                                     <option selected>Sprzedawca</option>
                                 </select>
+                                <span id="salesmanError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
                             <div class="col-md-2">
@@ -148,6 +151,7 @@ $loggedUser = new User();
                                         <option value="2">EUR</option>
                                         <option value="3">USD</option>
                                     </select>
+                                    <span id="currencyError" style="font-weight:bold; color:red"></span>
                                 </div>
                             </div>
                             <div class="col-md-1">
@@ -155,6 +159,7 @@ $loggedUser = new User();
                                     <input class="form-control" id = "rateEdit" name = "rate" type="number">
                                     <label for = "rateEdit" class="active">Kurs</label>
                                 </div>
+                                <span id="rateError" style="font-weight:bold; color:red"></span>
                             </div>
                             <div class="col-md-2 my-auto" style="text-align: center;">
                               <div class="custom-control custom-checkbox custom-control-inline">
@@ -179,6 +184,7 @@ $loggedUser = new User();
                                 <select class="form-control" id = "clientEdit" name = "group" >
                                     <option selected>Kontrahent</option>
                                 </select>
+                                <span id="clientError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
                             <div class="col-md-3">
@@ -186,6 +192,7 @@ $loggedUser = new User();
                                 <select class="form-control" id = "countryEdit" name = "group" >
                                     <option selected>Kraj</option>
                                 </select>
+                                <span id="countryError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
                             <div class="col-md-3">
@@ -193,6 +200,7 @@ $loggedUser = new User();
                                 <select class="form-control" id = "voivodeshipEdit" name = "group" >
                                     <option selected>Województwo</option>
                                 </select>
+                                <span id="voivodeshipError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
                             <div class="col-md-3">
@@ -200,12 +208,13 @@ $loggedUser = new User();
                                 <select class="form-control" id = "regionEdit" name = "group" >
                                     <option selected>Region</option>
                                 </select>
+                                <span id="regionError" style="font-weight:bold; color:red"></span>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
                                 <div class="md-form form-group">
-                                  <input type="button" class="btn btn-info" id="InvoiceHeaderEditButton" value="Zaktualizuj nagłówek"></button>
+                                  <input type="button" class="btn btn-info" id="invoiceHeaderEditButton" value="Zaktualizuj nagłówek"></button>
                                 </div>
                               </div>
                             </div>
