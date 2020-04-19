@@ -119,167 +119,170 @@ $loggedUser = new User();
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action = "invoice actions.php" method="post" id="editInvoiceForm">
-                          <div class="form-row">
-                            <div class="col-md-3">
-                                <div class="md-form form-group">
-                                    <input class="form-control" id = "invoiceNumberEdit" name = "invoiceNumberEdit" type="text" value = " ">
-                                    <label for = "invoiceNumberEdit">Numer Faktury</label>
-                                    <span id="invoiceNumberError" style="font-weight:bold; color:red"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="md-form form-group">
-                                    <input class="form-control" id = "invoiceDateEdit" name = "invoiceDateEdit" type="date" >
-                                    <label for = "invoiceDateEdit" class="active">Data</label>
-                                    <span id="invoiceDateError" style="font-weight:bold; color:red"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
+                        <div class="form-row">
+                          <div class="col-md-3">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "salesmanEdit" name = "group" >
-                                    <option selected>Sprzedawca</option>
-                                </select>
-                                <span id="salesmanError" style="font-weight:bold; color:red"></span>
+                                  <input class="form-control" id = "invoiceNumberEdit" name = "invoiceNumberEdit" type="text" value = " ">
+                                  <label for = "invoiceNumberEdit">Numer Faktury</label>
+                                  <span id="invoiceNumberError" style="font-weight:bold; color:red"></span>
                               </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="md-form form-group">
-                                    <select  id = "currencyEdit" class="form-control" single>
-                                        <option selected>Waluta</option>
-                                        <option value="1">PLN</option>
-                                        <option value="2">EUR</option>
-                                        <option value="3">USD</option>
-                                    </select>
-                                    <span id="currencyError" style="font-weight:bold; color:red"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="md-form form-group">
-                                    <input class="form-control" id = "rateEdit" name = "rate" type="number">
-                                    <label for = "rateEdit" class="active">Kurs</label>
-                                </div>
-                                <span id="rateError" style="font-weight:bold; color:red"></span>
-                            </div>
-                            <div class="col-md-2 my-auto" style="text-align: center;">
-                              <div class="custom-control custom-checkbox custom-control-inline">
-                                <input type="checkbox" class="custom-control-input" id="exportCheckboxEdit" name="exportCheckboxEdit" mdbInput>
-                                <label class="custom-control-label" for="exportCheckboxEdit">Eksport</label>
-                              </div>
-                            </div>
-                            <div class="col-md-2 my-auto" style="text-align: center;">
-                              <div class="custom-control custom-checkbox custom-control-inline" >
-                                <input type="checkbox" class="custom-control-input" id="transferCheckboxEdit" name="transferCheckboxEdit" mdbInput>
-                                <label class="custom-control-label" for="transferCheckboxEdit">Przelew</label>
-                              </div>
-                            </div>
-                            <div class="col-md-2 my-auto" style="text-align: center;">
-                              <div class="custom-control custom-checkbox custom-control-inline" >
-                                <input type="checkbox" class="custom-control-input" id="deliveryCheckboxEdit" name="deliveryCheckboxEdit" mdbInput>
-                                <label class="custom-control-label" for="deliveryCheckboxEdit">Dostawa</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
+                          </div>
+                          <div class="col-md-3">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "clientEdit" name = "clientEdit" >
-                                    <option selected>Kontrahent</option>
-                                </select>
-                                <span id="clientError" style="font-weight:bold; color:red"></span>
+                                  <input class="form-control" id = "invoiceDateEdit" name = "invoiceDateEdit" type="date" >
+                                  <label for = "invoiceDateEdit" class="active">Data</label>
+                                  <span id="invoiceDateError" style="font-weight:bold; color:red"></span>
                               </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="md-form form-group">
+                              <select class="form-control" id = "salesmanEdit" name = "group" >
+                                  <option selected>Sprzedawca</option>
+                              </select>
+                              <span id="salesmanError" style="font-weight:bold; color:red"></span>
                             </div>
-                            <div class="col-md-4">
+                          </div>
+                          <div class="col-md-2">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "countryEdit" name = "countryEdit" >
-                                    <option selected>Kraj</option>
-                                </select>
-                                <span id="countryError" style="font-weight:bold; color:red"></span>
+                                  <select  id = "currencyEdit" class="form-control" single>
+                                      <option selected>Waluta</option>
+                                      <option value="1">PLN</option>
+                                      <option value="2">EUR</option>
+                                      <option value="3">USD</option>
+                                  </select>
+                                  <span id="currencyError" style="font-weight:bold; color:red"></span>
                               </div>
-                            </div>
-                            <div class="col-md-4">
+                          </div>
+                          <div class="col-md-1">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "voivodeshipEdit" name = "voivodeshipEdit" >
-                                    <option selected>Województwo</option>
-                                </select>
-                                <span id="voivodeshipError" style="font-weight:bold; color:red"></span>
+                                  <input class="form-control" id = "rateEdit" name = "rate" type="number">
+                                  <label for = "rateEdit" class="active">Kurs</label>
                               </div>
+                              <span id="rateError" style="font-weight:bold; color:red"></span>
+                          </div>
+                          <div class="col-md-2 my-auto" style="text-align: center;">
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                              <input type="checkbox" class="custom-control-input" id="exportCheckboxEdit" name="exportCheckboxEdit" mdbInput>
+                              <label class="custom-control-label" for="exportCheckboxEdit">Eksport</label>
                             </div>
-                            <div class="col-md-4">
-                              <div class="md-form form-group">
-                                <select class="form-control" id = "regionEdit" name = "regionEdit" >
-                                    <option selected>Region</option>
-                                </select>
-                                <span id="regionError" style="font-weight:bold; color:red"></span>
-                              </div>
+                          </div>
+                          <div class="col-md-2 my-auto" style="text-align: center;">
+                            <div class="custom-control custom-checkbox custom-control-inline" >
+                              <input type="checkbox" class="custom-control-input" id="transferCheckboxEdit" name="transferCheckboxEdit" mdbInput>
+                              <label class="custom-control-label" for="transferCheckboxEdit">Przelew</label>
                             </div>
-                            <div class="col-md-6">
-                              <div class="md-form form-group">
-                                <input class="form-control" id = "noteEdit" name = "noteEdit" type="text" value = " ">
-                                <label for = "noteEdit">Uwagi</label>
-                              </div>
+                          </div>
+                          <div class="col-md-2 my-auto" style="text-align: center;">
+                            <div class="custom-control custom-checkbox custom-control-inline" >
+                              <input type="checkbox" class="custom-control-input" id="deliveryCheckboxEdit" name="deliveryCheckboxEdit" mdbInput>
+                              <label class="custom-control-label" for="deliveryCheckboxEdit">Dostawa</label>
                             </div>
-                            <div class="col-md-6">
+                          </div>
+                          <div class="col-md-6">
+                            <div class="md-form form-group">
+                              <select class="form-control" id = "clientEdit" name = "clientEdit" >
+                                  <option selected>Kontrahent</option>
+                              </select>
+                              <span id="clientError" style="font-weight:bold; color:red"></span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="md-form form-group">
+                              <select class="form-control" id = "countryEdit" name = "countryEdit" >
+                                  <option selected>Kraj</option>
+                              </select>
+                              <span id="countryError" style="font-weight:bold; color:red"></span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="md-form form-group">
+                              <select class="form-control" id = "voivodeshipEdit" name = "voivodeshipEdit" >
+                                  <option selected>Województwo</option>
+                              </select>
+                              <span id="voivodeshipError" style="font-weight:bold; color:red"></span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="md-form form-group">
+                              <select class="form-control" id = "regionEdit" name = "regionEdit" >
+                                  <option selected>Region</option>
+                              </select>
+                              <span id="regionError" style="font-weight:bold; color:red"></span>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="md-form form-group">
+                              <input class="form-control" id = "noteEdit" name = "noteEdit" type="text" value = " ">
+                              <label for = "noteEdit">Uwagi</label>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="md-form form-group">
                               <div class="md-form form-group">
-                                <div class="md-form form-group">
-                                  <input type="button" class="btn btn-info" id="invoiceHeaderEditButton" value="Zaktualizuj nagłówek"></button>
-                                </div>
+                                <input type="button" class="btn btn-info" id="invoiceHeaderEditButton" value="Zaktualizuj nagłówek"></button>
                               </div>
                             </div>
                           </div>
-                          <span id="invoiceHeaderUpdateResult" style="font-weight:bold; color:white"></span>
-                          <hr>
+                        </div>
+                        <span id="invoiceHeaderUpdateResult" style="font-weight:bold; color:white"></span>
+                        <hr>
+                        <form action = "invoice_actions.php" method="post" id="editInvoiceForm">
                           <div class="row">
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                <select class="form-control" id = "itemEdit" name = "group" >
+                                <select class="form-control" id = "itemEdit" name = "item" >
                                     <option selected>Towar</option>
                                 </select>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "amountEdit" name = "amountEdit" type="number" value="0">
+                                  <input class="form-control" id = "amountEdit" name = "amount" type="number" value="0">
                                   <label for="amountEdit">Ilość</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "unitEdit" name = "unitEdit" type="text" value = " " >
+                                  <input class="form-control" id = "unitEdit" name = "unit" type="text" value = " " >
                                   <label for="unitEdit">Jednostka</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "priceEdit" name = "priceEdit" type="number" step="0.01" value="0">
+                                  <input class="form-control" id = "priceEdit" name = "price" type="number" step="0.01" value="0">
                                   <label for="priceEdit">Cena</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "priceZeroEdit" name = "priceZeroEdit" type="number" step="0.01" value="0">
+                                  <input class="form-control" id = "priceZeroEdit" name = "priceZero" type="number" step="0.01" value="0">
                                   <label for="priceZeroEdit">Cena zero</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "valueEdit" name = "valueEdit" type="number" step="0.01" value="0">
+                                  <input class="form-control" id = "valueEdit" name = "value" type="number" step="0.01" value="0">
                                   <label for="valueEdit">Wartość</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "marginEdit" name = "marginEdit" type="number" step="0.01" value="0">
+                                  <input class="form-control" id = "marginEdit" name = "margin" type="number" step="0.01" value="0">
                                   <label for="marginEdit">Marża</label>
                               </div>
                             </div>
                             <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "percentEdit" name = "percentEdit" type="number" step="0.01" value="0">
+                                  <input class="form-control" id = "percentEdit" name = "percent" type="number" step="0.01" value="0">
                                   <label for="percentEdit">Procent</label>
                               </div>
                             </div>
                           </div>
                           <div class="md-form form-group">
-                              <input class="form-control" id = "invoiceImportId" name = "invoiceImportId" type="text" value ="" hidden>
+                              <input class="form-control" id = "action_edit_item" name = "action" type="text" value ="updateInvoiceItem" hidden>
+                          </div>
+                          <div class="md-form form-group">
+                              <input class="form-control" id = "invoiceItemId" name = "invoiceItemId" type="text" value ="" hidden>
                           </div>
                           <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
@@ -292,6 +295,12 @@ $loggedUser = new User();
         </div>
 
         <section class = "section">
+          <?php
+          if(isset($_SESSION['e_invoice_update'])){
+              echo '<div class = "error">'.$_SESSION['e_invoice_update'].'</div>';
+              unset($_SESSION['e_invoice_update']);
+          }
+          ?>
             <form id="invoice_header_form">
                 <div class="form-row">
                     <div class="col-md-3">

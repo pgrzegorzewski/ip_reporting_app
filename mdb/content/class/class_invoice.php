@@ -132,4 +132,94 @@ class Invoice
 
     }
 
+    public function updateInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent, $login)
+    {
+      $success = true;
+
+      if(!$invoiceItemId) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Błąd podczas przekazania id pozycji faktury.</p>';
+        $success = false;
+      }
+
+      if(!$item) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Wybierz towar</p>';
+        $success = false;
+      }
+
+      if(!$amount) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Brak ilości</p>';
+        $success = false;
+      }
+
+      if(!$unit) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Brak jednostki</p>';
+        $success = false;
+      }
+
+      if(!$price) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Brak ceny</p>';
+        $success = false;
+      }
+
+      if(!$margin) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Brak marży</p>';
+        $success = false;
+      }
+
+      if(!$percent) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Brak procentu</p>';
+        $success = false;
+      }
+
+      if(!$value) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Brak wartości</p>';
+        $success = false;
+      }
+
+      if(!$value) {
+        $_SESSION['e_invoice_update'] = '<p style = "color:red; text-align:center;">Brak wartości</p>';
+        $success = false;
+      }
+
+
+      try {
+
+        $query = "SELECT DISTINCT tfp.faktura_id FROM app.tbl_faktura_pozycja tfp WHERE tfp.faktura_pozycja_id = $1";
+        $invoiceIdQuery = pg_query_params($this->connection, $query, array($invoiceItemId));
+        $invoiceId = pg_fetch_assoc($invoiceIdQuery);
+        $invoiceId = $invoiceId['faktura_id'];
+
+        pg_free_result($invoiceIdQuery);
+
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
+      if($success) {
+        try {
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_pozycji_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+          $result = pg_query_params(
+            $this->connection,
+            $query,
+            array(
+              $invoiceItemId,
+              $invoiceId,
+              $item,
+              $amount,
+              $unit,
+              $price,
+              $priceZero,
+              $value,
+              $margin,
+              $percent,
+              $login)
+            );
+
+        $_SESSION['e_invoice_update'] = '<p style = "color:green; text-align:center;">Faktura zaktualizowana</p>';
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+
+    }
+
 }

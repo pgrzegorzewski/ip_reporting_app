@@ -19,13 +19,13 @@ $(document).ready(function(){
     $('#data-table').DataTable({
         "scrollX": true,
     });
+
 });
+
 
 function updateInvoiceHeader(id)
 {
   if(checkInvoiceHeaderInput() == true) {
-    console.log(id);
-    console.log($('#invoiceNumberEdit').val());
 
     $.ajax({
        method: "POST",
@@ -49,7 +49,6 @@ function updateInvoiceHeader(id)
        dataType: 'json',
        url: "./invoice_actions.php",
        success: function(data) {
-         console.log('test');
          $('#invoiceHeaderUpdateResult').text(data);
 
        },
@@ -200,6 +199,7 @@ function getInvoiceItemData(id) {
          $('#valueEdit').val(data[0]['wartosc']);
          $('#marginEdit').val(data[0]['marza']);
          $('#percentEdit').val(data[0]['procent']);
+         $('#invoiceItemId').val(id);
      },
   })
 }
