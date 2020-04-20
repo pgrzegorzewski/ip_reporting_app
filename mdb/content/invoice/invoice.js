@@ -20,6 +20,23 @@ $(document).ready(function(){
         "scrollX": true,
     });
 
+
+    $("#headerActiveEdit").change(function() {
+      if(this.checked) {
+        $('#invoiceHeaderEditButton').removeClass('btn-info').addClass('btn-danger');
+      } else {
+          $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
+      }
+    });
+
+    $("#itemActiveEdit").change(function() {
+      if(this.checked) {
+        $('#itemUpdateButton').removeClass('btn-info').addClass('btn-danger');
+      } else {
+          $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
+      }
+    });
+
 });
 
 
@@ -55,6 +72,8 @@ function updateInvoiceHeader(id)
     })
   }
 }
+
+$('#exportCheckboxEdit').prop('checked', true);
 
 function checkInvoiceHeaderInput() {
   var success = true;

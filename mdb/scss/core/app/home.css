@@ -83,6 +83,12 @@ body
 
 }
 
+.label-danger:before{
+  background-color:transparent;
+}
+.checkbox-danger .custom-control-input:checked~.custom-control-label::before{
+  background-color:red;
+}
 
 .title {
 	text-align:center;

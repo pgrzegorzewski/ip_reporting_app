@@ -216,7 +216,14 @@ $loggedUser = new User();
                               <label for = "noteEdit">Uwagi</label>
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-3 my-auto">
+                            <div class="custom-control custom-checkbox checkbox-danger custom-control-inline" >
+                              <input type="checkbox" class="custom-control-input" id="headerActiveEdit" name="headerActiveEdit" mdbInput>
+                              <label class="custom-control-label label-danger" for="headerActiveEdit" style="color:red">Usuń fakturę</label>
+                              <br><span id="activeHeaderEditSpan" style ="color:red"> </span>
+                            </div>
+                          </div>
+                          <div class="col-md-3 my-auto">
                             <div class="md-form form-group">
                               <div class="md-form form-group">
                                 <input type="button" class="btn btn-info" id="invoiceHeaderEditButton" value="Zaktualizuj nagłówek"></button>
@@ -277,6 +284,15 @@ $loggedUser = new User();
                                   <label for="percentEdit">Procent</label>
                               </div>
                             </div>
+                            <div class="col-md-9">
+                            </div>
+                            <div class="col-md-3">
+                              <div class="custom-control custom-checkbox checkbox-danger custom-control-inline" >
+                                <input type="checkbox" class="custom-control-input" id="itemActiveEdit" name="itemActive" mdbInput>
+                                <label class="custom-control-label label-danger" for="itemActiveEdit" style="color:red">Usuń pozycję faktury</label>
+                                <br><span id="activeHeaderEditSpan" style ="color:red"> </span>
+                              </div>
+                            </div>
                           </div>
                           <div class="md-form form-group">
                               <input class="form-control" id = "action_edit_item" name = "action" type="text" value ="updateInvoiceItem" hidden>
@@ -284,9 +300,10 @@ $loggedUser = new User();
                           <div class="md-form form-group">
                               <input class="form-control" id = "invoiceItemId" name = "invoiceItemId" type="text" value ="" hidden>
                           </div>
+
                           <div class="modal-footer">
-                              <input class="btn btn-info" type = "submit" value ="Zapisz zmiany" />
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                            <input class="btn btn-info" type = "submit" id="itemUpdateButton" value ="Zaktualizuj pozycję" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
                           </div>
                         </form>
                     </div>
