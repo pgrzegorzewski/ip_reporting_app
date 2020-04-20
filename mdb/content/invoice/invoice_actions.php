@@ -62,6 +62,10 @@ if(isset($_POST['note'])) {
   $note = $_POST['note'];
 }
 
+if(isset($_POST['invoiceActive'])) {
+  $invoiceActive = $_POST['invoiceActive'];
+}
+
 if(isset($_POST['item'])) {
   $item = $_POST['item'];
 }
@@ -94,6 +98,13 @@ if(isset($_POST['percent'])) {
   $percent = $_POST['percent'];
 }
 
+if(isset($_POST['itemActive'])) {
+  $invoiceItemActive = 0;
+} else {
+  $invoiceItemActive = 1;
+}
+
+
 
 $invoice = new Invoice();
 
@@ -107,11 +118,11 @@ switch ($action) {
     return $invoiceItemData;
     break;
   case 'updateInvoiceHeader':
-    $invoiceItemData = $invoice->updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $login);
+    $invoiceItemData = $invoice->updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $login);
     return $invoiceItemData;
     break;
   case 'updateInvoiceItem':
-    $invoiceItemData = $invoice->updateInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent, $login);
+    $invoiceItemData = $invoice->updateInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent, $invoiceItemActive, $login);
     header('Location:./invoice.php');
     break;
 

@@ -3,6 +3,10 @@ var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 
 $(document).ready(function(){
     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
+      $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
+      $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
+      $("#headerActiveEdit").prop('checked', false);
+      $("#itemActiveEdit").prop('checked', false);
       clearErrorMessages();
       var invoiceItemId = $(e.relatedTarget).data('id');
       getInvoiceHeaderData(invoiceItemId);
@@ -61,6 +65,7 @@ function updateInvoiceHeader(id)
          voivodship: $('#voivodeshipEdit').val(),
          region: $('#regionEdit').val(),
          note : $('#noteEdit').val(),
+         invoiceActive: $('#headerActiveEdit').is(':checked') ? 0 : 1,
          invoiceItemId: id
        },
        dataType: 'json',

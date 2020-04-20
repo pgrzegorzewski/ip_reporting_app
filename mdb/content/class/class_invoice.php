@@ -69,7 +69,7 @@ class Invoice
     }
 
 
-    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $login)
+    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $login)
     {
       $success = true;
       try {
@@ -102,7 +102,7 @@ class Invoice
       }
       if($success) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)";
           $result = pg_query_params(
             $this->connection,
             $query,
@@ -121,6 +121,7 @@ class Invoice
               $voivodship,
               $region,
               $note,
+              $invoiceActive,
               $login
           ));
 
@@ -132,7 +133,7 @@ class Invoice
 
     }
 
-    public function updateInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent, $login)
+    public function updateInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent, $invoiceItemActive, $login)
     {
       $success = true;
 
@@ -196,7 +197,7 @@ class Invoice
       }
       if($success) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_pozycji_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_pozycji_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
           $result = pg_query_params(
             $this->connection,
             $query,
@@ -211,6 +212,7 @@ class Invoice
               $value,
               $margin,
               $percent,
+              $invoiceItemActive,
               $login)
             );
 
