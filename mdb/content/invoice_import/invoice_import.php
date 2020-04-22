@@ -232,14 +232,17 @@ $loggedUser = new User();
                 <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
                     <thead>
                     <tr>
-                        <th>lp</th>
-                        <th>cena zero</th>
-                        <th>towar</th>
-                        <th>nazwa</th>
-                        <th>ilosc</th>
-                        <th>jm</th>
-                        <th>cena</th>
-                        <th>usuń</th>
+                        <th>Lp</th>
+                        <th>Towar</th>
+                        <th>Towar drop</th>
+                        <th>Ilość</th>
+                        <th>J.M.</th>
+                        <th>Cena</th>
+                        <th>Cena zero</th>
+                        <th>Wartość</th>
+                        <th>Marża</th>
+                        <th>Procent</th>
+                        <th>Usuń</th>
                     </tr>
                     </thead>
                 </table>

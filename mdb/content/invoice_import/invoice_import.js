@@ -1,3 +1,5 @@
+var items = [];
+
 $(document).ready(function(){
     appendAddInvoice() ; //to be deleted
     $('#data-table').DataTable();
@@ -82,6 +84,16 @@ $(document).ready(function(){
         }
     });
 
+    $.ajax({
+        url: "./invoice_import_filters.php",
+        type: 'post',
+        data: {type:'item'},
+        dataType: 'json',
+        success:function(response){
+            items = response;
+        }
+    });
+
 });
 
 $(document).ready(function(){
@@ -96,19 +108,44 @@ $(document).ready(function(){
             cache: false,
             processData: false,
             success: function (jsonData) {
+                var loopCnt = 0;
                 $('#csv_file').val('');
                 $("#data-table").dataTable().fnDestroy();
                 $('#data-table').DataTable({
+                    "scrollX": true,
                     data : jsonData,
                     columns: [
                         {data: 'lp'},
-                        {data: 'cena zero'},
                         {data: 'towar'},
-                        {data: 'nazwa'},
+                        {
+                          "render": function(d, t, r) {
+                            var $select = $("<select class='form-control'></select>", {
+                                  "id": r[0] + "start",
+                                  "value": d
+                            });
+                            $.each(items, function(key, value) {
+                              var $option = $("<option></option>", {
+                                  "text": value['towar_nazwa'],
+                                  "value": value['towar_id']
+                              });
+                              if(r['towar'] === value['towar_nazwa']) {
+                                $option.attr("selected", "selected")
+                              }
+                              $select.append($option);
+                            });
+                            loopCnt++;
+                            return $select.prop("outerHTML");
+
+                          }
+                        },
                         {data: 'ilosc'},
                         {data: 'jm'},
                         {data: 'cena'},
-                        {data: 'edytuj'}
+                        {data: 'cena zero'},
+                        {data: 'wartość'},
+                        {data: 'marza'},
+                        {data: 'procent'},
+                        {data: 'edytuj'},
                     ]
                 });
                 $("#data-table tr td").each(function() {

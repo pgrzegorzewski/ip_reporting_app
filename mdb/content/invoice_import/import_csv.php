@@ -14,12 +14,14 @@ if(!empty($_FILES['csv_file']['name'])) {
         while($row = fgetcsv($file_data)) {
             $data[] = array(
                 'lp' => $row[0],
-                'cena zero' => $row[1],
-                'towar' => $row[2],
-                'nazwa' => $row[3],
-                'ilosc' => $row[4],
-                'jm' => $row[5],
-                'cena' => $row[6],
+                'towar' => $row[1],
+                'ilosc' => $row[2],
+                'jm' => $row[3],
+                'cena' => $row[4],
+                'cena zero' => $row[5],
+                'wartość' => $row[6],
+                'marza' => $row[7],
+                'procent' => $row[8],
                 'edytuj' => "<button type='button' class='table-remove btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light'>Usuń</button><button type='button' class='row-edit btn btn-info btn-rounded btn-sm my-0 waves-effect waves-light'>Edytuj</button>"
             );
         }
