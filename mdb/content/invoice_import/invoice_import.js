@@ -128,6 +128,11 @@ $(document).ready(function(){
                                   "id": row[0] + "start",
                                   "value": data
                             });
+                            var $emptyOption = $("<option></option>", {
+                                "text": "Towar",
+                                "value": 0
+                            });
+                            $select.append($emptyOption);
                             $.each(items, function(key, value) {
                               var $option = $("<option></option>", {
                                   "text": value['towar_nazwa'],
@@ -162,19 +167,19 @@ $(document).ready(function(){
                           }
                         },
                         {"render": function() {
-                          return 1;
+                          return 0;
                           }
                         },
                         {"render": function() {
-                          return 1;
+                          return 0;
                           }
                         },
                         {"render": function() {
-                          return 1;
+                          return 0;
                           }
                         },
                         {"render": function() {
-                          return 1;
+                          return 0;
                           }
                         },
                         {data: 'edytuj'},

@@ -18,7 +18,7 @@ if(!empty($_FILES['csv_file']['name'])) {
                 'ilosc' => $row[2],
                 'jm' => $row[3],
                 'cena' => $row[4],
-                'edytuj' => "<button type='button' class='table-remove btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light'>Usuń</button><button type='button' class='row-edit btn btn-info btn-rounded btn-sm my-0 waves-effect waves-light'>Edytuj</button>"
+                'edytuj' => "<button type='button' class='table-remove btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light'>Usuń</button>"
             );
         }
         echo json_encode($data);
