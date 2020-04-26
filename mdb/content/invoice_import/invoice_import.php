@@ -216,11 +216,12 @@ $loggedUser = new User();
                         <div class="input-group" style="vertical-align: middle">
                             <div class="input-group-prepend" >
                                 <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
+
                             </div>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
                                        aria-describedby="fileBrowser" acccept=".csv"  style="margin:6px">
-                                <label class="custom-file-label" for="csv_file">Wybierz plik</label>
+                                <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
                             </div>
                         </div>
 
@@ -234,7 +235,6 @@ $loggedUser = new User();
                     <tr>
                         <th>Lp</th>
                         <th>Towar</th>
-                        <th>Towar drop</th>
                         <th>Ilość</th>
                         <th>J.M.</th>
                         <th>Cena</th>

@@ -98,6 +98,9 @@ $(document).ready(function(){
 
 $(document).ready(function(){
    $('#upload_csv').on('submit', function (event) {
+        $('#import_label').text('');
+        $('#import_label').addClass('spinner-border spinner-border-sm text-primary');
+
         event.preventDefault();
         $.ajax({
             url: "./import_csv.php",
@@ -108,27 +111,29 @@ $(document).ready(function(){
             cache: false,
             processData: false,
             success: function (jsonData) {
+
+                $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
+                $('#import_label').text('Wybierz plik');
+
                 var loopCnt = 0;
-                $('#csv_file').val('');
                 $("#data-table").dataTable().fnDestroy();
                 $('#data-table').DataTable({
                     "scrollX": true,
                     data : jsonData,
                     columns: [
                         {data: 'lp'},
-                        {data: 'towar'},
                         {
-                          "render": function(d, t, r) {
+                          "render": function(data, type, row) {
                             var $select = $("<select class='form-control'></select>", {
-                                  "id": r[0] + "start",
-                                  "value": d
+                                  "id": row[0] + "start",
+                                  "value": data
                             });
                             $.each(items, function(key, value) {
                               var $option = $("<option></option>", {
                                   "text": value['towar_nazwa'],
                                   "value": value['towar_id']
                               });
-                              if(r['towar'] === value['towar_nazwa']) {
+                              if(row['towar'] === value['towar_nazwa']) {
                                 $option.attr("selected", "selected")
                               }
                               $select.append($option);
@@ -138,28 +143,58 @@ $(document).ready(function(){
 
                           }
                         },
-                        {data: 'ilosc'},
-                        {data: 'jm'},
-                        {data: 'cena'},
-                        {data: 'cena zero'},
-                        {data: 'wartość'},
-                        {data: 'marza'},
-                        {data: 'procent'},
+                        {"render": function(data, type, row) {
+                          var $textInput = $("<input class='form-control' class ='amount' type='text' value='" + row['ilosc'] +"'>");
+                          return $textInput.prop("outerHTML");
+
+                          }
+                        },
+                        {"render": function(data, type, row) {
+                          var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
+                          return $textInput.prop("outerHTML");
+
+                          }
+                        },
+                        {"render": function(data, type, row) {
+                          var $textInput = $("<input class='form-control' class ='price' type='text' value='" + row['cena'] +"'>");
+                          return $textInput.prop("outerHTML");
+
+                          }
+                        },
+                        {"render": function() {
+                          return 1;
+                          }
+                        },
+                        {"render": function() {
+                          return 1;
+                          }
+                        },
+                        {"render": function() {
+                          return 1;
+                          }
+                        },
+                        {"render": function() {
+                          return 1;
+                          }
+                        },
                         {data: 'edytuj'},
                     ]
                 });
                 $("#data-table tr td").each(function() {
-                  if( $(this).index() < $("#data-table").find("tbody tr:first td").length - 1) {
-                    $(this).attr("contenteditable", true);
-                  }
+                  // if( $(this).index() < $("#data-table").find("tbody tr:first td").length - 1) {
+                  //   $(this).attr("contenteditable", true);
+                  // }
                 });
-
                 appendAddInvoice();
 
                 $('.table-remove').bind( "click", function() {
                   $(this).parents('tr').detach();
                 });
-            }
+            },
+            error : function() {
+              $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
+              $('#import_label').text('Wybierz plik');
+            },
         })
    })
 });
