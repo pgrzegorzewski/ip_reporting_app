@@ -217,12 +217,18 @@ $loggedUser = new User();
               <form id="price_calculator">
                 <br />
                 <div class="form-row">
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                       <div class="md-form form-group">
                           <select class="form-control" class="item" id="item_calculator_select">
                               <option selected>Towar</option>
                           </select>
                       </div>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="md-form form-group">
+                      <input class="form-control" id = "calculator_amount" name = "calculator_amount" type="number" step="1">
+                      <label for = "calculator_amount">Ilość</label>
+                    </div>
                   </div>
                   <div class="col-md-2">
                     <div class="md-form form-group">
