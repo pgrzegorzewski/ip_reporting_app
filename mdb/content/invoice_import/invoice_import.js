@@ -116,6 +116,10 @@ $(document).ready(function(){
                 $('#import_label').text('Wybierz plik');
 
                 var loopCnt = 0;
+                var itemFoundFlag = 0;
+                var towar = {
+                  "id": 1
+                };
                 $("#data-table").dataTable().fnDestroy();
                 $('#data-table').DataTable({
                     "scrollX": true,
@@ -124,7 +128,7 @@ $(document).ready(function(){
                         {data: 'lp'},
                         {
                           "render": function(data, type, row) {
-                            var $select = $("<select class='form-control'></select>", {
+                            var $select = $("<select class='form-control item'></select>", {
                                   "id": row[0] + "start",
                                   "value": data
                             });
@@ -139,11 +143,18 @@ $(document).ready(function(){
                                   "value": value['towar_id']
                               });
                               if(row['towar'] === value['towar_nazwa']) {
-                                $option.attr("selected", "selected")
+                                $option.attr("selected", "selected");
+                                itemFoundFlag = 1;
                               }
                               $select.append($option);
                             });
                             loopCnt++;
+                            if(itemFoundFlag == 1) {
+                              $select.css('border', '2px solid green');
+                            } else {
+                              $select.css('border', '2px solid red');
+                            }
+                            itemFoundFlag = 0;
                             return $select.prop("outerHTML");
 
                           }
@@ -167,7 +178,7 @@ $(document).ready(function(){
                           }
                         },
                         {"render": function() {
-                          return 0;
+                          return towar.id ;
                           }
                         },
                         {"render": function() {
@@ -185,11 +196,7 @@ $(document).ready(function(){
                         {data: 'edytuj'},
                     ]
                 });
-                $("#data-table tr td").each(function() {
-                  // if( $(this).index() < $("#data-table").find("tbody tr:first td").length - 1) {
-                  //   $(this).attr("contenteditable", true);
-                  // }
-                });
+                higlightEmptyItem();
                 appendAddInvoice();
 
                 $('.table-remove').bind( "click", function() {
@@ -202,7 +209,19 @@ $(document).ready(function(){
             },
         })
    })
+
 });
+
+
+function higlightEmptyItem() {
+  $("select.item").change(function(){
+      if($(this).children("option:selected").val() == 0) {
+        $(this).css('border', '2px solid red');
+      } else {
+        $(this).css('border', '2px solid green');
+      }
+  });
+}
 
 function appendAddInvoice() {
   $("#import_invoice_div").empty();
