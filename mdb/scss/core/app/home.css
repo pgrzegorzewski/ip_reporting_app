@@ -150,7 +150,7 @@ body
 	 margin-top: 10px;
  }
 
-#invoice_header_form {
+#invoice_header_form, #price_calculator_div {
 	border: #031B35 solid 3px;
 	border-radius: 25px;
 	padding:5px;

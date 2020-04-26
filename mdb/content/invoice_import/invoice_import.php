@@ -210,13 +210,54 @@ $loggedUser = new User();
                 </div>
             </form>
             <br/ >
+            <div style="text-align:center">
+              <button id="show_price_calculator" class="btn btn-success"><i class="fas fa-calculator"></i>  Pokaż kalkulator cen</button>
+            </div>
+            <div id="price_calculator_div" style="display:none">
+              <form id="price_calculator">
+                <br />
+                <div class="form-row">
+                  <div class="col-md-4">
+                      <div class="md-form form-group">
+                          <select class="form-control" class="item" id="item_calculator_select">
+                              <option selected>Towar</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="md-form form-group">
+                      <input class="form-control" id = "price_go_calculator" name = "price_go_calculator" type="number" step="0.01">
+                      <label for = "price_go_calculator">Cena go</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="md-form form-group">
+                      <input class="form-control" id = "price_po_calculator" name = "price_po_calculator" type="number" step="0.01">
+                      <label for = "price_po_calculator">Cena po</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="md-form form-group">
+                      <input class="form-control" id = "price_gd_calculator" name = "price_gd_calculator" type="number" step="0.01">
+                      <label for = "price_gd_calculator">Cena gd</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="md-form form-group">
+                      <input class="form-control" id = "price_pd_calculator" name = "price_pd_calculator" type="number" step="0.01">
+                      <label for = "price_pd_calculator">Cena pd</label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <br>
             <form id ="upload_csv" method="post" enctype="multipart/form-data">
                 <div class="form-row" style ="text-align: center">
                     <div class="col-md-12">
                         <div class="input-group" style="vertical-align: middle">
                             <div class="input-group-prepend" >
                                 <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
-
                             </div>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="csv_file" name="csv_file"

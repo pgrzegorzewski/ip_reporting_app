@@ -221,6 +221,13 @@ function importItemFilter() {
       dataType: 'json',
       success:function(response){
           items = response;
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var item_id = response[i]['towar_id'];
+              var item_name = response[i]['towar_nazwa'];
+
+              $("#item_calculator_select").append("<option value='"+item_id+"'>"+item_name+"</option>");
+          }
       }
   });
 }
@@ -233,6 +240,12 @@ function importFilters() {
   importSalesmanFilter();
   importItemFilter();
 }
+
+$(document).ready(function(){
+  $('#show_price_calculator').click(function() {
+    $('#price_calculator_div').toggle();
+  });
+});
 
 function higlightEmptyItem() {
   $("select.item").change(function(){
