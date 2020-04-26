@@ -225,7 +225,6 @@ function importItemFilter() {
           for( var i = 0; i<len; i++){
               var item_id = response[i]['towar_id'];
               var item_name = response[i]['towar_nazwa'];
-
               $("#item_calculator_select").append("<option value='"+item_id+"'>"+item_name+"</option>");
           }
       }
@@ -246,6 +245,34 @@ $(document).ready(function(){
     $('#price_calculator_div').toggle();
   });
 });
+
+$(document).ready(function(){
+  $('#item_calculator_select').change(function() {
+    getCalculatedItemPrices();
+  });
+  $('#calculator_amount').change(function() {
+    getCalculatedItemPrices();
+  });
+});
+
+function getCalculatedItemPrices() {
+  $.ajax({
+    method: "POST",
+    data: {
+        action : "getItemPrices",
+        item : $('#item_calculator_select').children(":selected").val(),
+        amount: $('#calculator_amount').val()
+    },
+    dataType: 'json',
+    url: "./invoice_import_actions.php",
+    success: function (data) {
+        $('#price_go_calculator').val(data[0]['cena_go']);
+        $('#price_po_calculator').val(data[0]['cena_po']);
+        $('#price_gd_calculator').val(data[0]['cena_gd']);
+        $('#price_pd_calculator').val(data[0]['cena_pd']);
+    }
+  });
+}
 
 function higlightEmptyItem() {
   $("select.item").change(function(){

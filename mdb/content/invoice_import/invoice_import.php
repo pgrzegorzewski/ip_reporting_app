@@ -226,31 +226,31 @@ $loggedUser = new User();
                   </div>
                   <div class="col-md-1">
                     <div class="md-form form-group">
-                      <input class="form-control" id = "calculator_amount" name = "calculator_amount" type="number" step="1">
+                      <input class="form-control" id = "calculator_amount" name = "calculator_amount" type="number" step="1" value = "1">
                       <label for = "calculator_amount">Ilość</label>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="md-form form-group">
-                      <input class="form-control" id = "price_go_calculator" name = "price_go_calculator" type="number" step="0.01">
+                      <input class="form-control" id = "price_go_calculator" name = "price_go_calculator" type="number" step="0.01" value = "0">
                       <label for = "price_go_calculator">Cena go</label>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="md-form form-group">
-                      <input class="form-control" id = "price_po_calculator" name = "price_po_calculator" type="number" step="0.01">
+                      <input class="form-control" id = "price_po_calculator" name = "price_po_calculator" type="number" step="0.01" value = "0">
                       <label for = "price_po_calculator">Cena po</label>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="md-form form-group">
-                      <input class="form-control" id = "price_gd_calculator" name = "price_gd_calculator" type="number" step="0.01">
+                      <input class="form-control" id = "price_gd_calculator" name = "price_gd_calculator" type="number" step="0.01" value = "0">
                       <label for = "price_gd_calculator">Cena gd</label>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="md-form form-group">
-                      <input class="form-control" id = "price_pd_calculator" name = "price_pd_calculator" type="number" step="0.01">
+                      <input class="form-control" id = "price_pd_calculator" name = "price_pd_calculator" type="number" step="0.01" value = "0">
                       <label for = "price_pd_calculator">Cena pd</label>
                     </div>
                   </div>

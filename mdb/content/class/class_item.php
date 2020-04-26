@@ -38,6 +38,25 @@ class Item
       echo json_encode($resp);
     }
 
+    public function getItemPrices($itemId, $amount) {
+      $query = "SELECT * FROM app.tf_pobierz_ceny_towaru($1, $2)";
+      $result = pg_query_params($this->connection, $query, array($itemId, $amount));
+      $resp = array();
+
+      while($row = pg_fetch_assoc($result))
+      {
+        array_push($resp, array(
+                                  'cena_go' => $row['cena_go_finalna'],
+                                  'cena_po' => $row['cena_po_finalna'],
+                                  'cena_gd' => $row['cena_gd_finalna'],
+                                  'cena_pd' => $row['cena_pd_finalna']
+                               )
+        );
+      }
+      pg_free_result($result);
+      echo json_encode($resp);
+    }
+
     public function getItemData($itemId)
     {
       $query = "SELECT * FROM app.tf_pobierz_towar($1)";
