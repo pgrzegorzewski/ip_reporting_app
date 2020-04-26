@@ -235,6 +235,7 @@ $loggedUser = new User();
                     <tr>
                         <th>Lp</th>
                         <th>Towar</th>
+                        <th>Towar (import)</th>
                         <th>Ilość</th>
                         <th>J.M.</th>
                         <th>Cena</th>

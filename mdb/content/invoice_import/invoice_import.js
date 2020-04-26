@@ -159,6 +159,7 @@ $(document).ready(function(){
 
                           }
                         },
+                        {data: 'towar'},
                         {"render": function(data, type, row) {
                           var $textInput = $("<input class='form-control' class ='amount' type='text' value='" + row['ilosc'] +"'>");
                           return $textInput.prop("outerHTML");
