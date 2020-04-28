@@ -44,13 +44,14 @@ $(document).ready(function(){
                             });
                             var $emptyOption = $("<option></option>", {
                                 "text": "Towar",
-                                "value": 0
+                                "value": 0,
+                                "selected": "selected",
                             });
                             $select.append($emptyOption);
                             $.each(items, function(key, value) {
                               var $option = $("<option></option>", {
                                   "text": value['towar_nazwa'],
-                                  "value": value['towar_id']
+                                  "value": value['towar_id'],
                               });
                               if(row['towar'] === value['towar_nazwa']) {
                                 $option.attr("selected", "selected");
@@ -89,7 +90,7 @@ $(document).ready(function(){
                           }
                         },
                         {"render": function() {
-                          return towar.id ;
+                          return 0;
                           }
                         },
                         {"render": function() {
@@ -109,7 +110,7 @@ $(document).ready(function(){
                 });
                 higlightEmptyItem();
                 appendAddInvoice();
-
+                updateItemPrices(getSelectedItems());
                 $('.table-remove').bind( "click", function() {
                   $(this).parents('tr').detach();
                 });
@@ -122,6 +123,57 @@ $(document).ready(function(){
    })
 
 });
+
+function getSelectedItems() {
+  var items = [];
+  var iterator = 0;
+  $('#data-table tbody tr td:nth-child(2) select').children("option:selected").each( function(){
+   items.push({itemId: $(this).val(), amount: $('#data-table tbody tr td:nth-child(4) input')[iterator].value, 'price': $('#data-table tbody tr td:nth-child(6) input')[iterator].value} );
+   iterator++;
+});
+  return items;
+}
+
+function updateItemPrices(items) {
+  $.each(items, function(index, value){
+    if(items[index].itemId != 0) {
+      updateItemPricesRow(items[index], index);
+    }
+  })
+}
+
+function updateItemPricesRow(itemObj, index) {
+  $.ajax({
+    method: "POST",
+    data: {
+        action : "getItemPrices",
+        item : itemObj.itemId,
+        amount: 1
+    },
+    dataType: 'json',
+    url: "./invoice_import_actions.php",
+    success: function (data) {
+      var priceZero = 0;
+      if($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == false) {
+        priceZero = data[0]['cena_go'];
+        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+      } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == false) {
+        priceZero = data[0]['cena_po'];
+        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+      } else if ($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == true) {
+        priceZero = data[0]['cena_gd'];
+        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+      } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == true) {
+        priceZero = data[0]['cena_po'];
+        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+      }
+      $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(8)').html((itemObj.amount * itemObj.price).toFixed(3));
+      var margin = (itemObj.amount * itemObj.price) - (itemObj.amount * priceZero);
+      $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(9)').html(margin.toFixed(3));
+      $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(10)').html((margin/(itemObj.amount * itemObj.price)).toFixed(3));
+    }
+  });
+}
 
 function importRegionFilter() {
   $.ajax({
@@ -334,7 +386,7 @@ function getInviceHeader() {
     invoice_header.currency = $("#currency").children("option:selected").val();
     invoice_header.rate = $("#rate").val();
     invoice_header.export = $("#export_checkbox").is(":checked") == true ? 1 : 0;
-    invoice_header.money_transfer = $("#export_checkbox").is(":checked") == true ? 1 : 0;
+    invoice_header.money_transfer = $("#transfer_checkbox").is(":checked") == true ? 1 : 0;
     invoice_header.delivery = $("#delivery_checkbox").is(":checked") == true ? 1 : 0;
     invoice_header.client = $("#client").children("option:selected").val();
     invoice_header.country = $("#country").children("option:selected").val();
