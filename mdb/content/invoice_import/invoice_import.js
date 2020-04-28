@@ -156,21 +156,21 @@ function updateItemPricesRow(itemObj, index) {
       var priceZero = 0;
       if($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == false) {
         priceZero = data[0]['cena_go'];
-        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == false) {
         priceZero = data[0]['cena_po'];
-        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       } else if ($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == true) {
         priceZero = data[0]['cena_gd'];
-        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == true) {
         priceZero = data[0]['cena_po'];
-        $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(7)').html(priceZero);
+        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       }
-      $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(8)').html((itemObj.amount * itemObj.price).toFixed(3));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html((itemObj.amount * itemObj.price).toFixed(3));
       var margin = (itemObj.amount * itemObj.price) - (itemObj.amount * priceZero);
-      $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(9)').html(margin.toFixed(3));
-      $('#data-table tbody tr:nth-child('+(index+1)+') td:nth-child(10)').html((margin/(itemObj.amount * itemObj.price)).toFixed(3));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html(margin.toFixed(3));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html((margin/(itemObj.amount * itemObj.price)).toFixed(3));
     }
   });
 }
