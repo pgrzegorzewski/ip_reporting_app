@@ -136,9 +136,9 @@ function getSelectedItems() {
   var items = [];
   var iterator = 0;
   $('#data-table tbody tr td:nth-child(2) select').children("option:selected").each( function(){
-   items.push({itemId: $(this).val(), amount: $('#data-table tbody tr td:nth-child(4) input')[iterator].value, 'price': $('#data-table tbody tr td:nth-child(6) input')[iterator].value} );
-   iterator++;
-});
+    items.push({itemId: $(this).val(), amount: $('#data-table tbody tr td:nth-child(4) input')[iterator].value, 'price': $('#data-table tbody tr td:nth-child(6) input')[iterator].value} );
+    iterator++;
+  });
   return items;
 }
 
@@ -354,17 +354,16 @@ function appendAddInvoice() {
 
 function addInvoice() {
   var invoice_header = getInviceHeader();
-  console.log(JSON.stringify(invoice_header));
-  var checkInvoiceHeader = chechInvoiceHeader(invoice_header);
+  var checkInvoiceHeader = checkInvoiceHeaderData(invoice_header);
+  var checkInvoiceItems = checkInvoiceItemsData();
 
-  if(checkInvoiceHeader == true) {
+  if(checkInvoiceHeader == true && checkInvoiceItems == true) {
     $.ajax({
         url: "./add_invoice.php",
         method: "POST",
         data: {data: JSON.stringify(invoice_header)},
         dataType: 'json',
         success: function (data) {
-            console.log(data.success);
             if(data.success == 0) {
               $('#invoice_number').css('border-color', 'red');
               $('#invoice_add_error').append('<br>Istnieje faktura o takim numerze');
@@ -383,6 +382,33 @@ function addInvoice() {
         }
     })
   }
+}
+
+function checkInvoiceItemsData() {
+  var success = true;
+  var items = $('#data-table tbody tr');
+  $.each(items, function(index, tr){
+    var cells = $("td", tr);
+    cells.each(function(index, td){
+      if(index == 1 && $("select", td).val() == 0) {
+        success = false;
+      } else if ( (index == 3 || index == 5) && ( $("input", td).val() <= 0 || !$("input", td).val()) ) {
+        success = false;
+        highlightErrorTableValue($("input", td));
+      } else if ( (index == 6 || index == 7) && ( $(this).html() <= 0 || $(this).html() == '' ) ) {
+        success = false;
+        highlightErrorTableValue($(this));
+      }
+    })
+  });
+  return success;
+}
+
+function highlightErrorTableValue (element) {
+  element.css('border', '2px solid red');
+  timer = setTimeout(function() {
+    $(element).css('border', '');
+  }, 5000);
 }
 
 function getInviceHeader() {
@@ -404,7 +430,7 @@ function getInviceHeader() {
     return invoice_header;
 }
 
-function chechInvoiceHeader(invoice_header) {
+function checkInvoiceHeaderData(invoice_header) {
     $('#invoice_add_error').text('');
     var success = true;
 
