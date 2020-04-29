@@ -7,6 +7,13 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+  $('#recalculatePricesButton').click(function(){
+    console.log('test');
+    updateItemPrices(getSelectedItems());
+  });
+});
+
+$(document).ready(function(){
    $('#upload_csv').on('submit', function (event) {
         $('#import_label').text('');
         $('#import_label').addClass('spinner-border spinner-border-sm text-primary');
@@ -24,6 +31,7 @@ $(document).ready(function(){
 
                 $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
                 $('#import_label').text('Wybierz plik');
+                $('#recalculatePricesButton').prop("disabled", false);
 
                 var loopCnt = 0;
                 var itemFoundFlag = 0;
@@ -72,7 +80,7 @@ $(document).ready(function(){
                         },
                         {data: 'towar'},
                         {"render": function(data, type, row) {
-                          var $textInput = $("<input class='form-control' class ='amount' type='number' step='0.01' value='" + row['ilosc'] +"'>");
+                          var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' value='" + row['ilosc'] +"'>");
                           return $textInput.prop("outerHTML");
 
                           }
