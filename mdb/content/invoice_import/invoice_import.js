@@ -72,7 +72,7 @@ $(document).ready(function(){
                         },
                         {data: 'towar'},
                         {"render": function(data, type, row) {
-                          var $textInput = $("<input class='form-control' class ='amount' type='text' value='" + row['ilosc'] +"'>");
+                          var $textInput = $("<input class='form-control' class ='amount' type='number' step='0.01' value='" + row['ilosc'] +"'>");
                           return $textInput.prop("outerHTML");
 
                           }
@@ -84,7 +84,7 @@ $(document).ready(function(){
                           }
                         },
                         {"render": function(data, type, row) {
-                          var $textInput = $("<input class='form-control' class ='price' type='text' value='" + row['cena'] +"'>");
+                          var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' value='" + row['cena'] +"'>");
                           return $textInput.prop("outerHTML");
 
                           }
