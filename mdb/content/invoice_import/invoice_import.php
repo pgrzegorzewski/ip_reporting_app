@@ -278,23 +278,24 @@ $loggedUser = new User();
             </form>
             <br />
             <div class="table-editable" id="editable-table-div">
-                <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
-                    <thead>
-                    <tr>
-                        <th>Lp</th>
-                        <th>Towar</th>
-                        <th>Towar (import)</th>
-                        <th>Ilość</th>
-                        <th>J.M.</th>
-                        <th>Cena</th>
-                        <th>Cena zero</th>
-                        <th>Wartość</th>
-                        <th>Marża</th>
-                        <th>Procent</th>
-                        <th>Usuń</th>
-                    </tr>
-                    </thead>
-                </table>
+              <span class="table-add float-right mb-3 mr-2" id="invoiceItemRowAdd" ><i class="fas fa-plus fa-2x green-text"></i></span>
+              <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
+                  <thead>
+                  <tr>
+                      <th>Lp</th>
+                      <th>Towar</th>
+                      <th>Towar (import)</th>
+                      <th>Ilość</th>
+                      <th>J.M.</th>
+                      <th>Cena</th>
+                      <th>Cena zero</th>
+                      <th>Wartość</th>
+                      <th>Marża</th>
+                      <th>Procent</th>
+                      <th>Usuń</th>
+                  </tr>
+                  </thead>
+              </table>
             </div>
             <div id = "import_invoice_div"></div>
             <div id = "invoice_add_error"></div>

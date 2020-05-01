@@ -132,6 +132,33 @@ $(document).ready(function(){
 
 });
 
+$(document).ready(function(){
+  $('#invoiceItemRowAdd').on('click', 'i', () => {
+    const clone = $('#data-table').find('tr').last().clone(true).removeClass('hide table-line');
+    if ($('#data-table').find('tr').length === 0) {
+      $('tbody').append(clone);
+    }
+    nextVal = clone.find("td:first").html();
+    setInvoiceItemRowValues(clone);
+    $('#data-table').append(clone);
+  });
+});
+
+function setInvoiceItemRowValues(row)
+{
+  nextItemId = row.find("td:first").html();
+  row.find("td:first").html(parseInt(nextItemId) + 1);
+  row.find("td:nth-child(2) select").val(0).css("border", "2px solid red");
+  row.find("td:nth-child(3)").html('Ręcznie dodany towar');
+  row.find("td:nth-child(4) input").val(0);
+  row.find("td:nth-child(5) input").val('szt');
+  row.find("td:nth-child(6) input").val(0);
+  row.find("td:nth-child(7)").html(0);
+  row.find("td:nth-child(8)").html(0);
+  row.find("td:nth-child(9)").html(0);
+  row.find("td:nth-child(10)").html(0);
+}
+
 function getSelectedItems() {
   var items = [];
   var iterator = 0;
