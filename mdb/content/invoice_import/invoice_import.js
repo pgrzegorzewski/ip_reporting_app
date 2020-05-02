@@ -8,7 +8,6 @@ $(document).ready(function(){
 
 $(document).ready(function(){
   $('#recalculatePricesButton').click(function(){
-    console.log('test');
     updateItemPrices(getSelectedItems());
   });
 });
@@ -132,17 +131,71 @@ $(document).ready(function(){
 
 });
 
-$(document).ready(function(){
+$(document).ready(function() {
+  $('#recalculatePricesButton').prop("disabled", false);
   $('#invoiceItemRowAdd').on('click', 'i', () => {
     const clone = $('#data-table').find('tr').last().clone(true).removeClass('hide table-line');
-    if ($('#data-table').find('tr').length === 0) {
-      $('tbody').append(clone);
+    if (isNaN(parseInt($('#data-table tr:last td:first').html()))) {
+      if ( $('#data-table').find('tr').length > 1) {
+        $('#data-table tr:last').remove();
+      }
+      invoiceItemCreateManuallyFirstRecord();
+      setDefaultvaluesForFirstRow($('#data-table tr:last'));
+      higlightEmptyItem();
+      $('.table-remove').bind( "click", function() {
+        $(this).parents('tr').detach();
+      });
+    } else {
+      nextVal = clone.find("td:first").html();
+      setInvoiceItemRowValues(clone);
+      $('#data-table').append(clone);
     }
-    nextVal = clone.find("td:first").html();
-    setInvoiceItemRowValues(clone);
-    $('#data-table').append(clone);
   });
 });
+
+function invoiceItemCreateManuallyFirstRecord()
+{
+  var tr = document.createElement('tr');
+  for(var i = 0; i < 11; i++) {
+    var td = document.createElement('td');
+    tr.append(td);
+  }
+  $('#data-table').append(tr);
+}
+
+function setDefaultvaluesForFirstRow(row)
+{
+  row.find("td:first").html('1');
+  var select = $("<select class='form-control item'></select>");
+  var emptyOption = $("<option></option>", {
+      "text": "Towar",
+      "value": 0,
+      "selected": "selected",
+  });
+  select.append(emptyOption);
+  $.each(items, function(key, value) {
+    var option = $("<option></option>", {
+        "text": value['towar_nazwa'],
+        "value": value['towar_id'],
+    });
+    select.append(option);
+  });
+  row.find("td:nth-child(2)").append(select);
+  row.find("td:nth-child(2) select").val(0).css("border", "2px solid red");
+  row.find("td:nth-child(3)").html('Ręcznie dodany towar');
+  var amountInput = $("<input class='form-control' class ='amount' type='number' step='1' value='0'>");
+  row.find("td:nth-child(4)").append(amountInput);
+  var unitInput = $("<input class='form-control' class ='unit' type='text' value='szt'>");
+  row.find("td:nth-child(5)").append(unitInput);
+  var priceInput = $("<input class='form-control' class ='unit' type='number' step='0.01' value='0'>");
+  row.find("td:nth-child(6)").append(priceInput);
+  row.find("td:nth-child(7)").html(0);
+  row.find("td:nth-child(8)").html(0);
+  row.find("td:nth-child(9)").html(0);
+  row.find("td:nth-child(10)").html(0);
+  var deleteButton = "<button type='button' class='table-remove btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light'>Usuń</button>";
+  row.find("td:nth-child(11)").append(deleteButton);
+}
 
 function setInvoiceItemRowValues(row)
 {
