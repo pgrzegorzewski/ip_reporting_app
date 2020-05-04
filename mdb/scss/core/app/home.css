@@ -102,9 +102,9 @@ body
 .header {
 	width:80%;
 	margin:0 auto;
-    background-color: #28546C;
-    color: #ffffff;
-    padding: 8px;
+  background-color: #28546C;
+  color: #ffffff;
+  padding: 8px;
 	text-decoration: none;
 
 }
@@ -115,12 +115,12 @@ body
 
 .menu_header {
 	width:80%;
-    background-color: #CCCCCC;
-    padding: 10px;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  background-color: #CCCCCC;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 	width:auto;
 }
 
@@ -154,6 +154,16 @@ body
 	border: #031B35 solid 3px;
 	border-radius: 25px;
 	padding:5px;
+}
+
+#invoice_add_error {
+	position: fixed;
+	top: 5px;
+	width: 95%;
+	left: 2.5%;
+	margin: 0 auto;
+	z-index: 1000;
+	border: 1px solid red
 }
 
 #type_name{

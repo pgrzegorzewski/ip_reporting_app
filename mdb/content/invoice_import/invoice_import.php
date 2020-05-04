@@ -40,7 +40,12 @@ $loggedUser = new User();
 
 <body>
     <div class="container-fluid">
-
+      <div class="alert alert-danger alert-dismissible fade show" id="invoice_add_error" role="alert" hidden="true">
+        <strong>Nie można wprowadzić faktury <br>Popraw:<br></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
         <header class ="header">
             <table width = 100%>
                 <tr>
@@ -109,202 +114,201 @@ $loggedUser = new User();
         			</ol>
         </div>
         <section class = "section">
-            <form id="invoice_header_form">
-                <br />
-                <h5>Nagłówek faktury</h5>
-                <div class="form-row">
-                    <div class="col-md-3">
-                        <div class="md-form form-group">
-                            <input class="form-control" id = "invoice_number" name = "invoice_number" type="text">
-                            <label for = "invoice_number">Numer faktury</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="md-form form-group">
-                            <input class="form-control" id = "invoice_date" name = "invoice_date" type="date">
-                            <label for = "invoice_date">Data faktury</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="md-form form-group">
-                            <select class="form-control" id = "salesman" name = "salesman">
-                                <option selected>Sprzedawca</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="md-form form-group">
-                            <select  id = "currency" class="custom-select" single>
-                                <option selected>Waluta</option>
-                                <option value="1">PLN</option>
-                                <option value="2">EUR</option>
-                                <option value="3">USD</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="md-form form-group">
-                            <input class="form-control" id = "rate" name = "rate" type="number">
-                            <label for = "rate">Kurs</label>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-2 my-auto" style="text-align: center;">
-                      <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
-                        <label class="custom-control-label" for="export_checkbox">Eksport</label>
-                      </div>
-                    </div>
-                    <div class="col-md-2 my-auto" style="text-align: center;">
-                      <div class="custom-control custom-checkbox custom-control-inline" >
-                        <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
-                        <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
-                      </div>
-                    </div>
-                    <div class="col-md-2 my-auto" style="text-align: center;">
-                      <div class="custom-control custom-checkbox custom-control-inline" >
-                        <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
-                        <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="md-form form-group">
-                            <select class="form-control" id = "client" name = "client">
-                                <option selected>Kontrahent</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-4">
-                        <div class="md-form form-group">
-                            <select class="form-control" id = "country" name = "country">
-                                <option selected>Kraj</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="md-form form-group">
-                            <select class="form-control" id = "voivodeship" name = "voivodeship">
-                                <option selected>Województwo</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="md-form form-group">
-                            <select class="form-control" id = "region" name = "region" >
-                                <option selected>Region</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12">
-                        <div class="md-form form-group">
-                            <textarea type="text" id="comment" class="md-textarea form-control" mdbInput></textarea>
-                            <label for="form7">Uwagi</label>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <br/ >
-            <div style="text-align:center">
-              <button id="show_price_calculator" class="btn btn-info"><i class="fas fa-calculator"></i>  Pokaż kalkulator cen</button>
-              <button id="recalculatePricesButton" class="btn btn-info" disabled = "true"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
-            </div>
-            <div id="price_calculator_div" style="display:none">
-              <form id="price_calculator">
-                <br />
-                <div class="form-row">
+          <form id="invoice_header_form">
+              <br />
+              <h5>Nagłówek faktury</h5>
+              <div class="form-row">
                   <div class="col-md-3">
                       <div class="md-form form-group">
-                          <select class="form-control" class="item" id="item_calculator_select">
-                              <option selected>Towar</option>
+                          <input class="form-control" id = "invoice_number" name = "invoice_number" type="text">
+                          <label for = "invoice_number">Numer faktury</label>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="md-form form-group">
+                          <input class="form-control" id = "invoice_date" name = "invoice_date" type="date">
+                          <label for = "invoice_date">Data faktury</label>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="md-form form-group">
+                          <select class="form-control" id = "salesman" name = "salesman">
+                              <option selected>Sprzedawca</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="md-form form-group">
+                          <select  id = "currency" class="custom-select" single>
+                              <option selected>Waluta</option>
+                              <option value="1">PLN</option>
+                              <option value="2">EUR</option>
+                              <option value="3">USD</option>
                           </select>
                       </div>
                   </div>
                   <div class="col-md-1">
-                    <div class="md-form form-group">
-                      <input class="form-control" id = "calculator_amount" name = "calculator_amount" type="number" step="1" value = "1">
-                      <label for = "calculator_amount">Ilość</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="md-form form-group">
-                      <input class="form-control" id = "price_go_calculator" name = "price_go_calculator" type="number" step="0.01" value = "0">
-                      <label for = "price_go_calculator">Cena go</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="md-form form-group">
-                      <input class="form-control" id = "price_po_calculator" name = "price_po_calculator" type="number" step="0.01" value = "0">
-                      <label for = "price_po_calculator">Cena po</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="md-form form-group">
-                      <input class="form-control" id = "price_gd_calculator" name = "price_gd_calculator" type="number" step="0.01" value = "0">
-                      <label for = "price_gd_calculator">Cena gd</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="md-form form-group">
-                      <input class="form-control" id = "price_pd_calculator" name = "price_pd_calculator" type="number" step="0.01" value = "0">
-                      <label for = "price_pd_calculator">Cena pd</label>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <br>
-            <form id ="upload_csv" method="post" enctype="multipart/form-data">
-                <div class="form-row" style ="text-align: center">
-                    <div class="col-md-12">
-                        <div class="input-group" style="vertical-align: middle">
-                            <div class="input-group-prepend" >
-                                <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
-                                       aria-describedby="fileBrowser" acccept=".csv"  style="margin:6px">
-                                <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
-                            </div>
-                        </div>
+                      <div class="md-form form-group">
+                          <input class="form-control" id = "rate" name = "rate" type="number">
+                          <label for = "rate">Kurs</label>
+                      </div>
 
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                      <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
+                      <label class="custom-control-label" for="export_checkbox">Eksport</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline" >
+                      <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
+                      <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline" >
+                      <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
+                      <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="md-form form-group">
+                          <select class="form-control" id = "client" name = "client">
+                              <option selected>Kontrahent</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-4">
+                      <div class="md-form form-group">
+                          <select class="form-control" id = "country" name = "country">
+                              <option selected>Kraj</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="md-form form-group">
+                          <select class="form-control" id = "voivodeship" name = "voivodeship">
+                              <option selected>Województwo</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="md-form form-group">
+                          <select class="form-control" id = "region" name = "region" >
+                              <option selected>Region</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-12">
+                      <div class="md-form form-group">
+                          <textarea type="text" id="comment" class="md-textarea form-control" mdbInput></textarea>
+                          <label for="form7">Uwagi</label>
+                      </div>
+                  </div>
+              </div>
+          </form>
+          <br/ >
+          <div style="text-align:center">
+            <button id="show_price_calculator" class="btn btn-info"><i class="fas fa-calculator"></i>  Pokaż kalkulator cen</button>
+            <button id="recalculatePricesButton" class="btn btn-info" disabled = "true"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
+          </div>
+          <div id="price_calculator_div" style="display:none">
+            <form id="price_calculator">
+              <br />
+              <div class="form-row">
+                <div class="col-md-3">
+                    <div class="md-form form-group">
+                        <select class="form-control" class="item" id="item_calculator_select">
+                            <option selected>Towar</option>
+                        </select>
                     </div>
                 </div>
+                <div class="col-md-1">
+                  <div class="md-form form-group">
+                    <input class="form-control" id = "calculator_amount" name = "calculator_amount" type="number" step="1" value = "1">
+                    <label for = "calculator_amount">Ilość</label>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="md-form form-group">
+                    <input class="form-control" id = "price_go_calculator" name = "price_go_calculator" type="number" step="0.01" value = "0">
+                    <label for = "price_go_calculator">Cena go</label>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="md-form form-group">
+                    <input class="form-control" id = "price_po_calculator" name = "price_po_calculator" type="number" step="0.01" value = "0">
+                    <label for = "price_po_calculator">Cena po</label>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="md-form form-group">
+                    <input class="form-control" id = "price_gd_calculator" name = "price_gd_calculator" type="number" step="0.01" value = "0">
+                    <label for = "price_gd_calculator">Cena gd</label>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="md-form form-group">
+                    <input class="form-control" id = "price_pd_calculator" name = "price_pd_calculator" type="number" step="0.01" value = "0">
+                    <label for = "price_pd_calculator">Cena pd</label>
+                  </div>
+                </div>
+              </div>
             </form>
-            <br />
-            <div class="table-editable" id="editable-table-div">
-              <span class="table-add float-right mb-3 mr-2" id="invoiceItemRowAdd" ><i class="fas fa-plus fa-2x green-text"></i></span>
-              <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
-                  <thead>
-                  <tr>
-                      <th>Lp</th>
-                      <th>Towar</th>
-                      <th>Towar (import)</th>
-                      <th>Ilość</th>
-                      <th>J.M.</th>
-                      <th>Cena</th>
-                      <th>Cena zero</th>
-                      <th>Wartość</th>
-                      <th>Marża</th>
-                      <th>Procent</th>
-                      <th>Usuń</th>
-                  </tr>
-                  </thead>
-              </table>
-            </div>
-            <div id = "import_invoice_div"></div>
-            <div id = "invoice_add_error"></div>
-            <?php
-            if(isset($_SESSION['e_invoice'])){
-                echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
-                unset($_SESSION['e_invoice']);
-            }
-            ?>
+          </div>
+          <br>
+          <form id ="upload_csv" method="post" enctype="multipart/form-data">
+              <div class="form-row" style ="text-align: center">
+                  <div class="col-md-12">
+                      <div class="input-group" style="vertical-align: middle">
+                          <div class="input-group-prepend" >
+                              <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
+                          </div>
+                          <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
+                                     aria-describedby="fileBrowser" acccept=".csv"  style="margin:6px">
+                              <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </form>
+          <br />
+          <div class="table-editable" id="editable-table-div">
+            <span class="table-add float-right mb-3 mr-2" id="invoiceItemRowAdd" ><i class="fas fa-plus fa-2x green-text"></i></span>
+            <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
+                <thead>
+                <tr>
+                    <th>Lp</th>
+                    <th>Towar</th>
+                    <th>Towar (import)</th>
+                    <th>Ilość</th>
+                    <th>J.M.</th>
+                    <th>Cena</th>
+                    <th>Cena zero</th>
+                    <th>Wartość</th>
+                    <th>Marża</th>
+                    <th>Procent</th>
+                    <th>Usuń</th>
+                </tr>
+                </thead>
+            </table>
+          </div>
+          <div id = "import_invoice_div"></div>
+          <?php
+          if(isset($_SESSION['e_invoice'])){
+              echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
+              unset($_SESSION['e_invoice']);
+          }
+          ?>
         </section>
         <div class="footer">
             © 2020 PAWEŁ GRZEGORZEWSKI ALL RIGHTS RESERVED

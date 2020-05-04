@@ -435,6 +435,13 @@ function appendAddInvoice() {
 function addInvoice() {
   var invoice_header = getInviceHeader();
   var checkInvoiceHeader = checkInvoiceHeaderData(invoice_header);
+  if (!checkInvoiceHeader) {
+      $('#invoice_add_error').prop("hidden", false);
+      timer = setTimeout(function() {
+        $('#invoice_add_error').prop("hidden", true);
+      }, 5000);
+  }
+
   var checkInvoiceItems = checkInvoiceItemsData();
 
   if(checkInvoiceHeader == true && checkInvoiceItems == true) {
