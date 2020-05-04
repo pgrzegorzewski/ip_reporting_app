@@ -40,7 +40,7 @@
   if($invoiceHeader && $invoice_number_check_flag == 1) {
     try {
       $query = "SELECT * FROM app.sp_dodaj_fakture($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
-      $result = pg_query_params(
+      $result = pg_query_params (
         $connection,
         $query,
         array(
@@ -59,8 +59,8 @@
           $invoiceHeader->comment,
           $user
         ));
-      echo json_encode($success);
-      return 1;
+      $response = pg_fetch_array($result);
+      echo  json_encode(array('faktura_id' => $response['sp_dodaj_fakture']));
     } catch(Exception $error) {
         $error->getMessage();
     }

@@ -436,9 +436,8 @@ function addInvoice() {
   var invoice_header = getInviceHeader();
   var checkInvoiceHeader = checkInvoiceHeaderData(invoice_header);
   showErrorsAlert(checkInvoiceHeader);
-
   var checkInvoiceItems = checkInvoiceItemsData();
-
+  var invoiceId  = 0;
   if(checkInvoiceHeader == true && checkInvoiceItems == true) {
     $.ajax({
         url: "./add_invoice.php",
@@ -454,16 +453,38 @@ function addInvoice() {
                 $('#invoice_add_error').text('');
               }, 5000);
             } else {
-              $('#invoice_add_error').css('color', 'green');
-              $('#invoice_add_error').append('<br>Pomyślnie dodano fakturę!');
-              timer = setTimeout(function() {
-                $('#invoice_add_error').text('');
-                $('#invoice_add_error').css('color', 'red');
-              }, 5000);
+              invoiceId = data.faktura_id;
+              if(invoiceId != 0)
+              {
+                addInvoiceItems(invoiceId);
+              }
             }
         }
-    })
+    })  
   }
+}
+
+function addInvoiceItems(invoiceId)
+{
+  var items = $('#data-table tbody tr');
+  var success = true;
+  $.each(items, function(indexTr, tr){
+      $.ajax({
+          url: "./add_invoice_item.php",
+          method: "POST",
+          data: {
+            data: JSON.stringify(getInviceItemData(tr)),
+            invoice_id: invoiceId
+          },
+          dataType: 'json',
+          success: function (data) {
+            if(data.success == 0) {
+              success = false;
+            }
+          }
+      })
+  });
+  return success;
 }
 
 function showErrorsAlert(errorCheck) {
@@ -482,7 +503,6 @@ function checkInvoiceItemsData() {
   $.each(items, function(indexTr, tr){
     var cells = $("td", tr);
     cells.each(function(index, td){
-      console.log(indexTr);
       if(index == 1 && $("select", td).val() == 0) {
         if(errorItems.indexOf(indexTr + 1) === -1) {
           errorItems.push(indexTr + 1)
@@ -516,9 +536,22 @@ function highlightErrorTableValue (element) {
   }, 5000);
 }
 
+function getInviceItemData(row) {
+    var invoice_item = {};
+    invoice_item.item_index =  $("td:nth-child(1)", row).html();
+    invoice_item.item_id = $("td:nth-child(2) select", row).children("option:selected").val();
+    invoice_item.item_amount = $("td:nth-child(4) input", row).val();
+    invoice_item.item_unit = $("td:nth-child(5) input", row).val();
+    invoice_item.item_price = $("td:nth-child(6) input", row).val();
+    invoice_item.item_price_zero = $("td:nth-child(7)", row).html();
+    invoice_item.item_value = $("td:nth-child(8)", row).html();
+    invoice_item.item_margin = $("td:nth-child(9)", row).html();
+    invoice_item.item_percent = $("td:nth-child(10)", row).html();
+    return invoice_item;
+}
+
 function getInviceHeader() {
     var invoice_header = {};
-
     invoice_header.invoice_number = $("#invoice_number").val();
     invoice_header.invoice_date = $("#invoice_date").val();
     invoice_header.salesman = $("#salesman").children("option:selected").val();
