@@ -435,12 +435,7 @@ function appendAddInvoice() {
 function addInvoice() {
   var invoice_header = getInviceHeader();
   var checkInvoiceHeader = checkInvoiceHeaderData(invoice_header);
-  if (!checkInvoiceHeader) {
-      $('#invoice_add_error').prop("hidden", false);
-      timer = setTimeout(function() {
-        $('#invoice_add_error').prop("hidden", true);
-      }, 5000);
-  }
+  showErrorsAlert(checkInvoiceHeader);
 
   var checkInvoiceItems = checkInvoiceItemsData();
 
@@ -471,22 +466,45 @@ function addInvoice() {
   }
 }
 
+function showErrorsAlert(errorCheck) {
+  if (!errorCheck) {
+      $('#invoice_add_error').prop("hidden", false);
+      timer = setTimeout(function() {
+        $('#invoice_add_error').prop("hidden", true);
+      }, 5000);
+  }
+}
+
 function checkInvoiceItemsData() {
   var success = true;
   var items = $('#data-table tbody tr');
-  $.each(items, function(index, tr){
+  var errorItems = [];
+  $.each(items, function(indexTr, tr){
     var cells = $("td", tr);
     cells.each(function(index, td){
+      console.log(indexTr);
       if(index == 1 && $("select", td).val() == 0) {
+        if(errorItems.indexOf(indexTr + 1) === -1) {
+          errorItems.push(indexTr + 1)
+        }
         success = false;
       } else if ( (index == 3 || index == 5) && ( $("input", td).val() <= 0 || !$("input", td).val()) ) {
+        if(errorItems.indexOf(indexTr + 1) === -1) {
+          errorItems.push(indexTr + 1)
+        }
         success = false;
         highlightErrorTableValue($("input", td));
       } else if ( (index == 6 || index == 7) && ( $(this).html() <= 0 || $(this).html() == '' ) ) {
+        if(errorItems.indexOf(indexTr + 1) === -1) {
+          errorItems.push(indexTr + 1)
+        }
         success = false;
         highlightErrorTableValue($(this));
       }
     })
+  });
+  $.each(errorItems, function(index, item){
+    $('#invoice_add_error').append('<br>Uzupełnij dane o towarze '+ (item));
   });
   return success;
 }
