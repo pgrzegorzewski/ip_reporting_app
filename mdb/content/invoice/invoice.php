@@ -233,79 +233,147 @@ $loggedUser = new User();
                         </div>
                         <span id="invoiceHeaderUpdateResult" style="font-weight:bold; color:white"></span>
                         <hr>
-                        <form action = "invoice_actions.php" method="post" id="editInvoiceForm">
-                          <div class="row">
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                <select class="form-control" id = "itemEdit" name = "item" >
-                                    <option selected>Towar</option>
-                                </select>
+                        <input type="button" class="btn btn-success" id="invoiceItemEditButton" value="Edytuj pozycję"  disabled="true"></button>
+                        <input type="button" class="btn btn-info" id="invoiceItemAddButton" value="Dodaj pozycję"></button>
+                        <div id="editInvoiceItemForm">
+                          <form action = "invoice_actions.php" method="post" id="editInvoiceForm">
+                            <div class="row">
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                  <select class="form-control" id = "itemEdit" name = "item" >
+                                      <option selected>Towar</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "amountEdit" name = "amount" type="number" value="0">
+                                    <label for="amountEdit">Ilość</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "unitEdit" name = "unit" type="text" value = " " >
+                                    <label for="unitEdit">Jednostka</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "priceEdit" name = "price" type="number" step="0.01" value="0">
+                                    <label for="priceEdit">Cena</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "priceZeroEdit" name = "priceZero" type="number" step="0.01" value="0">
+                                    <label for="priceZeroEdit">Cena zero</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "valueEdit" name = "value" type="number" step="0.01" value="0">
+                                    <label for="valueEdit">Wartość</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "marginEdit" name = "margin" type="number" step="0.01" value="0">
+                                    <label for="marginEdit">Marża</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "percentEdit" name = "percent" type="number" step="0.01" value="0">
+                                    <label for="percentEdit">Procent</label>
+                                </div>
+                              </div>
+                              <div class="col-md-9">
+                              </div>
+                              <div class="col-md-3">
+                                <div class="custom-control custom-checkbox checkbox-danger custom-control-inline" >
+                                  <input type="checkbox" class="custom-control-input" id="itemActiveEdit" name="itemActive" mdbInput>
+                                  <label class="custom-control-label label-danger" for="itemActiveEdit" style="color:red">Usuń pozycję faktury</label>
+                                  <br><span id="activeHeaderEditSpan" style ="color:red"> </span>
+                                </div>
                               </div>
                             </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "amountEdit" name = "amount" type="number" value="0">
-                                  <label for="amountEdit">Ilość</label>
-                              </div>
+                            <div class="md-form form-group">
+                                <input class="form-control" id = "action_edit_item" name = "action" type="text" value ="updateInvoiceItem" hidden>
                             </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "unitEdit" name = "unit" type="text" value = " " >
-                                  <label for="unitEdit">Jednostka</label>
-                              </div>
+                            <div class="md-form form-group">
+                                <input class="form-control" id = "invoiceItemId" name = "invoiceItemId" type="text" value ="" hidden>
                             </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "priceEdit" name = "price" type="number" step="0.01" value="0">
-                                  <label for="priceEdit">Cena</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "priceZeroEdit" name = "priceZero" type="number" step="0.01" value="0">
-                                  <label for="priceZeroEdit">Cena zero</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "valueEdit" name = "value" type="number" step="0.01" value="0">
-                                  <label for="valueEdit">Wartość</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "marginEdit" name = "margin" type="number" step="0.01" value="0">
-                                  <label for="marginEdit">Marża</label>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="md-form form-group">
-                                  <input class="form-control" id = "percentEdit" name = "percent" type="number" step="0.01" value="0">
-                                  <label for="percentEdit">Procent</label>
-                              </div>
-                            </div>
-                            <div class="col-md-9">
-                            </div>
-                            <div class="col-md-3">
-                              <div class="custom-control custom-checkbox checkbox-danger custom-control-inline" >
-                                <input type="checkbox" class="custom-control-input" id="itemActiveEdit" name="itemActive" mdbInput>
-                                <label class="custom-control-label label-danger" for="itemActiveEdit" style="color:red">Usuń pozycję faktury</label>
-                                <br><span id="activeHeaderEditSpan" style ="color:red"> </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="md-form form-group">
-                              <input class="form-control" id = "action_edit_item" name = "action" type="text" value ="updateInvoiceItem" hidden>
-                          </div>
-                          <div class="md-form form-group">
-                              <input class="form-control" id = "invoiceItemId" name = "invoiceItemId" type="text" value ="" hidden>
-                          </div>
 
-                          <div class="modal-footer">
-                            <input class="btn btn-info" type = "submit" id="itemUpdateButton" value ="Zaktualizuj pozycję" />
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                          </div>
-                        </form>
+                            <div class="modal-footer">
+                              <input class="btn btn-info" type = "submit" id="itemUpdateButton" value ="Zaktualizuj pozycję" />
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                            </div>
+                          </form>
+                        </div>
+                        <div id="addInvoiceItemForm" style="display:none">
+                          <form action = "invoice_actions.php" method="post" id="addInvoiceForm">
+                            <div class="row">
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                  <select class="form-control" id = "itemAdd" name = "item" >
+                                      <option selected>Towar</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "amountAdd" name = "amount" type="number" value="0">
+                                    <label for="amountEdit">Ilość</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "unitAdd" name = "unit" type="text" value = " " >
+                                    <label for="unitEdit">Jednostka</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "priceAdd" name = "price" type="number" step="0.01" value="0">
+                                    <label for="priceEdit">Cena</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "priceZeroAdd" name = "priceZero" type="number" step="0.01" value="0">
+                                    <label for="priceZeroEdit">Cena zero</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "valueAdd" name = "value" type="number" step="0.01" value="0">
+                                    <label for="valueEdit">Wartość</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "marginAdd" name = "margin" type="number" step="0.01" value="0">
+                                    <label for="marginEdit">Marża</label>
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="md-form form-group">
+                                    <input class="form-control" id = "percentAdd" name = "percent" type="number" step="0.01" value="0">
+                                    <label for="percentEdit">Procent</label>
+                                </div>
+                              </div>
+                              <div class="col-md-9">
+                              </div>
+                            </div>
+                            <div class="md-form form-group">
+                                <input class="form-control" id = "action_add_item" name = "action" type="text" value ="addInvoiceItem" hidden>
+                            </div>
+                            <div class="modal-footer">
+                              <input class="btn btn-info" type = "submit" id="itemAddButton" value ="Dodaj pozycję" />
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                            </div>
+                          </form>
+                        </div>
                     </div>
                 </div>
             </div>

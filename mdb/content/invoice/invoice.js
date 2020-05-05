@@ -41,6 +41,25 @@ $(document).ready(function(){
       }
     });
 
+    $("#invoiceItemEditButton").click(function(){
+      $('#invoiceItemEditButton').prop("disabled", true);
+      $('#invoiceItemEditButton').removeClass('btn-info').addClass('btn-success');
+      $('#invoiceItemAddButton').prop("disabled", false);
+      $('#invoiceItemAddButton').removeClass('btn-success').addClass('btn-info');
+
+      $('#editInvoiceItemForm').show();
+      $('#addInvoiceItemForm').hide();
+    });
+
+
+    $("#invoiceItemAddButton").click(function(){
+      $('#invoiceItemAddButton').prop("disabled", true);
+      $('#invoiceItemAddButton').removeClass('btn-info').addClass('btn-success');
+      $('#invoiceItemEditButton').prop("disabled", false);
+      $('#invoiceItemEditButton').removeClass('btn-success').addClass('btn-info');
+      $('#addInvoiceItemForm').show();
+      $('#editInvoiceItemForm').hide();
+    });
 });
 
 
