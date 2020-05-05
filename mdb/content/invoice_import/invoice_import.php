@@ -46,6 +46,12 @@ $loggedUser = new User();
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <div class="alert alert-success alert-dismissible fade show" id="invoice_add_success" role="alert" hidden="true">
+        <strong>Pomyślnie dodano fakturę</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
         <header class ="header">
             <table width = 100%>
                 <tr>

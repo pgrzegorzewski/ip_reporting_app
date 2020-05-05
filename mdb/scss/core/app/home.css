@@ -166,6 +166,16 @@ body
 	border: 1px solid red
 }
 
+ #invoice_add_success {
+	 position: fixed;
+ 	top: 5px;
+ 	width: 95%;
+ 	left: 2.5%;
+ 	margin: 0 auto;
+ 	z-index: 1000;
+ 	border: 1px solid green
+ }
+
 #type_name{
 	color:white;
 }

@@ -1,7 +1,8 @@
 var items = [];
+var addedItems = 0;
 
 $(document).ready(function(){
-    appendAddInvoice() ; //to be deleted
+    appendAddInvoice();
     $('#data-table').DataTable();
     importFilters();
 });
@@ -23,6 +24,7 @@ $(document).ready(function(){
             method: "POST",
             data: new FormData(this),
             dataType: 'json',
+            global: false,
             contentType: false,
             cache: false,
             processData: false,
@@ -233,6 +235,7 @@ function updateItemPrices(items) {
 function updateItemPricesRow(itemObj, index) {
   $.ajax({
     method: "POST",
+    global: false,
     data: {
         action : "getItemPrices",
         item : itemObj.itemId,
@@ -267,6 +270,7 @@ function importRegionFilter() {
   $.ajax({
       url: "./invoice_import_filters.php",
       type: 'post',
+      global: false,
       data: {type:'region'},
       dataType: 'json',
       success:function(response){
@@ -285,6 +289,7 @@ function importCountryFilter() {
   $.ajax({
       url: "./invoice_import_filters.php",
       type: 'post',
+      global: false,
       data: {type: 'country'},
       dataType: 'json',
       success:function(response){
@@ -303,6 +308,7 @@ function importVoivodeshipFilter() {
   $.ajax({
       url: "./invoice_import_filters.php",
       type: 'post',
+      global: false,
       data: {type:'voivodeship'},
       dataType: 'json',
       success:function(response){
@@ -321,6 +327,7 @@ function importClientFilter() {
   $.ajax({
       url: "./invoice_import_filters.php",
       type: 'post',
+      global: false,
       data: {type:'client'},
       dataType: 'json',
       success:function(response){
@@ -339,6 +346,7 @@ function importSalesmanFilter() {
   $.ajax({
       url: "./invoice_import_filters.php",
       type: 'post',
+      global: false,
       data: {type:'salesman'},
       dataType: 'json',
       success:function(response){
@@ -357,6 +365,7 @@ function importItemFilter() {
   $.ajax({
       url: "./invoice_import_filters.php",
       type: 'post',
+      global: false,
       data: {type:'item'},
       dataType: 'json',
       success:function(response){
@@ -398,6 +407,7 @@ $(document).ready(function(){
 function getCalculatedItemPrices() {
   $.ajax({
     method: "POST",
+    global: false,
     data: {
         action : "getItemPrices",
         item : $('#item_calculator_select').children(":selected").val(),
@@ -435,8 +445,8 @@ function appendAddInvoice() {
 function addInvoice() {
   var invoice_header = getInviceHeader();
   var checkInvoiceHeader = checkInvoiceHeaderData(invoice_header);
-  showErrorsAlert(checkInvoiceHeader);
   var checkInvoiceItems = checkInvoiceItemsData();
+  showErrorsAlert(checkInvoiceHeader, checkInvoiceItems);
   var invoiceId  = 0;
   if(checkInvoiceHeader == true && checkInvoiceItems == true) {
     $.ajax({
@@ -448,9 +458,11 @@ function addInvoice() {
             if(data.success == 0) {
               $('#invoice_number').css('border-color', 'red');
               $('#invoice_add_error').append('<br>Istnieje faktura o takim numerze');
+              $('#invoice_add_error').prop("hidden", false);
               timer = setTimeout(function() {
                 $('#invoice_number').css('border-color', '');
                 $('#invoice_add_error').text('');
+                $('#invoice_add_error').prop("hidden", true);
               }, 5000);
             } else {
               invoiceId = data.faktura_id;
@@ -460,14 +472,13 @@ function addInvoice() {
               }
             }
         }
-    })  
+    })
   }
 }
 
 function addInvoiceItems(invoiceId)
 {
   var items = $('#data-table tbody tr');
-  var success = true;
   $.each(items, function(indexTr, tr){
       $.ajax({
           url: "./add_invoice_item.php",
@@ -479,16 +490,36 @@ function addInvoiceItems(invoiceId)
           dataType: 'json',
           success: function (data) {
             if(data.success == 0) {
-              success = false;
+              console.log('coś poszlo nie tak');
+            } else {
+              addedItems++;
             }
           }
       })
   });
-  return success;
+  return 0;
 }
 
-function showErrorsAlert(errorCheck) {
-  if (!errorCheck) {
+$(document).ajaxStop(function(){
+  var items = $('#data-table tbody tr');
+  if(addedItems == items.length) {
+    $('#invoice_add_success').prop("hidden", false);
+    timer = setTimeout(function() {
+      $('#invoice_add_success').prop("hidden", true);
+    }, 5000);
+  } else {
+    $('#invoice_add_error').append('<br>Błąd podczas dodawania faktury');
+    $('#invoice_add_error').prop("hidden", false);
+    timer = setTimeout(function() {
+      $('#invoice_add_error').text('');
+      $('#invoice_add_error').prop("hidden", true);
+    }, 5000);
+  }
+  addedItems = 0;
+});
+
+function showErrorsAlert(errorCheckInvoiceHeader, errorCheckInvoiceItems) {
+  if (!errorCheckInvoiceHeader || !errorCheckInvoiceItems) {
       $('#invoice_add_error').prop("hidden", false);
       timer = setTimeout(function() {
         $('#invoice_add_error').prop("hidden", true);
@@ -500,9 +531,14 @@ function checkInvoiceItemsData() {
   var success = true;
   var items = $('#data-table tbody tr');
   var errorItems = [];
-  $.each(items, function(indexTr, tr){
+  $.each(items, function(indexTr, tr) {
     var cells = $("td", tr);
     cells.each(function(index, td){
+      if(index == 0 &&  isNaN(parseInt($(this).html())) )
+      {
+        $('#invoice_add_error').append('<br>Dodaj pozycje faktury');
+        success = false;
+      }
       if(index == 1 && $("select", td).val() == 0) {
         if(errorItems.indexOf(indexTr + 1) === -1) {
           errorItems.push(indexTr + 1)
@@ -572,10 +608,20 @@ function checkInvoiceHeaderData(invoice_header) {
     $('#invoice_add_error').text('');
     var success = true;
 
+    if (!invoice_header.invoice_number) {
+      success = false;
+      $('#invoice_number').css('border-color', 'red');
+      $('#invoice_add_error').text('Wypełnij numer faktury');
+      timer9 = setTimeout(function() {
+        $('#invoice_number').css('border-color', '');
+        $('#invoice_add_error').text('');
+      }, 5000);
+    }
+
     if (!invoice_header.invoice_date) {
       success = false;
       $('#invoice_date').css('border-color', 'red');
-      $('#invoice_add_error').text('Wypełnij datę faktury');
+      $('#invoice_add_error').append('<br>Wypełnij datę faktury');
       timer = setTimeout(function() {
         $('#invoice_date').css('border-color', '');
         $('#invoice_add_error').text('');
