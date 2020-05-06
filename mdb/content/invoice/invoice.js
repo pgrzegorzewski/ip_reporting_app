@@ -589,11 +589,16 @@ function updateItemPrices(itemId, type) {
 }
 
 function checkAddItemForm() {
-  var success = validateItemData();
+  var success = validateItemAddData();
   return success;
 }
 
-function validateItemData() {
+function checkEditItemForm() {
+  var success = validateItemEditData();
+  return success;
+}
+
+function validateItemAddData() {
   success = true;
   if (!$("#itemAdd").children("option:selected").val() || isNaN($("#itemAdd").children("option:selected").val())) {
       success = false;
@@ -642,6 +647,61 @@ function validateItemData() {
       $("#percentAdd").css('border-color', 'red');
       timer = setTimeout(function() {
         $('#percentAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  return success;
+}
+
+
+function validateItemEditData() {
+  success = true;
+  if (!$("#itemEdit").children("option:selected").val() || isNaN($("#itemEdit").children("option:selected").val())) {
+      success = false;
+      $("#itemEdit").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#itemEdit').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#amountEdit").val() || isNaN($("#amountEdit").val()) || $("#amountEdit").val() <= 0) {
+      success = false;
+      $("#amountEdit").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#amountEdit').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#priceEdit").val() || isNaN($("#priceEdit").val()) || $("#priceEdit").val() <= 0) {
+      success = false;
+      $("#priceEdit").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#priceEdit').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#priceZeroEdit").val() || isNaN($("#priceZeroEdit").val()) || $("#priceZeroEdit").val() <= 0) {
+      success = false;
+      $("#priceZeroEdit").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#priceZeroEdit').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#valueEdit").val() || isNaN($("#valueEdit").val()) || $("#valueEdit").val() <= 0) {
+      success = false;
+      $("#valueEdit").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#valueEdit').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#marginEdit").val() || isNaN($("#marginEdit").val()) ) {
+      success = false;
+      $("#marginEdit").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#marginEdit').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#percentEdit").val() || isNaN($("#percentEdit").val()) ) {
+      success = false;
+      $("#percentEdit").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#percentEdit').css('border-color', '');
       }, TIMER_SECONDS);
   }
   return success;

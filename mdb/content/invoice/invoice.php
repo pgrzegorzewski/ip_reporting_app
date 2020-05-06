@@ -236,7 +236,7 @@ $loggedUser = new User();
                         <input type="button" class="btn btn-success" id="invoiceItemEditButton" value="Edytuj pozycję"  disabled="true"></button>
                         <input type="button" class="btn btn-info" id="invoiceItemAddButton" value="Dodaj pozycję"></button>
                         <div id="editInvoiceItemForm">
-                          <form action = "invoice_actions.php" method="post" id="editInvoiceForm">
+                          <form action = "invoice_actions.php" onSubmit="return checkEditItemForm()" method="post" id="editInvoiceForm">
                             <div class="row">
                               <div class="col-md-3">
                                 <div class="md-form form-group">
