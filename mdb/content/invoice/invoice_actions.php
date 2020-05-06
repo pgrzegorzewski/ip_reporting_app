@@ -125,7 +125,10 @@ switch ($action) {
     $invoiceItemData = $invoice->updateInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent, $invoiceItemActive, $login);
     header('Location:./invoice.php');
     break;
-
+  case 'addInvoiceItem':
+    $invoiceItemData = $invoice->addInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent,  $login);
+    header('Location:./invoice.php');
+    break;
 }
 
 

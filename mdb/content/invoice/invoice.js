@@ -1,5 +1,6 @@
 var today = new Date();
 var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
+var TIMER_SECONDS = 3000;
 
 $(document).ready(function(){
     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
@@ -104,8 +105,13 @@ function checkInvoiceHeaderInput() {
   var invoiceNumber = $('#invoiceNumberEdit').val();
 
   if(!invoiceNumber || invoiceNumber.length < 4) {
-    $('#invoiceNumberError').text('Numer faktury musi mieć ponad 3 znaki');
     success = false;
+    $('#invoiceNumberError').text('Numer faktury musi mieć ponad 3 znaki');
+    $("#invoiceNumberEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#invoiceNumberEdit').css('border-color', '');
+      $('#invoiceNumberError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#invoiceNumberError').text('');
   }
@@ -115,6 +121,11 @@ function checkInvoiceHeaderInput() {
   if(!invoiceDate || isNaN(invoiceDate.getTime()) || invoiceDate.getTime() > today.getTime() ) {
     $('#invoiceDateError').text('Nieprawidłowa data');
     success = false;
+    $("#invoiceDateEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#invoiceDateEdit').css('border-color', '');
+      $('#invoiceDateError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#invoiceDateError').text('');
   }
@@ -123,6 +134,11 @@ function checkInvoiceHeaderInput() {
   if(!salesman || isNaN(salesman)) {
     $('#salesmanError').text('Wybierz sprzedawcę');
     success = false;
+    $("#salesmanEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#salesmanEdit').css('border-color', '');
+      $('#salesmanError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#salesmanError').text('');
   }
@@ -131,6 +147,11 @@ function checkInvoiceHeaderInput() {
   if(!currency || isNaN(currency)) {
     $('#currencyError').text('Wybierz walutę');
     success = false;
+    $("#currencyEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#currencyEdit').css('border-color', '');
+      $('#currencyError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#currencyError').text('');
   }
@@ -139,6 +160,11 @@ function checkInvoiceHeaderInput() {
   if(!rate || isNaN(rate)) {
     $('#rateError').text('Brak kursu');
     success = false;
+    $("#rateEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#rateEdit').css('border-color', '');
+      $('#rateError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#rateError').text('');
   }
@@ -147,6 +173,11 @@ function checkInvoiceHeaderInput() {
   if(!client || isNaN(client)) {
     $('#clientError').text('Wybierz kontrahenta');
     success = false;
+    $("#clientEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#clientEdit').css('border-color', '');
+      $('#clientError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#clientError').text('');
   }
@@ -155,6 +186,11 @@ function checkInvoiceHeaderInput() {
   if(!country || isNaN(country)) {
     $('#countryError').text('Wybierz kraj');
     success = false;
+    $("#countryEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#countryEdit').css('border-color', '');
+      $('#countryError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#countryError').text('');
   }
@@ -163,6 +199,11 @@ function checkInvoiceHeaderInput() {
   if(!voivodeship || isNaN(voivodeship)) {
     $('#voivodeshipError').text('Wybierz województwo');
     success = false;
+    $("#voivodeshipEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#voivodeshipEdit').css('border-color', '');
+      $('#voivodeshipError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#voivodeshipError').text('');
   }
@@ -171,6 +212,11 @@ function checkInvoiceHeaderInput() {
   if(!region || isNaN(region)) {
     $('#regionError').text('Wybierz region');
     success = false;
+    $("#regionEdit").css('border-color', 'red');
+    timer = setTimeout(function() {
+      $('#regionEdit').css('border-color', '');
+      $('#regionError').text('');
+    }, TIMER_SECONDS);
   } else {
       $('#regionError').text('');
   }
@@ -243,6 +289,7 @@ function getInvoiceItemData(id) {
          $('#marginEdit').val(data[0]['marza']);
          $('#percentEdit').val(data[0]['procent']);
          $('#invoiceItemId').val(id);
+         $('#relatedInvoiceItemId').val(id);
      },
   })
 }
@@ -391,6 +438,7 @@ function getItemFilter() {
               var item_name = response[i]['towar_nazwa'];
 
               $("#itemEdit").append("<option value='"+item_id+"'>"+item_name+"</option>");
+              $("#itemAdd").append("<option value='"+item_id+"'>"+item_name+"</option>");
           }
       }
   });
@@ -481,6 +529,122 @@ function getFilters() {
     filters.voivodeship = $("#voivodeship").children("option:selected").val();
     filters.region = $("#region").children("option:selected").val();
     return filters;
+}
+
+$(document).ready(function(){
+  $('#recalculatePricesButtonItemEdit').click(function(){
+    if($("#itemEdit").children("option:selected").val() || isNaN($("#itemEdit").children("option:selected").val())) {
+      updateItemPrices( $("#itemEdit").children("option:selected").val(), 'edit');
+    }
+  });
+});
+
+$(document).ready(function(){
+  $('#recalculatePricesButtonItemAdd').click(function(){
+    if($("#itemAdd").children("option:selected").val() || isNaN($("#itemAdd").children("option:selected").val())) {
+      updateItemPrices($("#itemAdd").children("option:selected").val(), 'add');
+    }
+  });
+});
+
+function updateItemPrices(itemId, type) {
+  $.ajax({
+    method: "POST",
+    global: false,
+    data: {
+        action : "getItemPrices",
+        item : itemId,
+        amount: 1
+    },
+    dataType: 'json',
+    url: "../invoice_import/invoice_import_actions.php",
+    success: function (data) {
+      console.log(data);
+      var priceZero = 0;
+      if($("#transferCheckboxEdit").is(":checked") == false && $("#deliveryCheckboxEdit").is(":checked") == false) {
+        priceZero = data[0]['cena_go'];
+      } else if ($("#transferCheckboxEdit").is(":checked") == true && $("#deliveryCheckboxEdit").is(":checked") == false) {
+        priceZero = data[0]['cena_po'];
+      } else if ($("#transferCheckboxEdit").is(":checked") == false && $("#deliveryCheckboxEdit").is(":checked") == true) {
+        priceZero = data[0]['cena_gd'];
+      } else if ($("#transferCheckboxEdit").is(":checked") == true && $("#deliveryCheckboxEdit").is(":checked") == true) {
+        priceZero = data[0]['cena_po'];
+      }
+
+      if(type == 'edit') {
+        $('#priceZeroEdit').val(priceZero);
+        $('#valueEdit').val( ($('#amountEdit').val() * $('#priceEdit').val() ).toFixed(2));
+        var margin = ($('#amountEdit').val() * $('#priceEdit').val()) - ($('#amountEdit').val() * priceZero);
+        $('#marginEdit').val(margin.toFixed(2));
+        $('#percentEdit').val((margin/($('#amountEdit').val() *$('#priceEdit').val())).toFixed(6));
+      } else {
+        $('#priceZeroAdd').val(priceZero);
+        $('#valueAdd').val( ($('#amountAdd').val() * $('#priceAdd').val() ).toFixed(2));
+        var margin = ($('#amountAdd').val() * $('#priceAdd').val()) - ($('#amountAdd').val() * priceZero);
+        $('#marginAdd').val(margin.toFixed(2));
+        $('#percentAdd').val((margin/($('#amountAdd').val() *$('#priceAdd').val())).toFixed(6));
+      }
+    }
+  });
+}
+
+function checkAddItemForm() {
+  var success = validateItemData();
+  return success;
+}
+
+function validateItemData() {
+  success = true;
+  if (!$("#itemAdd").children("option:selected").val() || isNaN($("#itemAdd").children("option:selected").val())) {
+      success = false;
+      $("#itemAdd").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#itemAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#amountAdd").val() || isNaN($("#amountAdd").val()) || $("#amountAdd").val() <= 0) {
+      success = false;
+      $("#amountAdd").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#amountAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#priceAdd").val() || isNaN($("#priceAdd").val()) || $("#priceAdd").val() <= 0) {
+      success = false;
+      $("#priceAdd").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#priceAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#priceZeroAdd").val() || isNaN($("#priceZeroAdd").val()) || $("#priceZeroAdd").val() <= 0) {
+      success = false;
+      $("#priceZeroAdd").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#priceZeroAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#valueAdd").val() || isNaN($("#valueAdd").val()) || $("#valueAdd").val() <= 0) {
+      success = false;
+      $("#valueAdd").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#valueAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#marginAdd").val() || isNaN($("#marginAdd").val()) ) {
+      success = false;
+      $("#marginAdd").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#marginAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  if (!$("#percentAdd").val() || isNaN($("#percentAdd").val()) ) {
+      success = false;
+      $("#percentAdd").css('border-color', 'red');
+      timer = setTimeout(function() {
+        $('#percentAdd').css('border-color', '');
+      }, TIMER_SECONDS);
+  }
+  return success;
 }
 
 function checkFilters(filters) {

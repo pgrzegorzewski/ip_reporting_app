@@ -221,7 +221,66 @@ class Invoice
             $error->getMessage();
         }
       }
-
     }
 
+    public function addInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent,  $login)
+    {
+      $success = true;
+      $invoiceId = 0;
+      $invoiceItemPosition = 0;
+      if(!$invoiceItemId) {
+        $success = false;
+      } else {
+        try {
+          $query = "SELECT DISTINCT tfp.faktura_id FROM app.tbl_faktura_pozycja tfp WHERE tfp.faktura_pozycja_id = $1";
+          $invoiceIdQuery = pg_query_params($this->connection, $query, array($invoiceItemId));
+          $invoiceId = pg_fetch_assoc($invoiceIdQuery);
+          $invoiceId = $invoiceId['faktura_id'];
+          pg_free_result($invoiceIdQuery);
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+      if(!$invoiceId) {
+        $success = false;
+      } else {
+        try {
+          $query = "SELECT MAX(tfp.pozycja_faktury) as pozycja_faktury FROM app.tbl_faktura_pozycja tfp WHERE tfp.faktura_id = $1";
+          $invoiceItemPositionQuery = pg_query_params($this->connection, $query, array($invoiceId));
+          $invoiceItemPosition = pg_fetch_assoc($invoiceItemPositionQuery);
+          $invoiceItemPosition = $invoiceItemPosition['pozycja_faktury'];
+          pg_free_result($invoiceItemPositionQuery);
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+      }
+      if(!$invoiceItemPosition) {
+        $success = false;
+      }
+
+      if($success) {
+        try {
+          $query = "SELECT * FROM app.sp_dodaj_pozycje_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+          $result = pg_query_params(
+            $this->connection,
+            $query,
+            array(
+              $invoiceId,
+              $invoiceItemPosition + 1,
+              $item,
+              $amount,
+              $unit,
+              $price,
+              $priceZero,
+              $value,
+              $margin,
+              $percent,
+              $login
+            ));
+        $_SESSION['e_invoice_update'] = '<p style = "color:green; text-align:center;">Pozycja faktury dodana</p>';
+        } catch(Exception $error) {
+            $error->getMessage();
+        }
+    }
+  }
 }

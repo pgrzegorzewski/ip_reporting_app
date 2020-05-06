@@ -253,7 +253,7 @@ $loggedUser = new User();
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "unitEdit" name = "unit" type="text" value = " " >
+                                    <input class="form-control" id = "unitEdit" name = "unit" type="text" value = "szt" >
                                     <label for="unitEdit">Jednostka</label>
                                 </div>
                               </div>
@@ -261,6 +261,11 @@ $loggedUser = new User();
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "priceEdit" name = "price" type="number" step="0.01" value="0">
                                     <label for="priceEdit">Cena</label>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="md-form form-group">
+                                  <button id="recalculatePricesButtonItemEdit" class="btn btn-info" type="button"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
                                 </div>
                               </div>
                               <div class="col-md-3">
@@ -283,7 +288,7 @@ $loggedUser = new User();
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "percentEdit" name = "percent" type="number" step="0.01" value="0">
+                                    <input class="form-control" id = "percentEdit" name = "percent" type="number" step="0.000001" value="0">
                                     <label for="percentEdit">Procent</label>
                                 </div>
                               </div>
@@ -311,7 +316,7 @@ $loggedUser = new User();
                           </form>
                         </div>
                         <div id="addInvoiceItemForm" style="display:none">
-                          <form action = "invoice_actions.php" method="post" id="addInvoiceForm">
+                          <form action = "invoice_actions.php"  onSubmit="return checkAddItemForm()" method="post" id="addInvoiceForm">
                             <div class="row">
                               <div class="col-md-3">
                                 <div class="md-form form-group">
@@ -323,43 +328,48 @@ $loggedUser = new User();
                               <div class="col-md-3">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "amountAdd" name = "amount" type="number" value="0">
-                                    <label for="amountEdit">Ilość</label>
+                                    <label for="amountAdd">Ilość</label>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "unitAdd" name = "unit" type="text" value = " " >
-                                    <label for="unitEdit">Jednostka</label>
+                                    <input class="form-control" id = "unitAdd" name = "unit" type="text" value = "szt" >
+                                    <label for="unitAdd">Jednostka</label>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "priceAdd" name = "price" type="number" step="0.01" value="0">
-                                    <label for="priceEdit">Cena</label>
+                                    <label for="priceAdd">Cena</label>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="md-form form-group">
+                                  <button id="recalculatePricesButtonItemAdd" class="btn btn-info" type="button"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "priceZeroAdd" name = "priceZero" type="number" step="0.01" value="0">
-                                    <label for="priceZeroEdit">Cena zero</label>
+                                  <input class="form-control" id = "priceZeroAdd" name = "priceZero" type="number" step="0.01" value="0">
+                                  <label for="priceZeroAdd">Cena zero</label>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "valueAdd" name = "value" type="number" step="0.01" value="0">
-                                    <label for="valueEdit">Wartość</label>
+                                    <label for="valueAdd">Wartość</label>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "marginAdd" name = "margin" type="number" step="0.01" value="0">
-                                    <label for="marginEdit">Marża</label>
+                                    <label for="marginAdd">Marża</label>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="md-form form-group">
-                                    <input class="form-control" id = "percentAdd" name = "percent" type="number" step="0.01" value="0">
-                                    <label for="percentEdit">Procent</label>
+                                    <input class="form-control" id = "percentAdd" name = "percent" type="number" step="0.000001" value="0">
+                                    <label for="percentAdd">Procent</label>
                                 </div>
                               </div>
                               <div class="col-md-9">
@@ -367,6 +377,9 @@ $loggedUser = new User();
                             </div>
                             <div class="md-form form-group">
                                 <input class="form-control" id = "action_add_item" name = "action" type="text" value ="addInvoiceItem" hidden>
+                            </div>
+                            <div class="md-form form-group">
+                                <input class="form-control" id = "relatedInvoiceItemId" name = "invoiceItemId" type="text" value ="" hidden>
                             </div>
                             <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" id="itemAddButton" value ="Dodaj pozycję" />
