@@ -258,10 +258,10 @@ function updateItemPricesRow(itemObj, index) {
         priceZero = data[0]['cena_po'];
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       }
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html((itemObj.amount * itemObj.price).toFixed(3));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html((itemObj.amount * itemObj.price).toFixed(2));
       var margin = (itemObj.amount * itemObj.price) - (itemObj.amount * priceZero);
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html(margin.toFixed(3));
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html((margin/(itemObj.amount * itemObj.price)).toFixed(3));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html(margin.toFixed(2));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html((margin/(itemObj.amount * itemObj.price)).toFixed(6));
     }
   });
 }
