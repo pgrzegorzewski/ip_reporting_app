@@ -1,6 +1,6 @@
 <?php
 
-require ($_SERVER["DOCUMENT_ROOT"]. '/reporting-app/mdb/content/core/connect.php');
+require ($_SERVER["DOCUMENT_ROOT"]. '/content/core/connect.php');
 
 $filterType = $_POST['type'];
 if ($connection) {

@@ -98,7 +98,7 @@
             $hasAccess = pg_fetch_assoc($hasAccessQuery);
             if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
                 echo "
-                          <li><a href ='../user/user.php'><i class='fas fa-user-tie'></i> Klienci</a></li>
+                          <li><a href ='../client/client.php'><i class='fas fa-user-tie'></i> Klienci</a></li>
                      ";
             }
             ?>
