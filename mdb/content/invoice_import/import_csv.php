@@ -3,9 +3,8 @@
 if(!empty($_FILES['csv_file']['name'])) {
 
     $file_name = $_FILES['csv_file']['name'];
-    $uploaddir = '/opt/lampp/temp/';
+    $uploaddir = '../../../../uploads';
     $uploadfile = $uploaddir . basename($_FILES['csv_file']['name']);
-
 
     if (move_uploaded_file($_FILES['csv_file']['tmp_name'], $uploadfile)) {
         $file_data = fopen($uploadfile, 'r');
