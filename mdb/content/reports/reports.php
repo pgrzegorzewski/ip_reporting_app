@@ -49,9 +49,18 @@ require '../core/connect.php';
     </header>
     <div class="nav">
         <ol>
-            <li>
-                <a  href ='../invoice_import/invoice_import.php'><i class="far fa-file-alt"></i> Wprowadzenie faktury</a>
-            </li>
+          <?php
+            $query = "
+                   SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 2)
+            ";
+            $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+            $hasAccess = pg_fetch_assoc($hasAccessQuery);
+            if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+                echo "
+                          <li><a href ='../invoice_import/invoice_import.php'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a></li>
+                     ";
+            }
+          ?>
             <li>
                 <a href ='#' id="visited"><i class="fas fa-chart-line"></i> Raporty</a>
             </li>
