@@ -9,23 +9,31 @@ $(document).ready(function () {
      dataType: 'json',
      url: "./item_actions.php",
      success: function (data) {
-         $("#data_refresh").attr("disabled", false);
-         $('#data-table').DataTable({
-            "scrollX": true,
-             data : data,
-             columns: [
-                 {data: 'towar_id'},
-                 {data: 'towar_nazwa'},
-                 {data: 'jest_aktywny'},
-                 {data: 'szereg_nazwa'},
-                 {data: 'rodzaj_nazwa'},
-                 {data: 'cena_go'},
-                 {data: 'cena_po'},
-                 {data: 'cena_gd'},
-                 {data: 'cena_pd'},
-                 {data: 'edycja'}
-             ]
-         });
+       var editIconAvailable = 0
+       if(data.length > 0) {
+         var editionCheck = data[0].edycja_dostep;
+         editIconAvailable = data[0].edycja_dostep == 0 ? false : true;
+       }
+       $("#data_refresh").attr("disabled", false);
+       $('#data-table').DataTable({
+          "scrollX": true,
+           data : data,
+           columns: [
+               {data: 'towar_id'},
+               {data: 'towar_nazwa'},
+               {data: 'jest_aktywny'},
+               {data: 'szereg_nazwa'},
+               {data: 'rodzaj_nazwa'},
+               {data: 'cena_go'},
+               {data: 'cena_po'},
+               {data: 'cena_gd'},
+               {data: 'cena_pd'},
+               {
+                   data: 'edycja',
+                   visible: editIconAvailable,
+               }
+           ]
+       });
      },
   })
 });

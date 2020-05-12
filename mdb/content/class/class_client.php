@@ -14,9 +14,9 @@ class Client
       $this->connection = $connection;
     }
 
-    public function getClientManagementList() {
-      $query = "SELECT * FROM app.tf_pobierz_kontrahentow()";
-      $result = pg_query($this->connection, $query);
+    public function getClientManagementList($login) {
+      $query = "SELECT * FROM app.tf_pobierz_kontrahentow($1)";
+      $result = pg_query_params($this->connection, $query, array($login));
       $resp = array();
 
       while($row = pg_fetch_assoc($result))
@@ -31,7 +31,8 @@ class Client
                                   'kraj' => $row['kraj'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'czarna_lista' => $row['czarna_lista'],
-                                  'edycja'=> "<button style='padding:5px' data-id='" . $row['kontrahent_id'] . "' id='clientId-" . $row['kontrahent_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editClientModal'>edytuj</button>")
+                                  'edycja'=> "<button style='padding:5px' data-id='" . $row['kontrahent_id'] . "' id='clientId-" . $row['kontrahent_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editClientModal'>edytuj</button>",
+                                  'edycja_dostep' => $row['edycja_dostep'])
                                 );
       }
       pg_free_result($result);

@@ -6,23 +6,31 @@ $(document).ready(function () {
      dataType: 'json',
      url: "./client_actions.php",
      success: function (data) {
-         $("#data_refresh").attr("disabled", false);
-         $('#data-table').DataTable({
-            "scrollX": true,
-             data : data,
-             columns: [
-                 {data: 'kontrahent_id'},
-                 {data: 'kontrahent_nazwa'},
-                 {data: 'ulica'},
-                 {data: 'nr_domu'},
-                 {data: 'kod_pocztowy'},
-                 {data: 'miasto'},
-                 {data: 'kraj'},
-                 {data: 'jest_aktywny'},
-                 {data: 'czarna_lista'},
-                 {data: 'edycja'}
-             ]
-         });
+       var editIconAvailable = 0
+       if(data.length > 0) {
+         var editionCheck = data[0].edycja_dostep;
+         editIconAvailable = data[0].edycja_dostep == 0 ? false : true;
+       }
+       $("#data_refresh").attr("disabled", false);
+       $('#data-table').DataTable({
+          "scrollX": true,
+           data : data,
+           columns: [
+               {data: 'kontrahent_id'},
+               {data: 'kontrahent_nazwa'},
+               {data: 'ulica'},
+               {data: 'nr_domu'},
+               {data: 'kod_pocztowy'},
+               {data: 'miasto'},
+               {data: 'kraj'},
+               {data: 'jest_aktywny'},
+               {data: 'czarna_lista'},
+               {
+                   data: 'edycja',
+                   visible: editIconAvailable,
+               }
+           ]
+       });
      },
   })
 });

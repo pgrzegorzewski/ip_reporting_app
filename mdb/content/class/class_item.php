@@ -14,9 +14,9 @@ class Item
       $this->connection = $connection;
     }
 
-    public function getItemManagementList() {
-      $query = "SELECT * FROM app.tf_pobierz_towary()";
-      $result = pg_query($this->connection, $query);
+    public function getItemManagementList($login) {
+      $query = "SELECT * FROM app.tf_pobierz_towary($1)";
+      $result = pg_query_params($this->connection, $query, array($login));
       $resp = array();
 
       while($row = pg_fetch_assoc($result))
@@ -31,7 +31,8 @@ class Item
                                   'cena_po' => $row['cena_po'],
                                   'cena_gd' => $row['cena_gd'],
                                   'cena_pd' => $row['cena_pd'],
-                                  'edycja'=> "<button style='padding:5px' data-id='" . $row['towar_id'] . "' id='itemId-" . $row['towar_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editItemModal'>edytuj</button>")
+                                  'edycja'=> "<button style='padding:5px' data-id='" . $row['towar_id'] . "' id='itemId-" . $row['towar_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editItemModal'>edytuj</button>",
+                                  'edycja_dostep' => $row['edycja_dostep'])
                                 );
       }
       pg_free_result($result);

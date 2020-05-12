@@ -283,7 +283,20 @@
 
 		<section class = "section">
       <div style="text-align:right">
-        <button class= "btn btn-success" data-toggle="modal" data-target="#addClientModal">Dodaj nowego klienta</button>
+        <?php
+          $query = "
+                 SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 8)
+          ";
+          $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+          $hasAccess = pg_fetch_assoc($hasAccessQuery);
+          if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+              echo "
+                          <button class= 'btn btn-success' data-toggle='modal' data-target='#addClientModal'>Dodaj nowego klienta</button>
+                   ";
+          }
+       ?>
+
+
       </div>
       <?php
       if(isset($_SESSION['e_client_update'])){

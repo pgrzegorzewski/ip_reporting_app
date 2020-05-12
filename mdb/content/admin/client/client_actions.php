@@ -86,7 +86,7 @@ $client = new Client();
 
 switch ($action) {
   case 'getClients':
-    $clients = $client->getClientManagementList();
+    $clients = $client->getClientManagementList($login);
     return $clients;
     break;
   case 'getClientData':

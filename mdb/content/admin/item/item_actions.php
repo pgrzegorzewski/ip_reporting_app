@@ -82,7 +82,7 @@ $item = new Item();
 
 switch ($action) {
   case 'getItems':
-    $items = $item->getItemManagementList();
+    $items = $item->getItemManagementList($login);
     return $items;
     break;
   case 'getItemData':
