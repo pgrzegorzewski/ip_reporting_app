@@ -2,25 +2,34 @@ $(document).ready(function () {
 
   $.ajax({
      method: "POST",
-     data: {action : "getUsers"},
+     data: {
+              action : "getUsers"
+           },
      dataType: 'json',
      url: "./user_actions.php",
      success: function (data) {
-         $("#data_refresh").attr("disabled", false);
-         $('#data-table').DataTable({
-             "scrollX": true,
-             data : data,
-             columns: [
-                 {data: 'uzytkownik_id'},
-                 {data: 'username'},
-                 {data: 'imie'},
-                 {data: 'nazwisko'},
-                 {data: 'jest_aktywny'},
-                 {data: 'rola_nazwa'},
-                 {data: 'edycja'}
-             ]
-         });
-
+       var editIconAvailable = 0
+       if(data.length > 0) {
+         var editionCheck = data[0].edycja_dostep;
+         editIconAvailable = data[0].edycja_dostep == 0 ? false : true;
+       }
+       $("#data_refresh").attr("disabled", false);
+       $('#data-table').DataTable({
+           "scrollX": true,
+           data : data,
+           columns: [
+               {data: 'uzytkownik_id'},
+               {data: 'username'},
+               {data: 'imie'},
+               {data: 'nazwisko'},
+               {data: 'jest_aktywny'},
+               {data: 'rola_nazwa'},
+               {
+                   data: 'edycja',
+                   visible: editIconAvailable,
+               }
+           ]
+       });
      },
   })
 });

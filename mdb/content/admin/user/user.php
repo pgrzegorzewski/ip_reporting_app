@@ -268,7 +268,19 @@
       }
       ?>
       <div style="text-align:right">
-        <button class= "btn btn-success" data-toggle="modal" data-target="#addUserModal">Dodaj użytkownika</button>
+        <?php
+          $query = "
+                 SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 4)
+          ";
+          $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+          $hasAccess = pg_fetch_assoc($hasAccessQuery);
+          if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+              echo "
+                        <button class= 'btn btn-success' data-toggle='modal' data-target=''#addUserModal'>Dodaj użytkownika</button>
+                   ";
+          }
+       ?>
+
       </div>
       <div id= "user_management" class="table-responsive">
           <table class="table table-striped table-bordered" id="data-table" style="width:100%">

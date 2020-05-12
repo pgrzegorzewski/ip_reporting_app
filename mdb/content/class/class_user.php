@@ -26,10 +26,10 @@ class User
 
     }
 
-    public function getUserManagementList()
+    public function getUserManagementList($login)
     {
-      $query = "SELECT * FROM usr.tf_pobierz_uzytkownikow()";
-      $result = pg_query($this->connection, $query);
+      $query = "SELECT * FROM usr.tf_pobierz_uzytkownikow($1)";
+      $result = pg_query_params($this->connection, $query, array($login));
       $resp = array();
 
       while($row = pg_fetch_assoc($result))
@@ -41,7 +41,8 @@ class User
                                   'nazwisko' => $row['nazwisko'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'rola_nazwa' => $row['rola_nazwa'],
-                                  'edycja'=> "<button style='padding:5px' data-id='" . $row['uzytkownik_id'] . "' id='usrId-" . $row['uzytkownik_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editUserModal'>edytuj</button>")
+                                  'edycja' => "<button style='padding:5px' data-id='" . $row['uzytkownik_id'] . "' id='usrId-" . $row['uzytkownik_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editUserModal'>edytuj</button>",
+                                  'edycja_dostep' => $row['edycja_dostep'])
                                 );
       }
       pg_free_result($result);

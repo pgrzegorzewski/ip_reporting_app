@@ -44,7 +44,7 @@ $user = new User();
 
 switch ($action) {
   case 'getUsers':
-    $users = $user->getUserManagementList();
+    $users = $user->getUserManagementList($login);
     return $users;
     break;
   case 'getUserData':
