@@ -287,7 +287,7 @@
           $hasAccess = pg_fetch_assoc($hasAccessQuery);
           if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
               echo "
-                        <button class= 'btn btn-success' data-toggle='modal' data-target=''#addUserModal'>Dodaj użytkownika</button>
+                        <button class= 'btn btn-success' data-toggle='modal' data-target='#addUserModal'>Dodaj użytkownika</button>
                    ";
           }
        ?>
