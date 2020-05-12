@@ -164,8 +164,9 @@
                           Rola: <br />
                           <div class="md-form form-group">
                               <select class="form-control" id = "role" name = "role" style="color:white">
-                                  <option value="admin">Admin</option>
-                                  <option value="handlowiec">handlowiec</option>
+                                <option value="admin">admin</option>
+                                <option value="edytor">edytor</option>
+                                <option value="przeglądacz">przeglądacz</option>
                               </select>
                           </div>
                           <div class="form-row" style="border:#AFC2D1 solid 2px; border-radius: 25px;">
@@ -244,8 +245,9 @@
                               Rola: <br />
                               <div class="md-form form-group">
                                   <select class="form-control" id = "role_new" name = "role" style="color:white">
-                                      <option value="1">Admin</option>
-                                      <option value="2">handlowiec</option>
+                                      <option value="1">admin</option>
+                                      <option value="4">edytor</option>
+                                      <option value="5">przeglądacz</option>
                                   </select>
                               </div>
                             </div>
