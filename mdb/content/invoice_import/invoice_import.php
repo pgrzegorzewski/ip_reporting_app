@@ -233,6 +233,7 @@ $loggedUser = new User();
           <div style="text-align:center">
             <button id="show_price_calculator" class="btn btn-info"><i class="fas fa-calculator"></i>  Pokaż kalkulator cen</button>
             <button id="recalculatePricesButton" class="btn btn-info" disabled = "true"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
+
           </div>
           <div id="price_calculator_div" style="display:none">
             <form id="price_calculator">
@@ -297,6 +298,8 @@ $loggedUser = new User();
               </div>
           </form>
           <br />
+          <div id = "import_invoice_div"></div>
+          <br />
           <div class="table-editable" id="editable-table-div">
             <span class="table-add float-right mb-3 mr-2" id="invoiceItemRowAdd" ><i class="fas fa-plus fa-2x green-text"></i></span>
             <table class="table table-bordered table-responsive-md table-striped text-center" id="data-table">
@@ -317,7 +320,7 @@ $loggedUser = new User();
                 </thead>
             </table>
           </div>
-          <div id = "import_invoice_div"></div>
+
           <?php
           if(isset($_SESSION['e_invoice'])){
               echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
