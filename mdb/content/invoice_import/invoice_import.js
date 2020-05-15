@@ -42,6 +42,7 @@ $(document).ready(function(){
                 $("#data-table").dataTable().fnDestroy();
                 $('#data-table').DataTable({
                     "scrollX": true,
+                    "paging": false,
                     data : jsonData,
                     columns: [
                         {data: 'lp'},

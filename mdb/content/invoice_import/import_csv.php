@@ -12,9 +12,9 @@ if(!empty($_FILES['csv_file']['name'])) {
 
         while($row = fgetcsv($file_data)) {
             $data[] = array(
-                'lp' => $row[0],
+                'lp' => intVal($row[0]),
                 'towar' => $row[1],
-                'ilosc' => $row[2],
+                'ilosc' => intVal($row[2]),
                 'jm' => $row[3],
                 'cena' => $row[4],
                 'edytuj' => "<button type='button' class='table-remove btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light'>Usuń</button>"
