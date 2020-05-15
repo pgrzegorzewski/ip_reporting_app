@@ -428,9 +428,9 @@ function getCalculatedItemPrices() {
 function higlightEmptyItem() {
   $("select.item").change(function(){
       if($(this).children("option:selected").val() == 0) {
-        $(this).css('border', '2px solid red');
+        $(this).css('border-bottom', '2px solid red');
       } else {
-        $(this).css('border', '2px solid green');
+        $(this).css('border-bottom', '2px solid green');
       }
   });
 }
@@ -567,7 +567,7 @@ function checkInvoiceItemsData() {
 }
 
 function highlightErrorTableValue (element) {
-  element.css('border', '2px solid red');
+  element.css('border-bottom', '3px solid red');
   timer = setTimeout(function() {
     $(element).css('border', '');
   }, 5000);
