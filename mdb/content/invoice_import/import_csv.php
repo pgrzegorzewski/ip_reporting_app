@@ -3,7 +3,7 @@
 if(!empty($_FILES['csv_file']['name'])) {
 
     $file_name = $_FILES['csv_file']['name'];
-    $uploaddir = $_SERVER["DOCUMENT_ROOT"]. '/ip_reporting_app/mdb/uploads/';
+    $uploaddir = $_SERVER["DOCUMENT_ROOT"]. '/ip_reporting_app/uploads/';
     $uploadfile = $uploaddir . basename($_FILES['csv_file']['name']);
 
     if (move_uploaded_file($_FILES['csv_file']['tmp_name'], $uploadfile)) {
