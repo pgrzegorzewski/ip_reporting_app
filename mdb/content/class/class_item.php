@@ -10,7 +10,7 @@ class Item
     }
 
     private function setConnection() {
-      require ($_SERVER["DOCUMENT_ROOT"]. '/content/core/connect.php');
+      require ($_SERVER["DOCUMENT_ROOT"]. '/ip_reporting_app/mdb/content/core/connect.php');
       $this->connection = $connection;
     }
 
