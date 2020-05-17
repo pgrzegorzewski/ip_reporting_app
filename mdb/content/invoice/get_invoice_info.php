@@ -23,6 +23,25 @@
     }
   }
 
+  $dateFrom =  date('Y-m-d',strtotime('first day of this month'));
+  $dateTo =  date('Y-m-d',strtotime('last day of this month'));
+
+  if($invoiceFilters->invoice_date_from != NULL) {
+      $dateFrom = $invoiceFilters->invoice_date_from;
+  }
+
+  if($invoiceFilters->invoice_date_from != NULL) {
+      $dateTo = $invoiceFilters->invoice_date_from;
+  }
+
+  if($invoiceFilters->invoice_date_from != NULL && ($invoiceFilters->invoice_date_to == NULL)) {
+      $dateTo = '2200-01-01';
+  }
+
+  if($invoiceFilters->invoice_date_to != NULL && ($invoiceFilters->invoice_date_from == NULL)) {
+      $dateFrom = '1900-01-01';
+  }
+
   try {
     $query = "SELECT
                 faktura_numer,
@@ -51,7 +70,7 @@
                 procent
             FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8, $9)";
       $resp = array();
-      $result = pg_query_params($connection, $query, array($invoiceFilters->invoice_date_from, $invoiceFilters->invoice_date_to, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region, $user));
+      $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region, $user));
       $loopCnt = 0;
       while($row = pg_fetch_assoc($result))
       {

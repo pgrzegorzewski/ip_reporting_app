@@ -16,10 +16,10 @@ $(document).ready(function(){
         updateInvoiceHeader(invoiceItemId);
       })
     });
-
+    loadDateCookies();
     appendShowInvoiceInfo();
     loadFilterValues();
-    loadDateCookies();
+
 
     $('#data-table').DataTable({
         "scrollX": true,
@@ -60,6 +60,14 @@ $(document).ready(function(){
       $('#invoiceItemEditButton').removeClass('btn-success').addClass('btn-info');
       $('#addInvoiceItemForm').show();
       $('#editInvoiceItemForm').hide();
+    });
+
+    $('#report_date_to').on('change', function() {
+      getInvoiceNumbersFilter();
+    });
+
+    $('#report_date_from').on('change', function() {
+      getInvoiceNumbersFilter();
     });
 });
 
@@ -295,21 +303,38 @@ function getInvoiceItemData(id) {
 }
 
 function getInvoiceNumbersFilter() {
+  var dateFrom = null;
+  var dateTo = null;
+  if($('#report_date_from').val()) {
+    dateFrom = $('#report_date_from').val();
+  }
+  if($('#report_date_to').val()) {
+    dateTo = $('#report_date_to').val();
+  }
+
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
-      data: {type:'invoice_number'},
+      data: {
+              type:'invoice_number',
+              dateFrom: dateFrom,
+              dateTo: dateTo
+            },
       dataType: 'json',
       success:function(response){
-          var len = response.length;
-          for( var i = 0; i<len; i++){
-              var faktura_id = response[i]['faktura_id'];
-              var faktura_numer = response[i]['faktura_numer'];
+          $("#invoice_number").children().remove().end();
+          $("#invoice_number").append("<option>Numer faktury</option>");
+          if(response) {
+            var len = response.length;
+            for( var i = 0; i<len; i++){
+                var faktura_id = response[i]['faktura_id'];
+                var faktura_numer = response[i]['faktura_numer'];
 
-              $("#invoice_number").append("<option value='"+faktura_id+"'>"+faktura_numer+"</option>");
-          }
-          if(getCookie('invoice_number') != 'null') {
-            $('#invoice_number').val(getCookie('invoice_number'));
+                $("#invoice_number").append("<option value='"+faktura_id+"'>"+faktura_numer+"</option>");
+            }
+            if(getCookie('invoice_number') != 'null') {
+              $('#invoice_number').val(getCookie('invoice_number'));
+            }
           }
       }
   });

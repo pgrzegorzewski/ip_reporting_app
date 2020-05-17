@@ -3,14 +3,37 @@
 require ($_SERVER["DOCUMENT_ROOT"]. '/ip_reporting_app/mdb/content/core/connect.php');
 
 $filterType = $_POST['type'];
+
+$dateFrom =  date('Y-m-d',strtotime('first day of this month'));
+$dateTo =  date('Y-m-d',strtotime('last day of this month'));
+
+if(isset($_POST['dateFrom']) && $_POST['dateFrom'] != null && $_POST['dateFrom'] != '') {
+    $dateFrom = $_POST['dateFrom'];
+}
+
+if(isset($_POST['dateTo']) && $_POST['dateTo'] != null && $_POST['dateTo'] != '') {
+    $dateTo = $_POST['dateTo'];
+}
+
+if($_POST['dateFrom'] != null && $_POST['dateFrom'] != '' && ($_POST['dateTo'] == null || $_POST['dateTo'] == '')) {
+    $dateTo = '2200-01-01';
+}
+
+if($_POST['dateTo'] != null && $_POST['dateTo'] != '' && ($_POST['dateFrom'] == null || $_POST['dateFrom'] == '')) {
+    $dateFrom = '1900-01-01';
+}
+
 if ($connection) {
     try {
         switch ($filterType) {
           case 'invoice_number':
               $query = "
-                      SELECT faktura_id, faktura_numer FROM app.tbl_faktura
+                        SELECT faktura_id, faktura_numer FROM app.tbl_faktura
+                        WHERE
+                          data_wystawienia > $1
+                          AND data_wystawienia < $2
               ";
-              $invoiceQuery = @pg_query($connection, $query);
+              $invoiceQuery = pg_query_params($connection, $query, array($dateFrom, $dateTo));
 
               while($row = pg_fetch_assoc($invoiceQuery))
               {
@@ -19,6 +42,7 @@ if ($connection) {
                   $invoiceArray[] = array("faktura_id" => $invoiceId, "faktura_numer" => $invoiceNumber);
               }
               echo json_encode($invoiceArray);
+
               break;
             case 'region':
                 $query = "
