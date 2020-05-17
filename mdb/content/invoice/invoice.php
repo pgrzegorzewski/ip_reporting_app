@@ -424,6 +424,7 @@ $loggedUser = new User();
                     </div>
                     <div class="col-md-3">
                         <div class="md-form form-group">
+                          <span>Numer faktury</span>
                           <select class="form-control" id = "invoice_number" name = "invoice_number">
                               <option selected>Numer Faktury</option>
                           </select>
@@ -431,6 +432,7 @@ $loggedUser = new User();
                     </div>
                     <div class="col-md-3">
                         <div class="md-form form-group">
+                            <span>Sprzedawca</span>
                             <select class="form-control" id = "salesman" name = "salesman">
                                 <option selected>Sprzedawca</option>
                             </select>
@@ -440,31 +442,34 @@ $loggedUser = new User();
                 <div class="form-row">
                   <div class="col-md-3">
                       <div class="md-form form-group">
-                          <select class="form-control" id = "client" name = "client">
-                              <option selected>Kontrahent</option>
-                          </select>
+                        <span>Kontrahent</span>
+                        <select class="form-control" id = "client" name = "client">
+                            <option selected>Kontrahent</option>
+                        </select>
                       </div>
                   </div>
                   <div class="col-md-3">
                       <div class="md-form form-group">
-                          <select class="form-control" id = "country" name = "country">
-                              <option selected>Kraj</option>
-                          </select>
+                        <span>Kraj</span>
+                        <select class="form-control" id = "country" name = "country">
+                            <option selected>Kraj</option>
+                        </select>
                       </div>
                   </div>
                   <div class="col-md-3">
                       <div class="md-form form-group">
-                          <select class="form-control" id = "voivodeship" name = "voivodeship">
-                              <option selected>Województwo</option>
-                          </select>
+                        <span>Województwo</span>
+                        <select class="form-control" id = "voivodeship" name = "voivodeship">
+                            <option selected>Województwo</option>
+                        </select>
                       </div>
                   </div>
                   <div class="col-md-3">
                       <div class="md-form form-group">
-                          <select class="form-control" id = "region" name = "region" >
-                              <option selected>Region</option>
-                          </select>
-
+                        <span>Region</span>
+                        <select class="form-control" id = "region" name = "region" >
+                            <option selected>Region</option>
+                        </select>
                       </div>
                   </div>
                 </div>
