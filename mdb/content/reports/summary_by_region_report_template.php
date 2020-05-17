@@ -35,9 +35,9 @@
             <tr>
                 <th>Podsumowanie:</th>
                 <th></th>
-                <th style="text-align:right"></th>
-                <th style="text-align:right"></th>
-                <th style="text-align:right"></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </tfoot>
     </table>
