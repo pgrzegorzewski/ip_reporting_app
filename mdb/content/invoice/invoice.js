@@ -508,7 +508,10 @@ function showInvoices(){
             data : jsonData,
             columns: [
                 {data: 'faktura_numer'},
-                {data: 'data_wystawienia'},
+                {
+                  data: 'data_wystawienia',
+                  width: '150px',
+                },
                 {data: 'uzytkownik'},
                 {data: 'waluta_kod'},
                 {data: 'kurs'},
@@ -529,8 +532,16 @@ function showInvoices(){
                 {data: 'jednostka'},
                 {data: 'cena'},
                 {data: 'cena_zero'},
-                {data: 'wartosc'},
-                {data: 'marza'},
+                {
+                  data: 'wartosc',
+                  render: $.fn.dataTable.render.number( ' ', '.', 2),
+                  width: '120px'
+                },
+                {
+                  data: 'marza',
+                  render: $.fn.dataTable.render.number( ' ', '.', 2),
+                  width: '120px'
+                },
                 {data: 'procent'},
                 {data: 'uwagi'}
             ]
