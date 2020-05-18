@@ -50,14 +50,7 @@
                 unset($_SESSION['error']);
             }
             ?>
-            <div class="form">
-                <br/><br />
-                <h5>Nie posiadasz jeszcze konta?</h5>
-                <br />
-                <input class="btn btn-info"  type="submit" value="Zarejestruj"
-                       onclick="window.location='./content/core/register.php';" />
 
-            </div>
 
         </div>
         <div class="footer">
