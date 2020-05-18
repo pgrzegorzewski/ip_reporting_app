@@ -94,15 +94,15 @@ $(document).on('click', '#region_summary_data_refresh', function() {
                            }, 0 );
 
                      $( api.column( 2 ).footer() ).html(
-                        'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display( pageTotalValue.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display( totalValue.toFixed(3))
+                        'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display( pageTotalValue.toFixed(2)) + '<br> suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display( totalValue.toFixed(3))
                      );
 
                      $( api.column( 3).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalmargin.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalmargin.toFixed(2)) + '<br> suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
                      );
 
                      $( api.column( 4 ).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalmargin / pageTotalValue) * 100).toFixed(2)) + '%  całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalmargin / pageTotalValue) * 100).toFixed(2)) + '%  <br>całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
                      );
                  },
              });
@@ -220,15 +220,15 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
                            }, 0 );
 
                      $( api.column( 1 ).footer() ).html(
-                        'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalValue.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalValue.toFixed(2))
+                        'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalValue.toFixed(2))
                      );
 
                      $( api.column( 2).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalMargin.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
                      );
 
                      $( api.column( 3 ).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalMargin / pageTotalValue) * 100).toFixed(2)) + '%  całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalMargin / pageTotalValue) * 100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
                      );
                  },
              });
@@ -346,15 +346,15 @@ $(document).on('click', '#client_summary_data_refresh', function() {
                            }, 0 );
 
                      $( api.column( 1 ).footer() ).html(
-                        'karta:  ' +  $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalValue.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalValue.toFixed(2))
+                        'karta:  ' +  $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalValue.toFixed(2))
                      );
 
                      $( api.column( 2 ).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalMargin.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
                      );
 
                      $( api.column( 3 ).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalMargin/pageTotalValue)*100).toFixed(2)) + '%  całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin/totalValue)*100).toFixed(2)) + '%'
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalMargin/pageTotalValue)*100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin/totalValue)*100).toFixed(2)) + '%'
                      );
                  },
              });
@@ -489,19 +489,19 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                            }, 0 );
 
                      $( api.column( 1 ).footer() ).html(
-                        'karta:  ' + pageTotalAmount + '  suma całkowita:  ' + totalAmount
+                        'karta:  ' + pageTotalAmount + '<br>  suma całkowita:  ' + totalAmount
                      );
 
                      $( api.column( 2).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalValue.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalValue.toFixed(2))
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalValue.toFixed(2))
                      );
 
                      $( api.column( 3).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalMargin.toFixed(2)) + '  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(totalMargin.toFixed(2))
                      );
 
                      $( api.column( 4 ).footer() ).html(
-                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalMargin / pageTotalValue) * 100).toFixed(2)) + '%  całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
+                         'karta:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((pageTotalMargin / pageTotalValue) * 100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( '\,', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
                      );
                  },
              });
