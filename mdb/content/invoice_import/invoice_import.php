@@ -248,7 +248,7 @@ $loggedUser = new User();
                 </div>
                 <div class="col-md-1">
                   <div class="md-form form-group">
-                    <input class="form-control" id = "calculator_amount" name = "calculator_amount" type="number" step="1" value = "1">
+                    <input class="form-control" id = "calculator_amount" name = "calculator_amount" type="number" step="1" value = "1" min = "1">
                     <label for = "calculator_amount">Ilość</label>
                   </div>
                 </div>

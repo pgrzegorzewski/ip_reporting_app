@@ -1,5 +1,9 @@
 var items = [];
 var addedItems = 0;
+var formatter = new Intl.NumberFormat('ru-RU', {
+  style: 'currency',
+  currency: 'PLN',
+});
 
 $(document).ready(function(){
     appendAddInvoice();
@@ -17,7 +21,7 @@ $(document).ready(function(){
    $('#upload_csv').on('submit', function (event) {
         $('#import_label').text('');
         $('#import_label').addClass('spinner-border spinner-border-sm text-primary');
-
+        var defaultVal = 0;
         event.preventDefault();
         $.ajax({
             url: "./import_csv.php",
@@ -78,42 +82,52 @@ $(document).ready(function(){
                             itemFoundFlag = 0;
                             return $select.prop("outerHTML");
 
-                          }
+                          },
+                          "width": "15%",
                         },
                         {data: 'towar'},
                         {"render": function(data, type, row) {
-                          var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' value='" + row['ilosc'] +"'>");
-                          return $textInput.prop("outerHTML");
-
-                          }
+                            var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' min = '1' value='" + row['ilosc'] +"'>");
+                            return $textInput.prop("outerHTML");
+                          },
+                          "width": "10%",
                         },
                         {"render": function(data, type, row) {
-                          var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
-                          return $textInput.prop("outerHTML");
-
-                          }
+                            var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
+                            return $textInput.prop("outerHTML");
+                          },
+                         "width": "5%",
                         },
-                        {"render": function(data, type, row) {
-                          var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' value='" + row['cena'] +"'>");
-                          return $textInput.prop("outerHTML");
-
-                          }
+                        {
+                          "render": function(data, type, row) {
+                              var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' min = '0.01' value='" + row['cena'] +"'>");
+                              return $textInput.prop("outerHTML");
+                            },
+                          "width": "10%",
                         },
-                        {"render": function() {
-                          return 0;
-                          }
+                        {
+                          "render": function() {
+                            return 0;
+                          },
+                          "width": "10%",
                         },
-                        {"render": function() {
-                          return 0;
-                          }
+                        {
+                          "render": function() {
+                            return 0;
+                          },
+                          "width": "10%",
                         },
-                        {"render": function() {
-                          return 0;
-                          }
+                        {
+                          "render": function() {
+                            return 0;
+                          },
+                          "width": "10%",
                         },
-                        {"render": function() {
-                          return 0;
-                          }
+                        {
+                          "render": function() {
+                            return 0;
+                          },
+                          "width": "10%",
                         },
                         {data: 'edytuj'},
                     ]
@@ -186,11 +200,11 @@ function setDefaultvaluesForFirstRow(row)
   row.find("td:nth-child(2)").append(select);
   row.find("td:nth-child(2) select").val(0).css("border", "2px solid red");
   row.find("td:nth-child(3)").html('Ręcznie dodany towar');
-  var amountInput = $("<input class='form-control' class ='amount' type='number' step='1' value='0'>");
+  var amountInput = $("<input class='form-control' class ='amount' type='number' step='1' value='0' min ='0'>");
   row.find("td:nth-child(4)").append(amountInput);
   var unitInput = $("<input class='form-control' class ='unit' type='text' value='szt'>");
   row.find("td:nth-child(5)").append(unitInput);
-  var priceInput = $("<input class='form-control' class ='unit' type='number' step='0.01' value='0'>");
+  var priceInput = $("<input class='form-control' class ='unit' type='number' step='0.01' value='0'  min ='0'>");
   row.find("td:nth-child(6)").append(priceInput);
   row.find("td:nth-child(7)").html(0);
   row.find("td:nth-child(8)").html(0);
@@ -259,9 +273,10 @@ function updateItemPricesRow(itemObj, index) {
         priceZero = data[0]['cena_po'];
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       }
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html((itemObj.amount * itemObj.price).toFixed(2));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html($.fn.dataTable.render.number( ' ', '.', 2).display((itemObj.amount * itemObj.price).toFixed(2)) );
       var margin = (itemObj.amount * itemObj.price) - (itemObj.amount * priceZero);
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html(margin.toFixed(2));
+      console.log(itemObj.amount * priceZero);
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html($.fn.dataTable.render.number( ' ', '.', 2).display(margin.toFixed(2)) );
       $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html((margin/(itemObj.amount * itemObj.price)).toFixed(6));
     }
   });
@@ -428,9 +443,9 @@ function getCalculatedItemPrices() {
 function higlightEmptyItem() {
   $("select.item").change(function(){
       if($(this).children("option:selected").val() == 0) {
-        $(this).css('border-bottom', '2px solid red');
+        $(this).css('border', '2px solid red');
       } else {
-        $(this).css('border-bottom', '2px solid green');
+        $(this).css('border', '2px solid green');
       }
   });
 }
@@ -581,8 +596,8 @@ function getInviceItemData(row) {
     invoice_item.item_unit = $("td:nth-child(5) input", row).val();
     invoice_item.item_price = $("td:nth-child(6) input", row).val();
     invoice_item.item_price_zero = $("td:nth-child(7)", row).html();
-    invoice_item.item_value = $("td:nth-child(8)", row).html();
-    invoice_item.item_margin = $("td:nth-child(9)", row).html();
+    invoice_item.item_value = $("td:nth-child(8)", row).html().replace(/\s/g, '');
+    invoice_item.item_margin = $("td:nth-child(9)", row).html().replace(/\s/g, '');
     invoice_item.item_percent = $("td:nth-child(10)", row).html();
     return invoice_item;
 }
