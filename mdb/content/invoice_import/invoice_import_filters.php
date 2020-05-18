@@ -32,6 +32,8 @@ if ($connection) {
                         WHERE
                           data_wystawienia > $1
                           AND data_wystawienia < $2
+                        ORDER BY
+                          faktura_numer
               ";
               $invoiceQuery = pg_query_params($connection, $query, array($dateFrom, $dateTo));
 
@@ -48,6 +50,8 @@ if ($connection) {
                 $query = "
                         SELECT region_id, region_nazwa FROM app.tbl_region
                         WHERE jest_wybieralne = 1::BIT
+                        ORDER BY
+                          region_nazwa
                 ";
                 $regionQuery = @pg_query($connection, $query);
 
@@ -77,6 +81,8 @@ if ($connection) {
             case 'client':
                 $query = "
                         SELECT kontrahent_id, kontrahent_nazwa FROM app.tbl_kontrahent
+                        ORDER BY
+                          kontrahent_nazwa
                 ";
                 $clientQuery = @pg_query($connection, $query);
 
@@ -127,6 +133,8 @@ if ($connection) {
             case 'item':
                 $query = "
                         SELECT towar_id, towar_nazwa FROM app.tbl_towar
+                        ORDER BY
+                          towar_nazwa
                 ";
                 $itemQuery = @pg_query($connection, $query);
 
