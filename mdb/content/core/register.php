@@ -75,7 +75,7 @@ if(isset($_POST['nick']))
                 $role = 5;
                 $isActive = true;
                 //@pg_query_params($connection, "SELECT * FROM usr.sp_dodaj_uzytkownika($1, $2, $3, $4, $5)", array($nick, $password_hashed, $first_name, $last_name, $email));
-                $query = "SELECT * FROM usr.sp_dodaj_uzytkownika($1, $2, $3, $4, $5, $6)";
+                //$query = "SELECT * FROM usr.sp_dodaj_uzytkownika($1, $2, $3, $4, $5, $6)";
                 pg_query_params($connection, $query, array($nick, $first_name, $last_name, $password_hashed, $role, $isActive));
                 $_SESSION['registrationSuccessful'] = true;
                 header('Location: register_success.php');
