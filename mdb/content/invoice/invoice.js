@@ -542,7 +542,11 @@ function showInvoices(){
                   render: $.fn.dataTable.render.number( ' ', '.', 2),
                   width: '120px'
                 },
-                {data: 'procent'},
+                {data: 'procent',
+                render: function(data) {
+                  return (data*100).toFixed(2) + '%';
+                }
+                },
                 {data: 'uwagi'}
             ]
         });
