@@ -189,11 +189,17 @@ $loggedUser = new User();
                       <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                       <div class="md-form form-group">
                           <select class="form-control" id = "client" name = "client">
                               <option selected>Kontrahent</option>
                           </select>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="md-form form-group">
+                        <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
+                        <label for = "bonus" class= 'active'>Bonus %</label>
                       </div>
                   </div>
               </div>

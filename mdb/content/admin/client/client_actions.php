@@ -46,6 +46,10 @@ if(isset($_POST['black_list'])) {
   $isBlackList = 0;
 }
 
+if(isset($_POST['bonus'])) {
+  $bonus = $_POST['bonus'];
+}
+
 if(isset($_POST['client_name_new'])) {
   $clientNameNew = $_POST['client_name_new'];
 }
@@ -94,7 +98,7 @@ switch ($action) {
     return $clientId;
     break;
   case 'updateClient':
-    $clientData = $client->updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList);
+    $clientData = $client->updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus);
     header('Location:./client.php');
     break;
   case 'addClient':

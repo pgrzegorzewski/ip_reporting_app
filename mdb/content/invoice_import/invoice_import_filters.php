@@ -80,7 +80,7 @@ if ($connection) {
                 break;
             case 'client':
                 $query = "
-                        SELECT kontrahent_id, kontrahent_nazwa FROM app.tbl_kontrahent
+                        SELECT kontrahent_id, kontrahent_nazwa, bonus FROM app.tbl_kontrahent
                         ORDER BY
                           kontrahent_nazwa
                 ";
@@ -90,7 +90,8 @@ if ($connection) {
                 {
                     $clientId = $row["kontrahent_id"];
                     $clientyName = $row["kontrahent_nazwa"];
-                    $clientArray[] = array("kontrahent_id" => $clientId, "kontrahent_nazwa" => $clientyName);
+                    $bonus = $row["bonus"];
+                    $clientArray[] = array("kontrahent_id" => $clientId, "kontrahent_nazwa" => $clientyName, "bonus" => $bonus);
                 }
                 echo json_encode($clientArray);
                 break;

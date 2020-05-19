@@ -4,6 +4,7 @@ var formatter = new Intl.NumberFormat('ru-RU', {
   style: 'currency',
   currency: 'PLN',
 });
+var clients = [];
 
 $(document).ready(function(){
     appendAddInvoice();
@@ -47,6 +48,16 @@ $(document).ready(function(){
   $('#recalculatePricesButton').click(function(){
     updateItemPrices(getSelectedItems());
   });
+});
+
+$(document).ready(function(){
+  $('#client').change(function() {
+    var id = $("#client").children("option:selected").val();
+    var clientObj = clients.find(obj => {
+      return obj.kontrahent_id === id
+    });
+    $('#bonus').val(((clientObj.bonus) * 100).toFixed(2)).siblings().addClass('active');;
+  })
 });
 
 $(document).ready(function(){
@@ -293,16 +304,16 @@ function updateItemPricesRow(itemObj, index) {
     success: function (data) {
       var priceZero = 0;
       if($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == false) {
-        priceZero = data[0]['cena_go'];
+        priceZero = ((data[0]['cena_go'] * 100) / (100 - $('#bonus').val())).toFixed(2);
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == false) {
-        priceZero = data[0]['cena_po'];
+        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonus').val())).toFixed(2);
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       } else if ($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == true) {
-        priceZero = data[0]['cena_gd'];
+        priceZero = ((data[0]['cena_gd'] * 100) / (100 - $('#bonus').val())).toFixed(2);
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == true) {
-        priceZero = data[0]['cena_po'];
+        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonus').val())).toFixed(2);
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       }
       $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html($.fn.dataTable.render.number( ' ', '.', 2).display((itemObj.amount * itemObj.price).toFixed(2)) );
@@ -380,6 +391,7 @@ function importClientFilter() {
       dataType: 'json',
       success:function(response){
           var len = response.length;
+          clients = response;
           for( var i = 0; i<len; i++){
               var client_id = response[i]['kontrahent_id'];
               var client_name = response[i]['kontrahent_nazwa'];
@@ -649,6 +661,7 @@ function getInviceHeader() {
     invoice_header.voivodeship = $("#voivodeship").children("option:selected").val();
     invoice_header.region = $("#region").children("option:selected").val();
     invoice_header.comment =  $("#comment").val();
+    invoice_header.bonus = $("#bonus").val();
     return invoice_header;
 }
 

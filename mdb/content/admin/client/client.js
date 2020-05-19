@@ -26,6 +26,10 @@ $(document).ready(function () {
                {data: 'jest_aktywny'},
                {data: 'czarna_lista'},
                {
+                 data: 'bonus',
+                 render: $.fn.dataTable.render.number( '', '.', 2),
+               },
+               {
                    data: 'edycja',
                    visible: editIconAvailable,
                }
@@ -50,6 +54,7 @@ $(document).ready(function() {
            $('#post_code').val(data[0]['kod_pocztowy']);
            $('#city').val(data[0]['miasto']);
            $('#country').val(data[0]['kraj']);
+           $('#bonus').val((data[0]['bonus']).toFixed(2)).siblings().addClass('active');
            if(data[0]['jest_aktywny'] == 1) {
              $('#is_active').prop('checked', true);
            } else {

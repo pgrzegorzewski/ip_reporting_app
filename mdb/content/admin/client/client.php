@@ -185,6 +185,12 @@
                                   <label for = "country">Kraj</label>
                               </div>
                             </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                  <input class="form-control" id = "bonus" name = "bonus" type="number" step="0.01" min="0" max = "100" style="color:white">
+                                  <label for = "bonus">Bonus</label>
+                              </div>
+                            </div>
 
                           </div>
 
@@ -317,6 +323,7 @@
                   <th>Kraj</th>
                   <th>Aktywny</th>
                   <th>Czarna lista</th>
+                  <th>Bonus</th>
                   <th>Edycja</th>
               </tr>
               </thead>

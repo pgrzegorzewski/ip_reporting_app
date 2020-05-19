@@ -39,7 +39,7 @@
 
   if($invoiceHeader && $invoice_number_check_flag == 1) {
     try {
-      $query = "SELECT * FROM app.sp_dodaj_fakture($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
+      $query = "SELECT * FROM app.sp_dodaj_fakture($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
       $result = pg_query_params (
         $connection,
         $query,
@@ -57,6 +57,7 @@
           $invoiceHeader->money_transfer,
           $invoiceHeader->delivery,
           $invoiceHeader->comment,
+          (($invoiceHeader->bonus)/100),
           $user
         ));
       $response = pg_fetch_array($result);

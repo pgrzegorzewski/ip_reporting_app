@@ -31,6 +31,7 @@ class Client
                                   'kraj' => $row['kraj'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'czarna_lista' => $row['czarna_lista'],
+                                  'bonus' => ($row['bonus'] * 100),
                                   'edycja'=> "<button style='padding:5px' data-id='" . $row['kontrahent_id'] . "' id='clientId-" . $row['kontrahent_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editClientModal'>edytuj</button>",
                                   'edycja_dostep' => $row['edycja_dostep'])
                                 );
@@ -56,16 +57,18 @@ class Client
                                   'miasto' => $row['miasto'],
                                   'kraj' => $row['kraj'],
                                   'jest_aktywny' => $row['jest_aktywny'],
-                                  'czarna_lista' => $row['czarna_lista'])
+                                  'czarna_lista' => $row['czarna_lista'],
+                                  'bonus' => ($row['bonus'] * 100))
                                 );
       }
       pg_free_result($result);
       echo json_encode($resp);
     }
 
-    public function updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList)
+    public function updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus)
     {
       $success = true;
+      $bonus = $bonus / 100;
       if(!$clientId) {
         $_SESSION['e_client_update'] = '<p style = "color:red; text-align:center;">Błąd podczas przekazania id kontrahenta</p>';
         $success = false;
@@ -100,8 +103,8 @@ class Client
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9)";
-          $result = pg_query_params($this->connection, $query, array($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList));
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+          $result = pg_query_params($this->connection, $query, array($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus));
           $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent zaktualizowany pomyślnie.</p>';
 
         } catch(Exception $error) {
