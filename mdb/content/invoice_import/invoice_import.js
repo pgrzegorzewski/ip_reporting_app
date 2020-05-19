@@ -309,7 +309,7 @@ function updateItemPricesRow(itemObj, index) {
       var margin = (itemObj.amount * itemObj.price) - (itemObj.amount * priceZero);
       console.log(itemObj.amount * priceZero);
       $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html($.fn.dataTable.render.number( ' ', '.', 2).display(margin.toFixed(2)) );
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html(((margin/(itemObj.amount * itemObj.price))*100).toFixed(4));
+      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html(((margin/(itemObj.amount * itemObj.price))*100).toFixed(1));
     }
   });
 }
@@ -630,7 +630,7 @@ function getInviceItemData(row) {
     invoice_item.item_price_zero = $("td:nth-child(7)", row).html();
     invoice_item.item_value = $("td:nth-child(8)", row).html().replace(/\s/g, '');
     invoice_item.item_margin = $("td:nth-child(9)", row).html().replace(/\s/g, '');
-    invoice_item.item_percent = ($("td:nth-child(10)", row).html())/100;
+    invoice_item.item_percent = (invoice_item.item_margin / (invoice_item.item_amount * invoice_item.item_price)).toFixed(6);
     return invoice_item;
 }
 
