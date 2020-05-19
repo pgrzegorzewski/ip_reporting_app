@@ -7,7 +7,39 @@ var formatter = new Intl.NumberFormat('ru-RU', {
 
 $(document).ready(function(){
     appendAddInvoice();
-    $('#data-table').DataTable();
+    $('#data-table').DataTable({
+        "scrollX": true,
+        "paging": false,
+        columns: [
+            {},
+            {
+              "width": "15%",
+            },
+            {},
+            {
+              "width": "15%",
+            },
+            {
+             "width": "5%",
+            },
+            {
+              "width": "15%",
+            },
+            {
+              "width": "10%",
+            },
+            {
+              "width": "10%",
+            },
+            {
+              "width": "10%",
+            },
+            {
+              "width": "10%",
+            },
+            {},
+        ]
+    });
     importFilters();
 });
 
@@ -90,7 +122,7 @@ $(document).ready(function(){
                             var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' min = '1' value='" + row['ilosc'] +"'>");
                             return $textInput.prop("outerHTML");
                           },
-                          "width": "10%",
+                          "width": "15%",
                         },
                         {"render": function(data, type, row) {
                             var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
@@ -103,7 +135,7 @@ $(document).ready(function(){
                               var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' min = '0.01' value='" + row['cena'] +"'>");
                               return $textInput.prop("outerHTML");
                             },
-                          "width": "10%",
+                          "width": "15%",
                         },
                         {
                           "render": function() {
