@@ -8,6 +8,7 @@ var clients = [];
 
 $(document).ready(function(){
     appendAddInvoice();
+    $("#data-table").dataTable().fnDestroy();
     $('#data-table').DataTable({
         "scrollX": true,
         "paging": false,
@@ -21,7 +22,7 @@ $(document).ready(function(){
               "width": "15%",
             },
             {
-             "width": "5%",
+             "width": "70px",
             },
             {
               "width": "15%",
@@ -139,7 +140,7 @@ $(document).ready(function(){
                             var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
                             return $textInput.prop("outerHTML");
                           },
-                         "width": "5%",
+                         "width": "70px",
                         },
                         {
                           "render": function(data, type, row) {
