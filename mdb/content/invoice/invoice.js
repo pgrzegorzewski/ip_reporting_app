@@ -1,6 +1,8 @@
 var today = new Date();
 var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 var TIMER_SECONDS = 3000;
+var clients = [];
+
 
 $(document).ready(function(){
     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
@@ -71,6 +73,15 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+  $('#clientEdit').change(function() {
+    var id = $("#clientEdit").children("option:selected").val();
+    var clientObj = clients.find(obj => {
+      return obj.kontrahent_id === id
+    });
+    $('#bonusEdit').val(((clientObj.bonus) * 100).toFixed(2)).siblings().addClass('active');;
+  })
+});
 
 function updateInvoiceHeader(id)
 {
@@ -89,6 +100,7 @@ function updateInvoiceHeader(id)
          transfer: $('#transferCheckboxEdit').is(':checked') ? 1 : 0,
          delivery: $('#deliveryCheckboxEdit').is(':checked') ? 1 : 0,
          client: $('#clientEdit').val(),
+         bonus: $('#bonusEdit').val(),
          country: $('#countryEdit').val(),
          voivodship: $('#voivodeshipEdit').val(),
          region: $('#regionEdit').val(),
@@ -272,6 +284,8 @@ function getInvoiceHeaderData(id) {
            $('#transferCheckboxEdit').prop('checked', false);
          }
          $('#clientEdit').val(data[0]['kontrahent_id']).change();
+         $('#bonus').val((data[0]['bonus_wprowadzony'] * 100).toFixed(2));
+         $('#bonusEdit').val((data[0]['bonus_aktualny'] * 100).toFixed(2));
          $('#countryEdit').val(data[0]['kraj_id']).change();
          $('#voivodeshipEdit').val(data[0]['wojewodztwo_id']).change();
          $('#regionEdit').val(data[0]['region_id']).change();
@@ -414,6 +428,7 @@ function getClientFilter() {
       dataType: 'json',
       success:function(response){
           var len = response.length;
+          clients = response;
           for( var i = 0; i<len; i++){
               var client_id = response[i]['kontrahent_id'];
               var client_name = response[i]['kontrahent_nazwa'];
@@ -523,6 +538,10 @@ function showInvoices(){
                 {data: 'wojewodztwo_kod'},
                 {data: 'region_kod'},
                 {
+                    data: 'bonus',
+                    render: $.fn.dataTable.render.number( ' ', '.', 2),
+                },
+                {
                     data: 'edycja',
                     visible: editIconAvailable,
                 },
@@ -602,13 +621,13 @@ function updateItemPrices(itemId, type) {
       console.log(data);
       var priceZero = 0;
       if($("#transferCheckboxEdit").is(":checked") == false && $("#deliveryCheckboxEdit").is(":checked") == false) {
-        priceZero = data[0]['cena_go'];
+        priceZero = ((data[0]['cena_go'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
       } else if ($("#transferCheckboxEdit").is(":checked") == true && $("#deliveryCheckboxEdit").is(":checked") == false) {
-        priceZero = data[0]['cena_po'];
+        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
       } else if ($("#transferCheckboxEdit").is(":checked") == false && $("#deliveryCheckboxEdit").is(":checked") == true) {
-        priceZero = data[0]['cena_gd'];
+        priceZero = ((data[0]['cena_gd'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
       } else if ($("#transferCheckboxEdit").is(":checked") == true && $("#deliveryCheckboxEdit").is(":checked") == true) {
-        priceZero = data[0]['cena_po'];
+        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
       }
 
       if(type == 'edit') {

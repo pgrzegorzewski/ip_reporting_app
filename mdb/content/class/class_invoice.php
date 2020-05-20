@@ -36,7 +36,9 @@ class Invoice
                                   'kraj_id' => $row['kraj_id'],
                                   'wojewodztwo_id' => $row['wojewodztwo_id'],
                                   'region_id' => $row['region_id'],
-                                  'uwagi' => $row['uwagi'])
+                                  'uwagi' => $row['uwagi'],
+                                  'bonus_wprowadzony' => $row['bonus_wprowadzony'],
+                                  'bonus_aktualny' => $row['bonus_aktualny'])
                                 );
       }
       pg_free_result($result);
@@ -69,9 +71,10 @@ class Invoice
     }
 
 
-    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $login)
+    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $bonus, $login)
     {
       $success = true;
+      $bonus = $bonus / 100;
       try {
         $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_faktura_numer($1) AS is_invoice_number_unique";
         $result = pg_query_params($this->connection, $query, array($invoiceNumber));
@@ -102,7 +105,7 @@ class Invoice
       }
       if($success) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)";
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_faktury($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)";
           $result = pg_query_params(
             $this->connection,
             $query,
@@ -122,7 +125,8 @@ class Invoice
               $region,
               $note,
               $invoiceActive,
-              $login
+              $login,
+              $bonus
           ));
 
         echo json_encode('Faktura zaktualizowana pomyślnie');

@@ -67,7 +67,8 @@
                 cena_zero,
                 wartosc,
                 marza,
-                procent
+                procent,
+                (bonus * 100) AS bonus
             FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8, $9)";
       $resp = array();
       $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region, $user));
@@ -87,6 +88,7 @@
                                   'kraj_kod' => $row['kraj_kod'],
                                   'wojewodztwo_kod' => $row['wojewodztwo_kod'],
                                   'region_kod' => $row['region_kod'],
+                                  'bonus' => $row['bonus'],
                                   'pozycja_faktura' => $row['pozycja_faktura'],
                                   'towar_nazwa' => $row['towar_nazwa'],
                                   'ilosc' => $row['ilosc'],

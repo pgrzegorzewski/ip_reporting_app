@@ -187,13 +187,25 @@ $loggedUser = new User();
                               <label class="custom-control-label" for="deliveryCheckboxEdit">Dostawa</label>
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-4">
                             <div class="md-form form-group">
                               <select class="form-control" id = "clientEdit" name = "clientEdit" >
                                   <option selected>Kontrahent</option>
                               </select>
                               <span id="clientError" style="font-weight:bold; color:red"></span>
                             </div>
+                          </div>
+                          <div class="col-md-1">
+                              <div class="md-form form-group">
+                                <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
+                                <label for = "bonus" class= 'active'>% wpr</label>
+                              </div>
+                          </div>
+                          <div class="col-md-1">
+                              <div class="md-form form-group">
+                                <input class="form-control" id = "bonusEdit" name = "bonusEdit" type="number" value="0" disabled>
+                                <label for = "bonusEdit" class= 'active'>% akt</label>
+                              </div>
                           </div>
                           <div class="col-md-4">
                             <div class="md-form form-group">
@@ -493,6 +505,7 @@ $loggedUser = new User();
                       <th>Kraj</th>
                       <th>Woj</th>
                       <th>Reg</th>
+                      <th>Bonus</th>
                       <?php
                         $query = "
                                SELECT pelny_przeglad FROM  usr.tbl_uzytkownik
