@@ -30,8 +30,8 @@
       $dateFrom = $invoiceFilters->invoice_date_from;
   }
 
-  if($invoiceFilters->invoice_date_from != NULL) {
-      $dateTo = $invoiceFilters->invoice_date_from;
+  if($invoiceFilters->invoice_date_to != NULL) {
+      $dateTo = $invoiceFilters->invoice_date_to;
   }
 
   if($invoiceFilters->invoice_date_from != NULL && ($invoiceFilters->invoice_date_to == NULL)) {
