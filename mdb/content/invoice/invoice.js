@@ -517,56 +517,115 @@ function showInvoices(){
           var editionCheck = jsonData[0].edycja;
           editIconAvailable = jsonData[0].edycja == 0 ? false : true;
         }
-        $("#data-table").dataTable().fnDestroy();
+        $('#data-table').dataTable().fnDestroy();
         $('#data-table').DataTable({
             "scrollX": true,
+            "paging": true,
             data : jsonData,
             columns: [
-                {data: 'faktura_numer'},
+                {
+                    data: 'faktura_numer',
+                    width: '100px',
+                },
                 {
                   data: 'data_wystawienia',
-                  width: '150px',
+                  width: '100px',
                 },
-                {data: 'uzytkownik'},
-                {data: 'waluta_kod'},
-                {data: 'kurs'},
-                {data: 'eksport'},
-                {data: 'dostawa'},
-                {data: 'przelew'},
-                {data: 'kontrahent_nazwa'},
-                {data: 'kraj_kod'},
-                {data: 'wojewodztwo_kod'},
-                {data: 'region_kod'},
+                {
+                    data: 'uzytkownik',
+                    width: '120px',
+                },
+                {
+                    data: 'waluta_kod',
+                    width: '50px',
+                },
+                {
+                    data: 'kurs',
+                    width: '40px',
+                },
+                {
+                    data: 'eksport',
+                    width: '40px',
+                },
+                {
+                    data: 'dostawa',
+                    width: '40px',
+                },
+                {
+                    data: 'przelew',
+                    width: '40px',
+                },
+                {
+                    data: 'kontrahent_nazwa',
+                    width: '140px',
+                },
+                {
+                    data: 'kraj_kod',
+                    width: '60px',
+                },
+                {
+                    data: 'wojewodztwo_kod',
+                    width: '60px',
+                },
+                {
+                    data: 'region_kod',
+                    width: '60px',
+                },
                 {
                     data: 'bonus',
                     render: $.fn.dataTable.render.number( ' ', '.', 2),
+                    width: '60px',
                 },
                 {
                     data: 'edycja',
                     visible: editIconAvailable,
+                    width: '80px',
                 },
-                {data: 'pozycja_faktura'},
-                {data: 'towar_nazwa'},
-                {data: 'ilosc'},
-                {data: 'jednostka'},
-                {data: 'cena'},
-                {data: 'cena_zero'},
+                {
+                  data: 'pozycja_faktura',
+                  width: '40px',
+                },
+                {
+                  data: 'towar_nazwa',
+                  width: '120px',
+                },
+                {
+                  data: 'ilosc',
+                  width: '80px',
+                },
+                {
+                  data: 'jednostka',
+                  width: '40px',
+                },
+                {
+                  data: 'cena',
+                  width: '70px',
+                },
+                {
+                    data: 'cena_zero',
+                    width: '70px',
+                },
                 {
                   data: 'wartosc',
                   render: $.fn.dataTable.render.number( ' ', '.', 2),
-                  width: '120px'
+                  width: '100px'
                 },
                 {
                   data: 'marza',
                   render: $.fn.dataTable.render.number( ' ', '.', 2),
-                  width: '120px'
+                  width: '100px'
                 },
-                {data: 'procent',
-                render: function(data) {
-                  return (data*100).toFixed(2) + '%';
+                {
+                  data: 'procent',
+                  render: function(data) {
+                    return (data*100).toFixed(2) + '%';
+                  },
+                  width: '70px',
+                },
+                {
+                  data: 'uwagi',
+                  width: '280px',
                 }
-                },
-                {data: 'uwagi'}
             ]
         });
         $('#loadButtonSpan').removeClass("spinner-border spinner-border-sm text-danger");
