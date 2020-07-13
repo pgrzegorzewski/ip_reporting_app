@@ -68,7 +68,7 @@ $(document).ready(function(){
     var currencyId = $("#currency").children("option:selected").val();
     if(currencyId == 1) {
       $('#rate').val(1).siblings().addClass('active');
-    } 
+    }
   })
 });
 
@@ -577,7 +577,8 @@ $(document).ajaxStop(function(){
     $('#invoice_add_success').prop("hidden", false);
     timer = setTimeout(function() {
       $('#invoice_add_success').prop("hidden", true);
-    }, 5000);
+      window.location.reload(true);
+    }, 3000);
   } else {
     $('#invoice_add_error').append('<br>Błąd podczas dodawania faktury');
     $('#invoice_add_error').prop("hidden", false);

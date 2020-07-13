@@ -47,7 +47,7 @@ $loggedUser = new User();
         </button>
       </div>
       <div class="alert alert-success alert-dismissible fade show" id="invoice_add_success" role="alert" hidden="true">
-        <strong>Pomyślnie dodano fakturę</strong>
+        <strong>Pomyślnie dodano fakturę, formularz zostanie odświeżone za 3 sekundy</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
