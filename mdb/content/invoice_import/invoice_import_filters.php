@@ -30,8 +30,9 @@ if ($connection) {
               $query = "
                         SELECT faktura_id, faktura_numer FROM app.tbl_faktura
                         WHERE
-                          data_wystawienia > $1
-                          AND data_wystawienia < $2
+                          data_wystawienia >= $1
+                          AND data_wystawienia <= $2
+                          AND jest_aktywny = 1::BIT
                         ORDER BY
                           faktura_numer
               ";
