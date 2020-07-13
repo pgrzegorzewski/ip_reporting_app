@@ -164,7 +164,7 @@ $loggedUser = new User();
                   </div>
                   <div class="col-md-1">
                       <div class="md-form form-group">
-                          <input class="form-control" id = "rate" name = "rate" type="number">
+                          <input class="form-control" id = "rate" name = "rate" type="number" step="0.01" min = 0>
                           <label for = "rate">Kurs</label>
                       </div>
 

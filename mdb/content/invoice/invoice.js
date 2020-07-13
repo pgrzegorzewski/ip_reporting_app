@@ -79,7 +79,18 @@ $(document).ready(function(){
     var clientObj = clients.find(obj => {
       return obj.kontrahent_id === id
     });
-    $('#bonusEdit').val(((clientObj.bonus) * 100).toFixed(2)).siblings().addClass('active');;
+    if(clientObj) {
+      $('#bonusEdit').val(((clientObj.bonus) * 100).toFixed(2)).siblings().addClass('active');
+    }
+  })
+});
+
+$(document).ready(function(){
+  $('#currencyEdit').change(function() {
+    var currencyId = $("#currencyEdit").children("option:selected").val();
+    if(currencyId == 1) {
+      $('#rateEdit').val(1).siblings().addClass('active');
+    }
   })
 });
 
