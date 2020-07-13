@@ -295,7 +295,7 @@ $loggedUser = new User();
                           </div>
                           <div class="custom-file">
                               <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
-                                     aria-describedby="fileBrowser" acccept=".csv"  style="margin:6px">
+                                     aria-describedby="fileBrowser"  accept=".csv" style="margin:6px">
                               <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
                           </div>
                       </div>
