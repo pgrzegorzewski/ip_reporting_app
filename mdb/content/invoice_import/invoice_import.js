@@ -190,6 +190,7 @@ $(document).ready(function(){
                 higlightEmptyItem();
                 appendAddInvoice();
                 updateItemPrices(getSelectedItems());
+                calculateSummaryValues(getSelectedItems());
                 $('.table-remove').bind( "click", function() {
                   $(this).parents('tr').detach();
                 });
@@ -295,11 +296,30 @@ function getSelectedItems() {
 }
 
 function updateItemPrices(items) {
-  $.each(items, function(index, value){
+  $.each(items, function(index, value) {
     if(items[index].itemId != 0) {
       updateItemPricesRow(items[index], index);
     }
+  });
+}
+
+function calculateSummaryValues(items) {
+  var summaryPricesZero = 0;
+  var summaryValue = 0;
+  var summaryMargin = 0;
+  $.each(items, function(index, value) {
+    if(items[index].itemId != 0) {
+      summaryPricesZero += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html());
+      summaryValue += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html());
+      summaryMargin += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html());
+    }
   })
+  $('tfoot:nth-child(1) tr th:nth-child(2)').html(summaryPricesZero.toFixed(2));
+  $('tfoot:nth-child(1) tr th:nth-child(3)').html(summaryValue.toFixed(2));
+  $('tfoot:nth-child(1) tr th:nth-child(4)').html(summaryMargin.toFixed(2));
+  !isNaN(((summaryMargin / summaryValue) * 100).toFixed(2)) ? $('tfoot:nth-child(1) tr th:nth-child(5)').html(((summaryMargin / summaryValue) * 100).toFixed(2)) : $('tfoot:nth-child(1) tr th:nth-child(5)').html(0);
+
+
 }
 
 function updateItemPricesRow(itemObj, index) {
@@ -332,6 +352,7 @@ function updateItemPricesRow(itemObj, index) {
       var margin = (itemObj.amount * itemObj.price) - (itemObj.amount * priceZero);
       $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html($.fn.dataTable.render.number( ' ', '.', 2).display(margin.toFixed(2)) );
       $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html(((margin/(itemObj.amount * itemObj.price))*100).toFixed(1));
+      calculateSummaryValues(getSelectedItems());
     }
   });
 }

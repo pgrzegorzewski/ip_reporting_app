@@ -324,6 +324,17 @@ $loggedUser = new User();
                     <th>Usuń</th>
                 </tr>
                 </thead>
+                <tbody></tbody>
+                <tfoot >
+                    <tr>
+                        <th colspan="6">Podsumowanie:</th>
+                        <th style="text-align:center"></th>
+                        <th style="text-align:center"></th>
+                        <th style="text-align:center"></th>
+                        <th style="text-align:center"></th>
+                        <th style="text-align:center"></th>
+                    </tr>
+                </tfoot>
             </table>
           </div>
 
