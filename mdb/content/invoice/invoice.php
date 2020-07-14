@@ -164,7 +164,7 @@ $loggedUser = new User();
                           </div>
                           <div class="col-md-1">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "rateEdit" name = "rate" type="number" min=0 step=0.01>
+                                  <input class="form-control" id = "rateEdit" name = "rate" type="number" min=0 step=0.0001>
                                   <label for = "rateEdit" class="active">Kurs</label>
                               </div>
                               <span id="rateError" style="font-weight:bold; color:red"></span>
