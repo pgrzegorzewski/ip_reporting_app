@@ -700,18 +700,19 @@ function updateItemPrices(itemId, type) {
         priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
       }
 
+      var rate = $("#rateEdit").val() ? $("#rateEdit").val() : 1;
       if(type == 'edit') {
         $('#priceZeroEdit').val(priceZero);
-        $('#valueEdit').val( ($('#amountEdit').val() * $('#priceEdit').val() ).toFixed(2));
-        var margin = ($('#amountEdit').val() * $('#priceEdit').val()) - ($('#amountEdit').val() * priceZero);
+        $('#valueEdit').val( ($('#amountEdit').val() * $('#priceEdit').val() * rate ).toFixed(2));
+        var margin = ($('#amountEdit').val() * $('#priceEdit').val() * rate) - ($('#amountEdit').val() * priceZero);
         $('#marginEdit').val(margin.toFixed(2));
-        $('#percentEdit').val((margin/($('#amountEdit').val() *$('#priceEdit').val())).toFixed(6));
+        $('#percentEdit').val((margin/($('#amountEdit').val() *$('#priceEdit').val() * rate)).toFixed(6));
       } else {
         $('#priceZeroAdd').val(priceZero);
-        $('#valueAdd').val( ($('#amountAdd').val() * $('#priceAdd').val() ).toFixed(2));
-        var margin = ($('#amountAdd').val() * $('#priceAdd').val()) - ($('#amountAdd').val() * priceZero);
+        $('#valueAdd').val( ($('#amountAdd').val() * $('#priceAdd').val() * rate).toFixed(2));
+        var margin = ($('#amountAdd').val() * $('#priceAdd').val() * rate) - ($('#amountAdd').val() * priceZero);
         $('#marginAdd').val(margin.toFixed(2));
-        $('#percentAdd').val((margin/($('#amountAdd').val() *$('#priceAdd').val())).toFixed(6));
+        $('#percentAdd').val((margin/($('#amountAdd').val() *$('#priceAdd').val() * rate)).toFixed(6));
       }
     }
   });
