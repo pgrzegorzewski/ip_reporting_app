@@ -327,8 +327,7 @@ $loggedUser = new User();
                 <tbody></tbody>
                 <tfoot >
                     <tr>
-                        <th colspan="6">Podsumowanie:</th>
-                        <th style="text-align:center"></th>
+                        <th colspan="7">Podsumowanie:</th>
                         <th style="text-align:center"></th>
                         <th style="text-align:center"></th>
                         <th style="text-align:center"></th>

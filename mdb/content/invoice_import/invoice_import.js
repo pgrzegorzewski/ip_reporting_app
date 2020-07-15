@@ -309,15 +309,16 @@ function calculateSummaryValues(items) {
   var summaryMargin = 0;
   $.each(items, function(index, value) {
     if(items[index].itemId != 0) {
-      summaryPricesZero += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html());
-      summaryValue += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html());
-      summaryMargin += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html());
+      summaryPricesZero += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html().replace(/ /g,''));
+      summaryValue += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html().replace(/ /g,''));
+      summaryMargin += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html().replace(/ /g,''));
     }
   })
-  $('tfoot:nth-child(1) tr th:nth-child(2)').html(summaryPricesZero.toFixed(2));
-  $('tfoot:nth-child(1) tr th:nth-child(3)').html(summaryValue.toFixed(2));
-  $('tfoot:nth-child(1) tr th:nth-child(4)').html(summaryMargin.toFixed(2));
-  !isNaN(((summaryMargin / summaryValue) * 100).toFixed(2)) ? $('tfoot:nth-child(1) tr th:nth-child(5)').html(((summaryMargin / summaryValue) * 100).toFixed(2)) : $('tfoot:nth-child(1) tr th:nth-child(5)').html(0);
+  var num = summaryPricesZero.toFixed(2);
+  //$('tfoot:nth-child(1) tr th:nth-child(2)').html(beautifyNumberPrint(summaryPricesZero.toFixed(2)));
+  $('tfoot:nth-child(1) tr th:nth-child(2)').html(beautifyNumberPrint(summaryValue.toFixed(2)));
+  $('tfoot:nth-child(1) tr th:nth-child(3)').html(beautifyNumberPrint(summaryMargin.toFixed(2)));
+  !isNaN(((summaryMargin / summaryValue) * 100).toFixed(2)) ? $('tfoot:nth-child(1) tr th:nth-child(4)').html(beautifyNumberPrint(((summaryMargin / summaryValue) * 100).toFixed(2))) : $('tfoot:nth-child(1) tr th:nth-child(5)').html(0);
 
 
 }
@@ -794,4 +795,10 @@ function checkInvoiceHeaderData(invoice_header) {
     }
 
     return success;
+}
+
+function beautifyNumberPrint(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return parts.join(".");
 }
