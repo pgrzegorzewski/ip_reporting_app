@@ -314,11 +314,10 @@ function calculateSummaryValues(items) {
       summaryMargin += parseFloat($('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html().replace(/ /g,''));
     }
   })
-  var num = summaryPricesZero.toFixed(2);
   //$('tfoot:nth-child(1) tr th:nth-child(2)').html(beautifyNumberPrint(summaryPricesZero.toFixed(2)));
   $('tfoot:nth-child(1) tr th:nth-child(2)').html(beautifyNumberPrint(summaryValue.toFixed(2)));
   $('tfoot:nth-child(1) tr th:nth-child(3)').html(beautifyNumberPrint(summaryMargin.toFixed(2)));
-  !isNaN(((summaryMargin / summaryValue) * 100).toFixed(2)) ? $('tfoot:nth-child(1) tr th:nth-child(4)').html(beautifyNumberPrint(((summaryMargin / summaryValue) * 100).toFixed(2))) : $('tfoot:nth-child(1) tr th:nth-child(5)').html(0);
+  !isNaN(((summaryMargin / summaryValue) * 100).toFixed(2)) ? $('tfoot:nth-child(1) tr th:nth-child(4)').html(beautifyNumberPrint(((summaryMargin / summaryValue) * 100).toFixed(2))) : $('tfoot:nth-child(1) tr th:nth-child(4)').html(0);
 
 
 }
