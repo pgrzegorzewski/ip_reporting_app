@@ -111,7 +111,7 @@ function updateInvoiceHeader(id)
          transfer: $('#transferCheckboxEdit').is(':checked') ? 1 : 0,
          delivery: $('#deliveryCheckboxEdit').is(':checked') ? 1 : 0,
          client: $('#clientEdit').val(),
-         bonus: $('#bonusEdit').val(),
+         bonus: $('#bonus').val(),
          country: $('#countryEdit').val(),
          voivodship: $('#voivodeshipEdit').val(),
          region: $('#regionEdit').val(),
