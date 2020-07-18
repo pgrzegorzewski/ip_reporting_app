@@ -197,7 +197,7 @@ $loggedUser = new User();
                           </div>
                           <div class="col-md-1">
                               <div class="md-form form-group">
-                                <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
+                                <input class="form-control" id = "bonus" name = "bonus" type="number" value="0">
                                 <label for = "bonus" class= 'active'>% wpr</label>
                               </div>
                           </div>

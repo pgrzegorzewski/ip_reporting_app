@@ -691,13 +691,13 @@ function updateItemPrices(itemId, type) {
       console.log(data);
       var priceZero = 0;
       if($("#transferCheckboxEdit").is(":checked") == false && $("#deliveryCheckboxEdit").is(":checked") == false) {
-        priceZero = ((data[0]['cena_go'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
+        priceZero = ((data[0]['cena_go'] * 100) / (100 - $('#bonus').val())).toFixed(2);
       } else if ($("#transferCheckboxEdit").is(":checked") == true && $("#deliveryCheckboxEdit").is(":checked") == false) {
-        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
+        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonus').val())).toFixed(2);
       } else if ($("#transferCheckboxEdit").is(":checked") == false && $("#deliveryCheckboxEdit").is(":checked") == true) {
-        priceZero = ((data[0]['cena_gd'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
+        priceZero = ((data[0]['cena_gd'] * 100) / (100 - $('#bonus').val())).toFixed(2);
       } else if ($("#transferCheckboxEdit").is(":checked") == true && $("#deliveryCheckboxEdit").is(":checked") == true) {
-        priceZero = ((data[0]['cena_pd'] * 100) / (100 - $('#bonusEdit').val())).toFixed(2);
+        priceZero = ((data[0]['cena_pd'] * 100) / (100 - $('#bonus').val())).toFixed(2);
       }
 
       var rate = $("#rateEdit").val() ? $("#rateEdit").val() : 1;
