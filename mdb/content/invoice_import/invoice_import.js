@@ -345,7 +345,7 @@ function updateItemPricesRow(itemObj, index) {
         priceZero = ((data[0]['cena_gd'] * 100) / (100 - $('#bonus').val())).toFixed(2);
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == true) {
-        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonus').val())).toFixed(2);
+        priceZero = ((data[0]['cena_pd'] * 100) / (100 - $('#bonus').val())).toFixed(2);
         $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
       }
       var rate = $("#rate").val() ? $("#rate").val() : 1;
