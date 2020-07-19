@@ -11,7 +11,7 @@ require '../core/connect.php';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Instalplast rozliczenia</title>
-    
+
     <link rel="icon" href="../../resources/ip_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
@@ -131,6 +131,9 @@ require '../core/connect.php';
             </td>
             <td>
                 <button class="btn btn-info" id="summary_by_item_show">Podsumowanie per towar</button>
+            </td>
+            <td>
+                <button class="btn btn-info" id="invoice_summary_report_show">Raport faktur</button>
             </td>
           </tr>
 

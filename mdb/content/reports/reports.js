@@ -6,7 +6,30 @@ $(document).ready(function () {
   });
   $('.dataTables_length').addClass('bs-select');
   $('#data-table').DataTable();
+
 });
+
+function getSalesmanFilter() {
+  $.ajax({
+      url: "../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type:'salesman'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var salesman_id = response[i]['uzytkownik_id'];
+              var salesman_name = response[i]['uzytkownik_nazwa'];
+              console.log(salesman_name);
+              $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+          }
+          if(getCookie('salesman') != 'null') {
+            $('#salesman').val(getCookie('salesman'));
+          }
+      }
+  });
+  console.log('test');
+}
 
 
 $(document).on('click', '#region_summary_data_refresh', function() {
@@ -593,6 +616,22 @@ $.ajax({
 
 });
 
+$(document).on('click', '#invoice_summary_report_show', function() {
+  clearChartTemplate();
+  $.ajax({
+        method: "GET",
+        url: "./invoice_summary_report_template.php",
+        success: function(data){
+             $('#report_div').empty();
+             $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
+             getSalesmanFilter();
+             $('#salesman').val( getCookie('salesman'));
+       }
+  })
+});
+
 function getItemChartTemplate() {
   $.ajax({
           method: "GET",
@@ -636,7 +675,6 @@ function getSalesmanChartTemplate() {
          }
     });
 }
-
 
 function clearChartTemplate() {
   $('#chart_div').empty();

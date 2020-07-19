@@ -13,7 +13,6 @@
   </div>
   <div class="col-md-3">
       <div class="md-form form-group">
-          <span>Sprzedawca</span>
           <select class="form-control" id = "salesman" name = "salesman">
               <option selected>Sprzedawca</option>
           </select>
@@ -31,16 +30,19 @@
     <table class="table table-striped table-bordered" id="data-table">
         <thead>
         <tr>
+            <th>Faktura</th>
+            <th>Data wystawienia</th>
+            <th>Kontrahent</th>
             <th>Sprzedawca</th>
-            <th>Suma wartości</th>
-            <th>Suma marż</th>
+            <th>Wartość</th>
+            <th>Marża</th>
             <th>Procent</th>
         </tr>
         </thead>
         <tbody></tbody>
         <tfoot>
             <tr>
-                <th>Podsumowanie:</th>
+                <th colspan="4">Podsumowanie:</th>
                 <th style="text-align:right"></th>
                 <th style="text-align:right"></th>
                 <th style="text-align:right"></th>
