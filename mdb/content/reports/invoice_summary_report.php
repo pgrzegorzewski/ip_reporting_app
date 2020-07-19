@@ -7,8 +7,12 @@ $salesman = $_SESSION['salesman'];
 $dateFrom = $_POST['dateFrom'];
 $dateTo = $_POST['dateTo'];
 
+if(!is_numeric($salesman)) {
+  $salesman = null;
+}
+
 try {
-    $query = "SELECT * FROM app.tf_podsumowanie_faktur_per_sprzedawca($1, $2, $4, $3)";
+    $query = "SELECT * FROM app.tf_podsumowanie_faktur_per_sprzedawca($1, $2, $3, $4)";
     $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $salesman, $login));
     $resp = array();
 
@@ -17,9 +21,9 @@ try {
       array_push($resp, array(
                                 'faktura_numer' => $row['faktura_numer'],
                                 'data_wystawienia' => $row['data_wystawienia'],
-                                'kontrahent' => $row['kontrahent'],
+                                'kontrahent_nazwa' => $row['kontrahent_nazwa'],
                                 'sprzedawca' => $row['sprzedawca'],
-                                'suma_wartosci' => $row['suma_wartosci']
+                                'suma_wartosci' => $row['suma_wartosci'],
                                 'suma_marz' => $row['suma_marz'],
                                 'procent' => $row['procent'])
                               );
