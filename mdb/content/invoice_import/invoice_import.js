@@ -301,6 +301,7 @@ function updateItemPrices(items) {
       updateItemPricesRow(items[index], index);
     }
   });
+  console.log('przeliczone itemy');
 }
 
 function calculateSummaryValues(items) {
@@ -326,6 +327,7 @@ function updateItemPricesRow(itemObj, index) {
   $.ajax({
     method: "POST",
     global: false,
+    async: false,
     data: {
         action : "getItemPrices",
         item : itemObj.itemId,
@@ -354,8 +356,10 @@ function updateItemPricesRow(itemObj, index) {
       $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html($.fn.dataTable.render.number( ' ', '.', 2).display(margin.toFixed(2)) );
       $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html(((margin/(itemObj.amount * itemObj.price * rate))*100).toFixed(1));
       calculateSummaryValues(getSelectedItems());
+      console.log('ajax success item')
     }
   });
+  console.log('end of func with ajax per item ')
 }
 
 function importRegionFilter() {
@@ -536,6 +540,8 @@ function appendAddInvoice() {
 }
 
 function addInvoice() {
+  updateItemPrices(getSelectedItems());
+  console.log('bierzemy header');
   var invoice_header = getInviceHeader();
   var checkInvoiceHeader = checkInvoiceHeaderData(invoice_header);
   var checkInvoiceItems = checkInvoiceItemsData();
