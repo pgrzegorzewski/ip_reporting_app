@@ -3,7 +3,7 @@ session_start();
 require_once '../core/connect.php';
 
 $login = $_SESSION['user'];
-$salesman = $_SESSION['salesman'];
+$salesman = $_POST['salesman'];
 $dateFrom = $_POST['dateFrom'];
 $dateTo = $_POST['dateTo'];
 

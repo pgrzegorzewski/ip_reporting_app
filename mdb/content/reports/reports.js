@@ -20,7 +20,6 @@ function getSalesmanFilter() {
           for( var i = 0; i<len; i++){
               var salesman_id = response[i]['uzytkownik_id'];
               var salesman_name = response[i]['uzytkownik_nazwa'];
-              console.log(salesman_name);
               $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
           }
           if(getCookie('salesman') != 'null') {
@@ -573,7 +572,6 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
       $salesman = $("#salesman").children("option:selected").val();
-      console.log($salesman);
       $('#invoice_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
       $('#invoice_summary_data_refresh_span').text('');
       $.ajax({
