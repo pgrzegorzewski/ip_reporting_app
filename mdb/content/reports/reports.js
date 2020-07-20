@@ -6,7 +6,29 @@ $(document).ready(function () {
   });
   $('.dataTables_length').addClass('bs-select');
   $('#data-table').DataTable();
+
 });
+
+function getSalesmanFilter() {
+  $.ajax({
+      url: "../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type:'salesman'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var salesman_id = response[i]['uzytkownik_id'];
+              var salesman_name = response[i]['uzytkownik_nazwa'];
+              $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+          }
+          if(getCookie('salesman') != 'null') {
+            $('#salesman').val(getCookie('salesman'));
+          }
+      }
+  });
+  console.log('test');
+}
 
 
 $(document).on('click', '#region_summary_data_refresh', function() {
@@ -536,6 +558,137 @@ $(document).on('click', '#item_summary_data_refresh', function() {
 
 });
 
+$(document).on('click', '#invoice_summary_data_refresh', function() {
+
+  if ($('#report_date_from').val() && $('#report_date_to').val()) {
+    if ($('#report_date_from').val() < $('#report_date_to').val()) {
+
+      $('#error_msg').text('');
+      $("#report_date_to").css("border-bottom", "none");
+      $("#report_date_from").css("border-bottom", "none");
+
+      $("#data-table").dataTable().fnDestroy();
+      $("#data_refresh").attr("disabled", true);
+      $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
+      $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+      $salesman = $("#salesman").children("option:selected").val();
+      $('#invoice_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+      $('#invoice_summary_data_refresh_span').text('');
+      $.ajax({
+
+         method: "POST",
+         data: {dateFrom : $dateFrom, dateTo : $dateTo, salesman: $salesman},
+
+         dataType: 'json',
+         url: "./invoice_summary_report.php",
+         success: function (data) {
+             $("#data-table").dataTable().fnDestroy();
+             $("#data_refresh").attr("disabled", false);
+             $('#data-table').DataTable({
+                 data : data,
+                 columns: [
+                     {
+                       data: 'faktura_numer'
+                     },
+                     {
+                       data: 'data_wystawienia',
+                     },
+                     {
+                       data: 'kontrahent_nazwa',
+                     },
+                     {
+                       data: 'sprzedawca',
+                     },
+                     {
+                       data: 'suma_wartosci',
+                       render: $.fn.dataTable.render.number( ' ', '.', 2),
+                       className: "text-right"
+                     },
+                     {
+                       data: 'suma_marz',
+                       render: $.fn.dataTable.render.number( ' ', '.', 2),
+                       className: "text-right"},
+                     {
+                       data: 'procent',
+                       render: $.fn.dataTable.render.number( ' ', '.', 2),
+                       className: "text-right"
+                     }
+                 ],
+                 footerCallback: function ( row, data, start, end, display ) {
+                     var api = this.api(), data;
+                     var intVal = function ( i ) {
+                         return typeof i === 'string' ?
+                             i.replace(/[\$,]/g, '') * 1 :
+                             typeof i === 'number' ?
+                                 i : 0;
+                     };
+
+                       totalValue = api
+                           .column(4)
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalValue = api
+                           .column( 4, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       totalMargin = api
+                           .column(5)
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalMargin = api
+                           .column( 5, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                     $( api.column( 4).footer() ).html(
+                         'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalValue.toFixed(2))
+                     );
+
+                     $( api.column( 5).footer() ).html(
+                         'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalMargin.toFixed(2))
+                     );
+
+                     $( api.column( 6 ).footer() ).html(
+                         'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((pageTotalMargin / pageTotalValue) * 100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
+                     );
+                 },
+             });
+
+             $('#invoice_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+             $('#invoice_summary_data_refresh_span').text('Odśwież/załaduj');
+
+             setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+             setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
+             setCookie('salesman',  $("#salesman").children("option:selected").val());
+         },
+         always: function() {
+           $("#data_refresh").attr("disabled", false);
+          }
+      })
+    } else {
+      $('#error_msg').text('Nieprawidłowe daty');
+      $("#report_date_to").css("border-bottom", "1px solid red");
+      $("#report_date_from").css("border-bottom", "1px solid red");
+    }
+  } else {
+    $('#error_msg').text('Nieprawidłowe daty');
+    $("#report_date_to").css("border-bottom", "1px solid red");
+    $("#report_date_from").css("border-bottom", "1px solid red");
+  }
+
+});
+
 $(document).on('click', '#summary_by_region_show', function() {
   clearChartTemplate();
   $.ajax({
@@ -593,6 +746,22 @@ $.ajax({
 
 });
 
+$(document).on('click', '#invoice_summary_report_show', function() {
+  clearChartTemplate();
+  $.ajax({
+        method: "GET",
+        url: "./invoice_summary_report_template.php",
+        success: function(data){
+             $('#report_div').empty();
+             $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
+             getSalesmanFilter();
+             $('#salesman').val( getCookie('salesman'));
+       }
+  })
+});
+
 function getItemChartTemplate() {
   $.ajax({
           method: "GET",
@@ -636,7 +805,6 @@ function getSalesmanChartTemplate() {
          }
     });
 }
-
 
 function clearChartTemplate() {
   $('#chart_div').empty();
