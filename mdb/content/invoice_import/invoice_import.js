@@ -420,7 +420,7 @@ function importClientFilter() {
       url: "./invoice_import_filters.php",
       type: 'post',
       global: false,
-      data: {type:'client'},
+      data: {type:'client_active_only'},
       dataType: 'json',
       success:function(response){
           var len = response.length;

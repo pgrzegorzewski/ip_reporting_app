@@ -96,6 +96,25 @@ if ($connection) {
                 }
                 echo json_encode($clientArray);
                 break;
+              case 'client_active_only':
+                  $query = "
+                          SELECT kontrahent_id, kontrahent_nazwa, bonus FROM app.tbl_kontrahent
+                          WHERE
+                            jest_aktywny = 1::BIT
+                          ORDER BY
+                            kontrahent_nazwa
+                  ";
+                  $clientQuery = @pg_query($connection, $query);
+
+                  while($row = pg_fetch_assoc($clientQuery))
+                  {
+                      $clientId = $row["kontrahent_id"];
+                      $clientyName = $row["kontrahent_nazwa"];
+                      $bonus = $row["bonus"];
+                      $clientArray[] = array("kontrahent_id" => $clientId, "kontrahent_nazwa" => $clientyName, "bonus" => $bonus);
+                  }
+                  echo json_encode($clientArray);
+                  break;
             case 'salesman':
                 $query = "
                   SELECT
