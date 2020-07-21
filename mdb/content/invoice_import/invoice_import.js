@@ -440,7 +440,7 @@ function importSalesmanFilter() {
       url: "./invoice_import_filters.php",
       type: 'post',
       global: false,
-      data: {type:'salesman'},
+      data: {type:'salesman_active_only'},
       dataType: 'json',
       success:function(response){
           var len = response.length;

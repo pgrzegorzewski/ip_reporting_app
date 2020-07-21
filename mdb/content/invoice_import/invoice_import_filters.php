@@ -122,8 +122,28 @@ if ($connection) {
                       (imie || ' ' || nazwisko) AS uzytkownik_nazwa
                   FROM usr.tbl_uzytkownik tu
                   WHERE
-                     jest_aktywny = 1::BIT
-                     AND stanowisko_id = 1
+                    stanowisko_id = 1
+                  ORDER BY nazwisko
+                ";
+                $salesmanQuery = @pg_query($connection, $query);
+
+                while($row = pg_fetch_assoc($salesmanQuery))
+                {
+                    $salesmantId = $row["uzytkownik_id"];
+                    $salesmanName = $row["uzytkownik_nazwa"];
+                    $salesmanArray[] = array("uzytkownik_id" => $salesmantId, "uzytkownik_nazwa" => $salesmanName);
+                }
+                echo json_encode($salesmanArray);
+                break;
+            case 'salesman_active_only':
+                $query = "
+                  SELECT
+                      uzytkownik_id,
+                      (imie || ' ' || nazwisko) AS uzytkownik_nazwa
+                  FROM usr.tbl_uzytkownik tu
+                  WHERE
+                    jest_aktywny = 1::BIT
+                    AND stanowisko_id = 1
                   ORDER BY nazwisko
                 ";
                 $salesmanQuery = @pg_query($connection, $query);
