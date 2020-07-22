@@ -301,6 +301,7 @@ function updateItemPrices(items) {
       updateItemPricesRow(items[index], index);
     }
   });
+
 }
 
 function calculateSummaryValues(items) {
@@ -326,6 +327,7 @@ function updateItemPricesRow(itemObj, index) {
   $.ajax({
     method: "POST",
     global: false,
+    async: false,
     data: {
         action : "getItemPrices",
         item : itemObj.itemId,
@@ -542,6 +544,7 @@ function addInvoice() {
   showErrorsAlert(checkInvoiceHeader, checkInvoiceItems);
   var invoiceId  = 0;
   if(checkInvoiceHeader == true && checkInvoiceItems == true) {
+    updateItemPrices(getSelectedItems());
     $.ajax({
         url: "./add_invoice.php",
         method: "POST",
