@@ -237,9 +237,8 @@ $loggedUser = new User();
           </form>
           <br/ >
           <div style="text-align:center">
-            <button id="show_price_calculator" class="btn btn-info"><i class="fas fa-calculator"></i>  Pokaż kalkulator cen</button>
+            <button id="show_price_calculator" class="btn btn-info"><i class="fas fa-calculator"></i> Pokaż kalkulator cen</button>
             <button id="recalculatePricesButton" class="btn btn-info" disabled = "true"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
-
           </div>
           <div id="price_calculator_div" style="display:none">
             <form id="price_calculator">
