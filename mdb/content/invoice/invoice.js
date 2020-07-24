@@ -117,6 +117,7 @@ function updateInvoiceHeader(id)
          region: $('#regionEdit').val(),
          note : $('#noteEdit').val(),
          invoiceActive: $('#headerActiveEdit').is(':checked') ? 0 : 1,
+         invoicePricesEdit: $('#invoicePricesEdit').is(':checked') ? 1 : 0,
          invoiceItemId: id
        },
        dataType: 'json',

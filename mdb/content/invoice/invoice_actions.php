@@ -66,6 +66,10 @@ if(isset($_POST['invoiceActive'])) {
   $invoiceActive = $_POST['invoiceActive'];
 }
 
+if(isset($_POST['invoicePricesEdit'])) {
+  $invoicePricesEdit = $_POST['invoicePricesEdit'];
+}
+
 if(isset($_POST['item'])) {
   $item = $_POST['item'];
 }
@@ -122,7 +126,7 @@ switch ($action) {
     return $invoiceItemData;
     break;
   case 'updateInvoiceHeader':
-    $invoiceItemData = $invoice->updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $bonus, $login);
+    $invoiceItemData = $invoice->updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $invoicePricesEdit, $bonus, $login);
     return $invoiceItemData;
     break;
   case 'updateInvoiceItem':

@@ -71,7 +71,7 @@ class Invoice
     }
 
 
-    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $bonus, $login)
+    public function updateInvoiceHeader($invoiceItemId, $invoiceNumber, $invoiceDate, $salesman, $currency, $rate, $export, $transfer, $delivery, $client, $country, $voivodship, $region, $note, $invoiceActive, $invoicePricesEdit, $bonus, $login)
     {
       $success = true;
       $bonus = $bonus / 100;
@@ -102,6 +102,10 @@ class Invoice
 
       } catch(Exception $error) {
           $error->getMessage();
+      }
+
+      if ($invoicePricesEdit == 1) {
+        $this->updateInvoiceItemsPrices($invoiceId, $transfer, $delivery);
       }
       if($success) {
         try {
@@ -135,6 +139,21 @@ class Invoice
         }
       }
 
+    }
+
+    public function updateInvoiceItemsPrices($invoiceId, $transfer, $delivery) {
+      try {
+        $query = "SELECT faktura_pozycja_id FROM app.tbl_faktura_pozycja WHERE faktura_id = $1 AND jest_aktywny = 1::BIT =";
+        $result = pg_query_params($this->connection, $query, array($invoiceId));
+
+        while ($invoiceItem = pg_fetch_assoc($result)) {
+          $updateQuery = "SELECT * FROM app.sp_zaktualizuj_ceny_pozycji_faktury($1, $2, $3)";
+          $updateResult = pg_query_params($this->connection, $updateQuery, array($invoiceItem['faktura_pozycja_id'], $transfer, $delivery));
+        }
+
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
     }
 
     public function updateInvoiceItem($invoiceItemId, $item, $amount, $unit, $price, $priceZero, $value, $margin, $percent, $invoiceItemActive, $login)

@@ -231,17 +231,23 @@ $loggedUser = new User();
                               <span id="regionError" style="font-weight:bold; color:red"></span>
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-4">
                             <div class="md-form form-group">
                               <input class="form-control" id = "noteEdit" name = "noteEdit" type="text" value = " ">
                               <label for = "noteEdit">Uwagi</label>
                             </div>
                           </div>
-                          <div class="col-md-3 my-auto">
+                          <div class="col-md-2 my-auto">
                             <div class="custom-control custom-checkbox checkbox-danger custom-control-inline" >
                               <input type="checkbox" class="custom-control-input" id="headerActiveEdit" name="headerActiveEdit" mdbInput>
                               <label class="custom-control-label label-danger" for="headerActiveEdit" style="color:red">Usuń fakturę</label>
                               <br><span id="activeHeaderEditSpan" style ="color:red"> </span>
+                            </div>
+                          </div>
+                          <div class="col-md-3 my-auto">
+                            <div class="custom-control custom-checkbox checkbox-success custom-control-inline" >
+                              <input type="checkbox" class="custom-control-input" id="invoicePricesEdit" name="invoicePricesEdit" mdbInput>
+                              <label class="custom-control-label label-success" for="invoicePricesEdit" style="color:green">Zaktualizuj wszystkie ceny</label>
                             </div>
                           </div>
                           <div class="col-md-3 my-auto">
