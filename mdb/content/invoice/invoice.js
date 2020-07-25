@@ -126,7 +126,13 @@ function updateInvoiceHeader(id)
          $('#invoiceHeaderUpdateResult').text(data);
 
        },
-    })
+    });
+    if($('#invoicePricesEdit').is(':checked') == 1) {
+      $(function () {
+        $('#editInvoiceItemModal').modal('toggle');
+        window.location.reload(true);
+      });
+    }
   }
 }
 
@@ -689,7 +695,6 @@ function updateItemPrices(itemId, type) {
     dataType: 'json',
     url: "../invoice_import/invoice_import_actions.php",
     success: function (data) {
-      console.log(data);
       var priceZero = 0;
       if($("#transferCheckboxEdit").is(":checked") == false && $("#deliveryCheckboxEdit").is(":checked") == false) {
         priceZero = ((data[0]['cena_go'] * 100) / (100 - $('#bonus').val())).toFixed(2);

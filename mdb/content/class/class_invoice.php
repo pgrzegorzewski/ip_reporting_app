@@ -105,7 +105,7 @@ class Invoice
       }
 
       if ($invoicePricesEdit == 1) {
-        $this->updateInvoiceItemsPrices($invoiceId, $transfer, $delivery);
+        $this->updateInvoiceItemsPrices($invoiceId, $transfer, $delivery, $rate, $bonus, $login);
       }
       if($success) {
         try {
@@ -141,14 +141,14 @@ class Invoice
 
     }
 
-    public function updateInvoiceItemsPrices($invoiceId, $transfer, $delivery) {
+    public function updateInvoiceItemsPrices($invoiceId, $transfer, $delivery, $rate, $bonus, $login) {
       try {
-        $query = "SELECT faktura_pozycja_id FROM app.tbl_faktura_pozycja WHERE faktura_id = $1 AND jest_aktywny = 1::BIT =";
+        $query = "SELECT faktura_pozycja_id FROM app.tbl_faktura_pozycja WHERE faktura_id = $1 AND jest_aktywny = 1::BIT";
         $result = pg_query_params($this->connection, $query, array($invoiceId));
 
         while ($invoiceItem = pg_fetch_assoc($result)) {
-          $updateQuery = "SELECT * FROM app.sp_zaktualizuj_ceny_pozycji_faktury($1, $2, $3)";
-          $updateResult = pg_query_params($this->connection, $updateQuery, array($invoiceItem['faktura_pozycja_id'], $transfer, $delivery));
+          $updateQuery = "SELECT * FROM app.sp_zaktualizuj_ceny_pozycji_faktury($1, $2, $3, $4, $5, $6)";
+          $updateResult = pg_query_params($this->connection, $updateQuery, array($invoiceItem['faktura_pozycja_id'], $transfer, $delivery, $rate, $bonus, $login));
         }
 
       } catch(Exception $error) {
