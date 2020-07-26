@@ -689,6 +689,71 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
 
 });
 
+$(document).on('click', '#error_summary_data_refresh', function() {
+
+  if ($('#report_date_from').val() && $('#report_date_to').val()) {
+    if ($('#report_date_from').val() < $('#report_date_to').val()) {
+
+      $('#error_msg').text('');
+      $("#report_date_to").css("border-bottom", "none");
+      $("#report_date_from").css("border-bottom", "none");
+
+      $("#data-table").dataTable().fnDestroy();
+      $("#data_refresh").attr("disabled", true);
+      $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
+      $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+      $('#error_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+      $('#error_summary_data_refresh_span').text('');
+      $.ajax({
+
+         method: "POST",
+         data: {dateFrom : $dateFrom, dateTo : $dateTo},
+
+         dataType: 'json',
+         url: "./summary_error_report.php",
+         success: function (data) {
+             $("#data-table").dataTable().fnDestroy();
+             $("#data_refresh").attr("disabled", false);
+             $('#data-table').DataTable({
+                 data : data,
+                 columns: [
+                     {data: 'faktura_numer'},
+                     {data: 'data_wystawienia'},
+                     {data: 'kontrahent'},
+                     {data: 'sprzedawca'},
+                     {data: 'region'},
+                     {data: 'kraj'},
+                     {data: 'wojewodztwo'},
+                     {data: 'waluta'},
+                     {data: 'eksport'},
+                     {data: 'kurs'},
+                     {data: 'cena_zero'},
+                     {data: 'cena'}
+                 ],
+             });
+             $('#error_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+             $('#error_summary_data_refresh_span').text('Odśwież/załaduj');
+
+             setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+             setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
+         },
+         always: function() {
+           $("#data_refresh").attr("disabled", false);
+          }
+      })
+    } else {
+      $('#error_msg').text('Nieprawidłowe daty');
+      $("#report_date_to").css("border-bottom", "1px solid red");
+      $("#report_date_from").css("border-bottom", "1px solid red");
+    }
+  } else {
+    $('#error_msg').text('Nieprawidłowe daty');
+    $("#report_date_to").css("border-bottom", "1px solid red");
+    $("#report_date_from").css("border-bottom", "1px solid red");
+  }
+
+});
+
 $(document).on('click', '#summary_by_region_show', function() {
   clearChartTemplate();
   $.ajax({
@@ -758,6 +823,20 @@ $(document).on('click', '#invoice_summary_report_show', function() {
              $('#report_date_to').val( getCookie('report_date_to'));
              getSalesmanFilter();
              $('#salesman').val( getCookie('salesman'));
+       }
+  })
+});
+
+$(document).on('click', '#error_summary_report_show', function() {
+  clearChartTemplate();
+  $.ajax({
+        method: "GET",
+        url: "./summary_error_report_template.php",
+        success: function(data){
+             $('#report_div').empty();
+             $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
        }
   })
 });
