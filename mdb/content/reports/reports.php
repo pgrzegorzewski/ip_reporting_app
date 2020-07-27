@@ -135,6 +135,9 @@ require '../core/connect.php';
             <td>
                 <button class="btn btn-info" id="invoice_summary_report_show">Raport faktur</button>
             </td>
+            <td>
+                <button class="btn btn-info" id="error_summary_report_show">Błędne faktury</button>
+            </td>
           </tr>
 
         </table>
