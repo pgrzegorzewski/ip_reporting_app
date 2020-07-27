@@ -40,6 +40,10 @@ $(document).ready(function () {
 });
 
 $(document).ready(function() {
+  getFiletValues();
+})
+
+$(document).ready(function() {
   $('#editClientModal').on('show.bs.modal', function(e) {
     var id = $(e.relatedTarget).data('id');
     $.ajax({
@@ -95,3 +99,85 @@ $('#add_client_form').submit(function () {
 
   form.submit();
 });
+
+
+function getRegionFilter() {
+  $.ajax({
+      url: "../../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type:'region'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var region_id = response[i]['region_id'];
+              var region_name = response[i]['region_nazwa'];
+
+              $("#region").append("<option value='"+region_id+"'>"+region_name+"</option>");
+          }
+      }
+  });
+}
+
+function getCountryFilter() {
+  $.ajax({
+      url: "../../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type: 'country'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i < len; i++){
+              var country_id = response[i]['kraj_id'];
+              var country_name = response[i]['kraj_nazwa'];
+
+              $("#country").append("<option value='"+country_id+"'>"+country_name+"</option>");
+          }
+      }
+  });
+}
+
+function getVoivodeshipFilter() {
+  $.ajax({
+      url: "../../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type:'voivodeship'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var voivodeship_id = response[i]['wojewodztwo_id'];
+              var voivodeship_name = response[i]['wojewodztwo_nazwa'];
+
+              $("#voivodeship").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
+          }
+      }
+  });
+}
+
+function getSalesmanFilter() {
+  $.ajax({
+      url: "../../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type:'salesman'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var salesman_id = response[i]['uzytkownik_id'];
+              var salesman_name = response[i]['uzytkownik_nazwa'];
+
+              $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+          }
+      }
+  });
+}
+
+
+
+function getFiletValues() {
+  getRegionFilter();
+  getCountryFilter();
+  getVoivodeshipFilter();
+  getSalesmanFilter();
+}
