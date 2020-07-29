@@ -35,7 +35,7 @@ $(document).ready(function () {
                {data: 'domyslna_wartosc_dostawa'},
                {data: 'domyslna_wartosc_eksport'},
                {data: 'waluta_kod'},
-               {data: 'sprzedawca'},             
+               {data: 'sprzedawca'},
                {
                    data: 'edycja',
                    visible: editIconAvailable,
@@ -64,7 +64,9 @@ $(document).ready(function() {
            $('#address_2').val(data[0]['nr_domu']);
            $('#post_code').val(data[0]['kod_pocztowy']);
            $('#city').val(data[0]['miasto']);
-           $('#country').val(data[0]['kraj']);
+           $('#voivodeship').val(data[0]['wojewodztwo_id']).change();
+           $('#region').val(data[0]['region_id']).change();
+           $('#country').val(data[0]['kraj_id']).change();
            $('#bonus').val((data[0]['bonus']).toFixed(2)).siblings().addClass('active');
            if(data[0]['jest_aktywny'] == 1) {
              $('#is_active').prop('checked', true);
@@ -76,6 +78,23 @@ $(document).ready(function() {
            } else {
              $('#black_list').prop('checked', false);
            }
+           if(data[0]['domyslna_wartosc_przelew'] == 1) {
+             $('#transferCheckbox').prop('checked', true);
+           } else {
+             $('#transferCheckbox').prop('checked', false);
+           }
+           if(data[0]['domyslna_wartosc_dostawa'] == 1) {
+             $('#deliveryCheckbox').prop('checked', true);
+           } else {
+             $('#deliveryCheckbox').prop('checked', false);
+           }
+           if(data[0]['domyslna_wartosc_eksport'] == 1) {
+             $('#exportCheckbox').prop('checked', true);
+           } else {
+             $('#exportCheckbox').prop('checked', false);
+           }
+           $('#currency').val(data[0]['domyslna_wartosc_waluta_id']).change();
+           $('#salesman').val(data[0]['domyslna_wartosc_sprzedawca_id']).change();
            $('#clientId').val(id);
        },
     })

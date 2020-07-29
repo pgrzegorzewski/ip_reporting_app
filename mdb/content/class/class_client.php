@@ -62,10 +62,18 @@ class Client
                                   'nr_domu' => $row['nr_domu'],
                                   'kod_pocztowy' => $row['kod_pocztowy'],
                                   'miasto' => $row['miasto'],
+                                  'wojewodztwo_id' => $row['wojewodztwo_id'],
+                                  'region_id' => $row['region_id'],
+                                  'kraj_id' => $row['kraj_id'],
                                   'kraj' => $row['kraj'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'czarna_lista' => $row['czarna_lista'],
-                                  'bonus' => ($row['bonus'] * 100))
+                                  'bonus' => ($row['bonus'] * 100),
+                                  'domyslna_wartosc_przelew' => $row['domyslna_wartosc_przelew'],
+                                  'domyslna_wartosc_dostawa' => $row['domyslna_wartosc_dostawa'],
+                                  'domyslna_wartosc_eksport' => $row['domyslna_wartosc_eksport'],
+                                  'domyslna_wartosc_waluta_id' => $row['domyslna_wartosc_waluta_id'],
+                                  'domyslna_wartosc_sprzedawca_id' => $row['domyslna_wartosc_sprzedawca_id'])
                                 );
       }
       pg_free_result($result);
