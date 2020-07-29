@@ -373,10 +373,17 @@
                   <th>Nr domu</th>
                   <th>Kod pocztowy</th>
                   <th>Miasto</th>
+                  <th>Województwo</th>
+                  <th>Region</th>
                   <th>Kraj</th>
                   <th>Aktywny</th>
                   <th>Czarna lista</th>
                   <th>Bonus</th>
+                  <th>Przelew</th>
+                  <th>Dostawa</th>
+                  <th>Eksport</th>
+                  <th>Waluta</th>
+                  <th>Sprzedawca</th>
                   <th>Edycja</th>
               </tr>
               </thead>

@@ -28,10 +28,17 @@ class Client
                                   'nr_domu' => $row['nr_domu'],
                                   'kod_pocztowy' => $row['kod_pocztowy'],
                                   'miasto' => $row['miasto'],
+                                  'wojewodztwo' => $row['wojewodztwo'],
+                                  'region' => $row['region'],
                                   'kraj' => $row['kraj'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'czarna_lista' => $row['czarna_lista'],
                                   'bonus' => ($row['bonus'] * 100),
+                                  'domyslna_wartosc_przelew' => $row['domyslna_wartosc_przelew'],
+                                  'domyslna_wartosc_dostawa' => $row['domyslna_wartosc_dostawa'],
+                                  'domyslna_wartosc_eksport' => $row['domyslna_wartosc_eksport'],
+                                  'waluta_kod' => $row['waluta_kod'],
+                                  'sprzedawca' => $row['sprzedawca'],
                                   'edycja'=> "<button style='padding:5px' data-id='" . $row['kontrahent_id'] . "' id='clientId-" . $row['kontrahent_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editClientModal'>edytuj</button>",
                                   'edycja_dostep' => $row['edycja_dostep'])
                                 );
