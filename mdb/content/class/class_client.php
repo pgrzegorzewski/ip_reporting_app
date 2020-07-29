@@ -80,7 +80,7 @@ class Client
       echo json_encode($resp);
     }
 
-    public function updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus)
+    public function updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $voivodeship, $region, $country, $isActive, $isBlackList, $bonus, $transfer, $delivery, $export, $currency, $salesman)
     {
       $success = true;
       $bonus = $bonus / 100;
@@ -118,8 +118,8 @@ class Client
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
-          $result = pg_query_params($this->connection, $query, array($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus));
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)";
+          $result = pg_query_params($this->connection, $query, array($clientId, $clientName, $street, $address2, $postCode, $city, $voivodeship, $region, $country, $isActive, $isBlackList, $bonus, $transfer, $delivery, $export, $currency, $salesman));
           $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent zaktualizowany pomyślnie.</p>';
 
         } catch(Exception $error) {

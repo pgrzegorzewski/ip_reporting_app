@@ -220,7 +220,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="md-form form-group">
-                                    <select  id = "currency" class="form-control" single>
+                                    <select  name="currency" id = "currency" class="form-control" single>
                                         <option selected>Waluta</option>
                                         <option value="1">PLN</option>
                                         <option value="2">EUR</option>

@@ -30,6 +30,14 @@ if(isset($_POST['city'])) {
   $city = $_POST['city'];
 }
 
+if(isset($_POST['voivodeship'])) {
+  $voivodeship = $_POST['voivodeship'];
+}
+
+if(isset($_POST['region'])) {
+  $region = $_POST['region'];
+}
+
 if(isset($_POST['country'])) {
   $country = $_POST['country'];
 }
@@ -44,6 +52,32 @@ if(isset($_POST['black_list'])) {
   $isBlackList = 1;
 } else {
   $isBlackList = 0;
+}
+
+if(isset($_POST['transferCheckbox'])) {
+  $transfer = 1;
+} else {
+  $transfer = 0;
+}
+
+if(isset($_POST['deliveryCheckbox'])) {
+  $delivery = 1;
+} else {
+  $delivery = 0;
+}
+
+if(isset($_POST['exportCheckbox'])) {
+  $export = 1;
+} else {
+  $export = 0;
+}
+
+if(isset($_POST['currency'])) {
+  $currency = $_POST['currency'];
+}
+
+if(isset($_POST['salesman'])) {
+  $salesman = $_POST['salesman'];
 }
 
 if(isset($_POST['bonus'])) {
@@ -98,7 +132,7 @@ switch ($action) {
     return $clientId;
     break;
   case 'updateClient':
-    $clientData = $client->updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus);
+    $clientData = $client->updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $voivodeship, $region, $country, $isActive, $isBlackList, $bonus, $transfer, $delivery, $export, $currency, $salesman);
     header('Location:./client.php');
     break;
   case 'addClient':
