@@ -15,12 +15,14 @@ if(isset($_POST['dateTo']) && $_POST['dateTo'] != null && $_POST['dateTo'] != ''
     $dateTo = $_POST['dateTo'];
 }
 
-if($_POST['dateFrom'] != null && $_POST['dateFrom'] != '' && ($_POST['dateTo'] == null || $_POST['dateTo'] == '')) {
-    $dateTo = '2200-01-01';
-}
+if(isset($_POST['dateFrom']) && isset($_POST['dateTo'])) {
+  if($_POST['dateFrom'] != null && $_POST['dateFrom'] != '' && ($_POST['dateTo'] == null || $_POST['dateTo'] == '')) {
+      $dateTo = '2200-01-01';
+  }
 
-if($_POST['dateTo'] != null && $_POST['dateTo'] != '' && ($_POST['dateFrom'] == null || $_POST['dateFrom'] == '')) {
-    $dateFrom = '1900-01-01';
+  if($_POST['dateTo'] != null && $_POST['dateTo'] != '' && ($_POST['dateFrom'] == null || $_POST['dateFrom'] == '')) {
+      $dateFrom = '1900-01-01';
+  }
 }
 
 if ($connection) {
@@ -38,14 +40,16 @@ if ($connection) {
               ";
               $invoiceQuery = pg_query_params($connection, $query, array($dateFrom, $dateTo));
 
+              $invoiceArray = [];
               while($row = pg_fetch_assoc($invoiceQuery))
               {
                   $invoiceId = $row["faktura_id"];
                   $invoiceNumber = $row["faktura_numer"];
                   $invoiceArray[] = array("faktura_id" => $invoiceId, "faktura_numer" => $invoiceNumber);
               }
-              echo json_encode($invoiceArray);
-
+              if ($invoiceArray) {
+                echo json_encode($invoiceArray);
+              }
               break;
             case 'region':
                 $query = "
