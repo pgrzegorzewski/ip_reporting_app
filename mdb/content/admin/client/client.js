@@ -138,8 +138,8 @@ function getRegionFilter() {
           for( var i = 0; i<len; i++){
               var region_id = response[i]['region_id'];
               var region_name = response[i]['region_nazwa'];
-
               $("#region").append("<option value='"+region_id+"'>"+region_name+"</option>");
+              $("#region_new").append("<option value='"+region_id+"'>"+region_name+"</option>");
           }
       }
   });
@@ -156,8 +156,8 @@ function getCountryFilter() {
           for( var i = 0; i < len; i++){
               var country_id = response[i]['kraj_id'];
               var country_name = response[i]['kraj_nazwa'];
-
               $("#country").append("<option value='"+country_id+"'>"+country_name+"</option>");
+              $("#country_new").append("<option value='"+country_id+"'>"+country_name+"</option>");
           }
       }
   });
@@ -174,8 +174,8 @@ function getVoivodeshipFilter() {
           for( var i = 0; i<len; i++){
               var voivodeship_id = response[i]['wojewodztwo_id'];
               var voivodeship_name = response[i]['wojewodztwo_nazwa'];
-
               $("#voivodeship").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
+              $("#voivodeship_new").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
           }
       }
   });
@@ -192,8 +192,8 @@ function getSalesmanFilter() {
           for( var i = 0; i<len; i++){
               var salesman_id = response[i]['uzytkownik_id'];
               var salesman_name = response[i]['uzytkownik_nazwa'];
-
               $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+              $("#salesman_new").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
           }
       }
   });

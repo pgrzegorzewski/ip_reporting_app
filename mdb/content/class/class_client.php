@@ -128,7 +128,7 @@ class Client
       }
     }
 
-    public function addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew)
+    public function addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $voivodeshipNew, $regionNew, $countryNew, $isActiveNew, $isBlackListNew, $transferNew, $deliveryNew, $exportNew, $currencyNew, $salesmanNew)
     {
       $success = true;
 
@@ -153,8 +153,8 @@ class Client
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_dodaj_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8)";
-          $result = pg_query_params($this->connection, $query, array($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew));
+          $query = "SELECT * FROM app.sp_dodaj_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+          $result = pg_query_params($this->connection, $query, array($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $voivodeshipNew, $regionNew, $countryNew, $isActiveNew, $isBlackListNew, $transferNew, $deliveryNew, $exportNew, $currencyNew, $salesmanNew));
           $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent dodany pomyślnie.</p>';
 
         } catch(Exception $error) {

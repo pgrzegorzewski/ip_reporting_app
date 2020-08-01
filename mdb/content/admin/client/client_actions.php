@@ -104,6 +104,14 @@ if(isset($_POST['city_new'])) {
   $cityNew = $_POST['city_new'];
 }
 
+if(isset($_POST['voivodeship_new'])) {
+  $voivodeshipNew = $_POST['voivodeship_new'];
+}
+
+if(isset($_POST['region_new'])) {
+  $regionNew = $_POST['region_new'];
+}
+
 if(isset($_POST['country_new'])) {
   $countryNew = $_POST['country_new'];
 }
@@ -118,6 +126,32 @@ if(isset($_POST['black_list_new'])) {
   $isBlackListNew = 1;
 } else {
   $isBlackListNew = 0;
+}
+
+if(isset($_POST['transfer_checkbox_new'])) {
+  $transferNew = 1;
+} else {
+  $transferNew = 0;
+}
+
+if(isset($_POST['delivery_checkbox_new'])) {
+  $deliveryNew = 1;
+} else {
+  $deliveryNew = 0;
+}
+
+if(isset($_POST['export_checkbox_new'])) {
+  $exportNew = 1;
+} else {
+  $exportNew = 0;
+}
+
+if(isset($_POST['currency_new'])) {
+  $currencyNew = $_POST['currency_new'];
+}
+
+if(isset($_POST['salesman_new'])) {
+  $salesmanNew = $_POST['salesman_new'];
 }
 
 $client = new Client();
@@ -136,7 +170,7 @@ switch ($action) {
     header('Location:./client.php');
     break;
   case 'addClient':
-    $clientData = $client->addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew);
+    $clientData = $client->addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $voivodeshipNew, $regionNew, $countryNew, $isActiveNew, $isBlackListNew, $transferNew, $deliveryNew, $exportNew, $currencyNew, $salesmanNew);
     header('Location:./client.php');
     break;
 }
