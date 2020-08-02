@@ -54,10 +54,53 @@ $(document).ready(function(){
 $(document).ready(function(){
   $('#client').change(function() {
     var id = $("#client").children("option:selected").val();
+
     var clientObj = clients.find(obj => {
       return obj.kontrahent_id === id
     });
+
     if(clientObj) {
+       if(clientObj.wojewodztwo_id) {
+         $('#voivodeship').val(clientObj.wojewodztwo_id).change();
+       } else {
+         $("#voivodeship").val($("#voivodeship option:first").val());
+       }
+       if(clientObj.region_id != null && clientObj.region_id != '') {
+         $('#region').val(clientObj.region_id).change();
+       } else {
+         $("#region").val($("#region option:first").val());
+       }
+       if(clientObj.kraj_id != null && clientObj.kraj_id != '') {
+         $('#country').val(clientObj.kraj_id).change();
+       } else {
+          $("#country").val($("#country option:first").val());
+       }
+       if(clientObj.domyslna_wartosc_przelew == 1) {
+         $('#transfer_checkbox').prop('checked', true);
+       } else {
+         $('#transfer_checkbox').prop('checked', false);
+       }
+       if(clientObj.domyslna_wartosc_dostawa == 1) {
+         $('#delivery_checkbox').prop('checked', true);
+       } else {
+         $('#delivery_checkbox').prop('checked', false);
+       }
+       if(clientObj.domyslna_wartosc_eksport == 1) {
+         $('#export_checkbox').prop('checked', true);
+       } else {
+         $('#export_checkbox').prop('checked', false);
+       }
+       if(clientObj.domyslna_wartosc_sprzedawca_id) {
+         $('#salesman').val(clientObj.domyslna_wartosc_sprzedawca_id).change();
+       } else {
+         $("#salesman").val($("#salesman option:first").val());
+       }
+       if(clientObj.domyslna_wartosc_waluta_id) {
+         $('#currency').val(clientObj.domyslna_wartosc_waluta_id).change();
+       } else {
+         $("#currency").val($("#currency option:first").val());
+       }
+
       $('#bonus').val(((clientObj.bonus) * 100).toFixed(2)).siblings().addClass('active');
     }
   })

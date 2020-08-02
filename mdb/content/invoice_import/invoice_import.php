@@ -145,29 +145,18 @@ $loggedUser = new User();
                           <label for = "invoice_date">Data faktury</label>
                       </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                       <div class="md-form form-group">
-                          <select class="form-control" id = "salesman" name = "salesman">
-                              <option selected>Sprzedawca</option>
+                          <select class="form-control" id = "client" name = "client">
+                              <option selected>Kontrahent</option>
                           </select>
                       </div>
                   </div>
                   <div class="col-md-2">
                       <div class="md-form form-group">
-                          <select  id = "currency" class="custom-select" single>
-                              <option selected>Waluta</option>
-                              <option value="1">PLN</option>
-                              <option value="2">EUR</option>
-                              <option value="3">USD</option>
-                          </select>
+                        <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
+                        <label for = "bonus" class= 'active'>Bonus %</label>
                       </div>
-                  </div>
-                  <div class="col-md-1">
-                      <div class="md-form form-group">
-                          <input class="form-control" id = "rate" name = "rate" type="number" step="0.0001" min = 0>
-                          <label for = "rate">Kurs</label>
-                      </div>
-
                   </div>
               </div>
               <div class="form-row">
@@ -189,17 +178,27 @@ $loggedUser = new User();
                       <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                       <div class="md-form form-group">
-                          <select class="form-control" id = "client" name = "client">
-                              <option selected>Kontrahent</option>
+                          <select class="form-control" id = "salesman" name = "salesman">
+                              <option selected>Sprzedawca</option>
                           </select>
                       </div>
                   </div>
                   <div class="col-md-2">
                       <div class="md-form form-group">
-                        <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
-                        <label for = "bonus" class= 'active'>Bonus %</label>
+                          <select  id = "currency" class="custom-select" single>
+                              <option selected>Waluta</option>
+                              <option value="1">PLN</option>
+                              <option value="2">EUR</option>
+                              <option value="3">USD</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-1">
+                      <div class="md-form form-group">
+                          <input class="form-control" id = "rate" name = "rate" type="number" step="0.0001" min = 0>
+                          <label for = "rate">Kurs</label>
                       </div>
                   </div>
               </div>
