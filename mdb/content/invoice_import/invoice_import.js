@@ -628,6 +628,10 @@ function checkInvoiceItemsData() {
   var success = true;
   var items = $('#data-table tbody tr');
   var errorItems = [];
+  if (items.length == 0) {
+    $('#invoice_add_error').append('<br>Dodaj pozycje faktury');
+    success = false;
+  }
   $.each(items, function(indexTr, tr) {
     var cells = $("td", tr);
     cells.each(function(index, td){
