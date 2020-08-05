@@ -76,10 +76,10 @@ $loggedUser = new User();
                 if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
                     echo "
                             <li>
-                              <a href='#'><i class='far fa-file-alt'></i>  Wprowadzenie faktury</a>
+                              <a href='#'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a>
                               <ul>
-                                <li><a href ='#' id ='visited'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a></li>
-                                <li><a href ='../invoice_import_improved/invoice_import_improved.php' ><i class='far fa-file-alt'></i> Szybki import</a></li>
+                                <li><a href ='../invoice_import/invoice_import.php'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a></li>
+                                <li><a href ='#' id ='visited' ><i class='far fa-file-alt'></i> Szybki import</a></li>
                                 </ul>
                             </li>
                        ";
@@ -151,39 +151,6 @@ $loggedUser = new User();
                           <label for = "invoice_date">Data faktury</label>
                       </div>
                   </div>
-                  <div class="col-md-4">
-                      <div class="md-form form-group">
-                          <select class="form-control" id = "client" name = "client">
-                              <option selected>Kontrahent</option>
-                          </select>
-                      </div>
-                  </div>
-                  <div class="col-md-2">
-                      <div class="md-form form-group">
-                        <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
-                        <label for = "bonus" class= 'active'>Bonus %</label>
-                      </div>
-                  </div>
-              </div>
-              <div class="form-row">
-                  <div class="col-md-2 my-auto" style="text-align: center;">
-                    <div class="custom-control custom-checkbox custom-control-inline">
-                      <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
-                      <label class="custom-control-label" for="export_checkbox">Eksport</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2 my-auto" style="text-align: center;">
-                    <div class="custom-control custom-checkbox custom-control-inline" >
-                      <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
-                      <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2 my-auto" style="text-align: center;">
-                    <div class="custom-control custom-checkbox custom-control-inline" >
-                      <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
-                      <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
-                    </div>
-                  </div>
                   <div class="col-md-3">
                       <div class="md-form form-group">
                           <select class="form-control" id = "salesman" name = "salesman">
@@ -205,6 +172,40 @@ $loggedUser = new User();
                       <div class="md-form form-group">
                           <input class="form-control" id = "rate" name = "rate" type="number" step="0.0001" min = 0>
                           <label for = "rate">Kurs</label>
+                      </div>
+
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                      <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
+                      <label class="custom-control-label" for="export_checkbox">Eksport</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline" >
+                      <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
+                      <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline" >
+                      <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
+                      <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="md-form form-group">
+                          <select class="form-control" id = "client" name = "client">
+                              <option selected>Kontrahent</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="md-form form-group">
+                        <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
+                        <label for = "bonus" class= 'active'>Bonus %</label>
                       </div>
                   </div>
               </div>

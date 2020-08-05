@@ -62,7 +62,13 @@
           $hasAccess = pg_fetch_assoc($hasAccessQuery);
           if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
               echo "
+                    <li>
+                      <a href='#'><i class='far fa-file-alt'></i>  Wprowadzenie faktury</a>
+                      <ul>
                         <li><a href ='../../invoice_import/invoice_import.php'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a></li>
+                        <li><a href ='../../invoice_import_improved/invoice_import_improved.php'><i class='far fa-file-alt'></i> Szybki import</a></li>
+                        </ul>
+                    </li>
                    ";
           }
         ?>
