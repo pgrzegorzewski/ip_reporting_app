@@ -28,13 +28,28 @@ if ($connection) {
         switch ($filterType) {
           case 'invoice_number':
               $query = "
-                        SELECT faktura_id, faktura_numer FROM app.tbl_faktura
+                        SELECT DISTINCT
+                          tf.faktura_id,
+                          tf.faktura_numer
+                        FROM app.tbl_faktura tf
+                        LEFT JOIN (
+                                    SELECT
+                                        COUNT(*) aktywne_pozycje_cnt
+                                        ,faktura_id 
+                                    FROM app.tbl_faktura_pozycja tfp
+                                    WHERE
+                                        jest_aktywny = 1::BIT
+                                    GROUP BY
+                                        faktura_id
+                                  ) xtfp
+                        ON tf.faktura_id = xtfp.faktura_id
                         WHERE
-                          data_wystawienia >= $1
-                          AND data_wystawienia <= $2
-                          AND jest_aktywny = 1::BIT
+                          tf.data_wystawienia >= $1
+                          AND tf.data_wystawienia <= $2
+                          AND tf.jest_aktywny = 1::BIT
+                          AND xtfp.aktywne_pozycje_cnt > 0
                         ORDER BY
-                          faktura_numer
+                          tf.faktura_numer
               ";
               $invoiceQuery = pg_query_params($connection, $query, array($dateFrom, $dateTo));
 
