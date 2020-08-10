@@ -135,6 +135,24 @@ $loggedUser = new User();
         			</ol>
         </div>
         <section class = "section">
+          <form id ="upload_csv" method="post" enctype="multipart/form-data">
+              <div class="form-row" style ="text-align: center">
+                  <div class="col-md-12">
+                      <div class="input-group" style="vertical-align: middle">
+                          <div class="input-group-prepend" >
+                              <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
+                          </div>
+                          <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
+                                     aria-describedby="fileBrowser"  accept=".csv" style="margin:6px">
+                              <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </form>
+          <br />
           <form id="invoice_header_form">
               <br />
               <h5>Nagłówek faktury</h5>
@@ -290,26 +308,6 @@ $loggedUser = new User();
               </div>
             </form>
           </div>
-          <br>
-          <form id ="upload_csv" method="post" enctype="multipart/form-data">
-              <div class="form-row" style ="text-align: center">
-                  <div class="col-md-12">
-                      <div class="input-group" style="vertical-align: middle">
-                          <div class="input-group-prepend" >
-                              <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
-                          </div>
-                          <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
-                                     aria-describedby="fileBrowser"  accept=".csv" style="margin:6px">
-                              <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
-                          </div>
-                      </div>
-
-                  </div>
-              </div>
-          </form>
-          <br />
-          <div id = "import_invoice_div"></div>
           <br />
           <div class="table-editable" id="editable-table-div">
             <span class="table-add float-right mb-3 mr-2" id="invoiceItemRowAdd" ><i class="fas fa-plus fa-2x green-text"></i></span>
@@ -342,6 +340,7 @@ $loggedUser = new User();
             </table>
           </div>
 
+          <div id = "import_invoice_div"></div>
           <?php
           if(isset($_SESSION['e_invoice'])){
               echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';

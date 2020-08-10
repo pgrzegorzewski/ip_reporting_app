@@ -10,13 +10,24 @@ if(!empty($_FILES['csv_file']['name'])) {
         fgetcsv($file_data);
 
         while($row = fgetcsv($file_data, 0, ";")) {
-          if(intVal($row[0])) {
+          if($row[0]) {
             $data[] = array(
-                'lp' => intVal($row[0]),
-                'towar' => $row[1],
-                'ilosc' => intVal($row[2]),
-                'jm' => $row[3],
-                'cena' => (float)str_replace(',', '.', $row[4]),
+                'faktura_numer' => $row[0],
+                'data_wystawienia' => $row[1],
+                'kontrahent' => intVal($row[2]),
+                'waluta_kod' => $row[3],
+                'kurs' => (float)(str_replace(',', '.', $row[4])) == 1 ? 1 : (float)(str_replace(',', '.', ($row[4] / 100))) ,
+                'kraj_kod' => $row[5],
+                'wojewodztwo_nazwa' => $row[6],
+                'sprzedawca' => $row[8],
+                'dostawa' => intVal($row[9]),
+                'przelew' => intVal($row[10]),
+                'wartosc_faktury' => (float)(str_replace(',', '.', $row[11])),
+                'towar_nazwa' => $row[12],
+                'jednostka' => $row[13],
+                'ilosc' => intVal($row[14]),
+                'wartosc_pozycji' => (float)(str_replace(',', '.', $row[15])),
+                'cena' => (float)str_replace(',', '.', $row[16]),
                 'edytuj' => "<button type='button' class='table-remove btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light'>Usuń</button>"
             );
           }

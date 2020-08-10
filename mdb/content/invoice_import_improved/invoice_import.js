@@ -1,5 +1,6 @@
 var items = [];
-var addedItems = 0;
+var INVOICE_HEADER_FIELDS = ['faktura_numer', 'data_wystawienia', 'kontrahent', 'waluta_kod', 'kurs', 'kraj_kod', 'wojewodztwo_nazwa', 'dostawa', 'przelew', 'wartosc_faktury'];
+var INVOICE_ITEM_FIELDS = ['towar', 'nazwa towaru', 'jm', 'ilość', 'wartość pozycji', 'cena'];
 var formatter = new Intl.NumberFormat('ru-RU', {
   style: 'currency',
   currency: 'PLN',
@@ -88,112 +89,116 @@ $(document).ready(function(){
             cache: false,
             processData: false,
             success: function (jsonData) {
+              console.log(jsonData);
+              console.log(getInvoiceNumbers(jsonData));
+              console.log(getInvoiceHeaders(jsonData));
 
-                $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
-                $('#import_label').text('Wybierz plik');
-                $('#recalculatePricesButton').prop("disabled", false);
 
-                var loopCnt = 0;
-                var itemFoundFlag = 0;
-                var towar = {
-                  "id": 1
-                };
-                $("#data-table").dataTable().fnDestroy();
-                $('#data-table').DataTable({
-                    "scrollX": true,
-                    "paging": false,
-                    data : jsonData,
-                    columns: [
-                        {data: 'lp'},
-                        {
-                          "render": function(data, type, row) {
-                            var $select = $("<select class='form-control item'></select>", {
-                                  "id": row[0] + "start",
-                                  "value": data
-                            });
-                            var $emptyOption = $("<option></option>", {
-                                "text": "Towar",
-                                "value": 0,
-                                "selected": "selected",
-                            });
-                            $select.append($emptyOption);
-                            $.each(items, function(key, value) {
-                              var $option = $("<option></option>", {
-                                  "text": value['towar_nazwa'],
-                                  "value": value['towar_id'],
-                              });
-                              if(row['towar'] === value['towar_nazwa']) {
-                                $option.attr("selected", "selected");
-                                itemFoundFlag = 1;
-                              }
-                              $select.append($option);
-                            });
-                            loopCnt++;
-                            if(itemFoundFlag == 1) {
-                              $select.css('border', '2px solid green');
-                            } else {
-                              $select.css('border', '2px solid red');
-                            }
-                            itemFoundFlag = 0;
-                            return $select.prop("outerHTML");
-
-                          },
-                          "width": "15%",
-                        },
-                        {data: 'towar'},
-                        {"render": function(data, type, row) {
-                            var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' min = '1' value='" + row['ilosc'] +"'>");
-                            return $textInput.prop("outerHTML");
-                          },
-                          "width": "15%",
-                        },
-                        {"render": function(data, type, row) {
-                            var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
-                            return $textInput.prop("outerHTML");
-                          },
-                         "width": "70px",
-                        },
-                        {
-                          "render": function(data, type, row) {
-                              var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' min = '0.01' value='" + row['cena'] +"'>");
-                              return $textInput.prop("outerHTML");
-                            },
-                          "width": "15%",
-                        },
-                        {
-                          "render": function() {
-                            return 0;
-                          },
-                          "width": "10%",
-                        },
-                        {
-                          "render": function() {
-                            return 0;
-                          },
-                          "width": "10%",
-                        },
-                        {
-                          "render": function() {
-                            return 0;
-                          },
-                          "width": "10%",
-                        },
-                        {
-                          "render": function() {
-                            return 0;
-                          },
-                          "width": "10%",
-                        },
-                        {data: 'edytuj'},
-                    ]
-                });
-                higlightEmptyItem();
-                appendAddInvoice();
-                updateItemPrices(getSelectedItems());
-                calculateSummaryValues(getSelectedItems());
-                $('.table-remove').bind( "click", function() {
-                  $(this).parents('tr').detach();
-                });
+                 $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
+                 $('#import_label').text('Wybierz plik');
+                // $('#recalculatePricesButton').prop("disabled", false);
+                //
+                // var loopCnt = 0;
+                // var itemFoundFlag = 0;
+                // var towar = {
+                //   "id": 1
+                // };
+                // $("#data-table").dataTable().fnDestroy();
+                // $('#data-table').DataTable({
+                //     "scrollX": true,
+                //     "paging": false,
+                //     data : jsonData,
+                //     columns: [
+                //         {data: 'lp'},
+                //         {
+                //           "render": function(data, type, row) {
+                //             var $select = $("<select class='form-control item'></select>", {
+                //                   "id": row[0] + "start",
+                //                   "value": data
+                //             });
+                //             var $emptyOption = $("<option></option>", {
+                //                 "text": "Towar",
+                //                 "value": 0,
+                //                 "selected": "selected",
+                //             });
+                //             $select.append($emptyOption);
+                //             $.each(items, function(key, value) {
+                //               var $option = $("<option></option>", {
+                //                   "text": value['towar_nazwa'],
+                //                   "value": value['towar_id'],
+                //               });
+                //               if(row['towar'] === value['towar_nazwa']) {
+                //                 $option.attr("selected", "selected");
+                //                 itemFoundFlag = 1;
+                //               }
+                //               $select.append($option);
+                //             });
+                //             loopCnt++;
+                //             if(itemFoundFlag == 1) {
+                //               $select.css('border', '2px solid green');
+                //             } else {
+                //               $select.css('border', '2px solid red');
+                //             }
+                //             itemFoundFlag = 0;
+                //             return $select.prop("outerHTML");
+                //
+                //           },
+                //           "width": "15%",
+                //         },
+                //         {data: 'towar'},
+                //         {"render": function(data, type, row) {
+                //             var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' min = '1' value='" + row['ilosc'] +"'>");
+                //             return $textInput.prop("outerHTML");
+                //           },
+                //           "width": "15%",
+                //         },
+                //         {"render": function(data, type, row) {
+                //             var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
+                //             return $textInput.prop("outerHTML");
+                //           },
+                //          "width": "70px",
+                //         },
+                //         {
+                //           "render": function(data, type, row) {
+                //               var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' min = '0.01' value='" + row['cena'] +"'>");
+                //               return $textInput.prop("outerHTML");
+                //             },
+                //           "width": "15%",
+                //         },
+                //         {
+                //           "render": function() {
+                //             return 0;
+                //           },
+                //           "width": "10%",
+                //         },
+                //         {
+                //           "render": function() {
+                //             return 0;
+                //           },
+                //           "width": "10%",
+                //         },
+                //         {
+                //           "render": function() {
+                //             return 0;
+                //           },
+                //           "width": "10%",
+                //         },
+                //         {
+                //           "render": function() {
+                //             return 0;
+                //           },
+                //           "width": "10%",
+                //         },
+                //         {data: 'edytuj'},
+                //     ]
+                // });
+                // higlightEmptyItem();
+                // appendAddInvoice();
+                // updateItemPrices(getSelectedItems());
+                // calculateSummaryValues(getSelectedItems());
+                // $('.table-remove').bind( "click", function() {
+                //   $(this).parents('tr').detach();
+                // });
             },
             error : function() {
               $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
@@ -203,6 +208,35 @@ $(document).ready(function(){
    })
 
 });
+
+function getInvoiceNumbers(json) {
+  invoiceNumbers = [];
+  $.each(json, function(index, value) {
+    console.log(json[index]['faktura_numer']);
+    if(!invoiceNumbers.includes(json[index]['faktura_numer'])) {
+      invoiceNumbers.push(json[index]['faktura_numer']);
+    }
+  });
+  return invoiceNumbers;
+}
+
+function getInvoiceHeaders(json) {
+  invoiceNumbers = [];
+  invoiceHeaders = [];
+  $.each(json, function(index, value) {
+    if(!invoiceNumbers.includes(json[index]['faktura_numer'])) {
+      invoiceNumbers.push(json[index]['faktura_numer']);
+      invoiceHeaders.push(json[index]);
+
+      $.each(invoiceHeaders, function(key, innerValue) {
+        if(INVOICE_ITEM_FIELDS.includes(key)) {
+          delete invoiceHeaders[index][key];
+        }
+      });
+    }
+  });
+  return invoiceHeaders;
+}
 
 $(document).ready(function() {
   $('#recalculatePricesButton').prop("disabled", false);
