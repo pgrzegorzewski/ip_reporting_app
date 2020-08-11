@@ -30,6 +30,14 @@ if(isset($_POST['city'])) {
   $city = $_POST['city'];
 }
 
+if(isset($_POST['voivodeship'])) {
+  $voivodeship = $_POST['voivodeship'];
+}
+
+if(isset($_POST['region'])) {
+  $region = $_POST['region'];
+}
+
 if(isset($_POST['country'])) {
   $country = $_POST['country'];
 }
@@ -44,6 +52,32 @@ if(isset($_POST['black_list'])) {
   $isBlackList = 1;
 } else {
   $isBlackList = 0;
+}
+
+if(isset($_POST['transferCheckbox'])) {
+  $transfer = 1;
+} else {
+  $transfer = 0;
+}
+
+if(isset($_POST['deliveryCheckbox'])) {
+  $delivery = 1;
+} else {
+  $delivery = 0;
+}
+
+if(isset($_POST['exportCheckbox'])) {
+  $export = 1;
+} else {
+  $export = 0;
+}
+
+if(isset($_POST['currency'])) {
+  $currency = $_POST['currency'];
+}
+
+if(isset($_POST['salesman'])) {
+  $salesman = $_POST['salesman'];
 }
 
 if(isset($_POST['bonus'])) {
@@ -70,6 +104,14 @@ if(isset($_POST['city_new'])) {
   $cityNew = $_POST['city_new'];
 }
 
+if(isset($_POST['voivodeship_new'])) {
+  $voivodeshipNew = $_POST['voivodeship_new'];
+}
+
+if(isset($_POST['region_new'])) {
+  $regionNew = $_POST['region_new'];
+}
+
 if(isset($_POST['country_new'])) {
   $countryNew = $_POST['country_new'];
 }
@@ -86,6 +128,32 @@ if(isset($_POST['black_list_new'])) {
   $isBlackListNew = 0;
 }
 
+if(isset($_POST['transfer_checkbox_new'])) {
+  $transferNew = 1;
+} else {
+  $transferNew = 0;
+}
+
+if(isset($_POST['delivery_checkbox_new'])) {
+  $deliveryNew = 1;
+} else {
+  $deliveryNew = 0;
+}
+
+if(isset($_POST['export_checkbox_new'])) {
+  $exportNew = 1;
+} else {
+  $exportNew = 0;
+}
+
+if(isset($_POST['currency_new'])) {
+  $currencyNew = $_POST['currency_new'];
+}
+
+if(isset($_POST['salesman_new'])) {
+  $salesmanNew = $_POST['salesman_new'];
+}
+
 $client = new Client();
 
 switch ($action) {
@@ -98,11 +166,11 @@ switch ($action) {
     return $clientId;
     break;
   case 'updateClient':
-    $clientData = $client->updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus);
+    $clientData = $client->updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $voivodeship, $region, $country, $isActive, $isBlackList, $bonus, $transfer, $delivery, $export, $currency, $salesman);
     header('Location:./client.php');
     break;
   case 'addClient':
-    $clientData = $client->addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew);
+    $clientData = $client->addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $voivodeshipNew, $regionNew, $countryNew, $isActiveNew, $isBlackListNew, $transferNew, $deliveryNew, $exportNew, $currencyNew, $salesmanNew);
     header('Location:./client.php');
     break;
 }

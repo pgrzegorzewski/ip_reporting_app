@@ -15,12 +15,14 @@ if(isset($_POST['dateTo']) && $_POST['dateTo'] != null && $_POST['dateTo'] != ''
     $dateTo = $_POST['dateTo'];
 }
 
-if($_POST['dateFrom'] != null && $_POST['dateFrom'] != '' && ($_POST['dateTo'] == null || $_POST['dateTo'] == '')) {
-    $dateTo = '2200-01-01';
-}
+if(isset($_POST['dateFrom']) && isset($_POST['dateTo'])) {
+  if($_POST['dateFrom'] != null && $_POST['dateFrom'] != '' && ($_POST['dateTo'] == null || $_POST['dateTo'] == '')) {
+      $dateTo = '2200-01-01';
+  }
 
-if($_POST['dateTo'] != null && $_POST['dateTo'] != '' && ($_POST['dateFrom'] == null || $_POST['dateFrom'] == '')) {
-    $dateFrom = '1900-01-01';
+  if($_POST['dateTo'] != null && $_POST['dateTo'] != '' && ($_POST['dateFrom'] == null || $_POST['dateFrom'] == '')) {
+      $dateFrom = '1900-01-01';
+  }
 }
 
 if ($connection) {
@@ -53,14 +55,16 @@ if ($connection) {
               ";
               $invoiceQuery = pg_query_params($connection, $query, array($dateFrom, $dateTo));
 
+              $invoiceArray = [];
               while($row = pg_fetch_assoc($invoiceQuery))
               {
                   $invoiceId = $row["faktura_id"];
                   $invoiceNumber = $row["faktura_numer"];
                   $invoiceArray[] = array("faktura_id" => $invoiceId, "faktura_numer" => $invoiceNumber);
               }
-              echo json_encode($invoiceArray);
-
+              if ($invoiceArray) {
+                echo json_encode($invoiceArray);
+              }
               break;
             case 'region':
                 $query = "
@@ -113,20 +117,41 @@ if ($connection) {
                 break;
               case 'client_active_only':
                   $query = "
-                          SELECT kontrahent_id, kontrahent_nazwa, bonus FROM app.tbl_kontrahent
-                          WHERE
-                            jest_aktywny = 1::BIT
-                          ORDER BY
-                            kontrahent_nazwa
+                      SELECT
+                        tk.kontrahent_id,
+                        tk.kontrahent_nazwa,
+                        tk.wojewodztwo_id,
+                        tk.region_id,
+                        tk.kraj_id,
+                        tk.bonus,
+                        tk.domyslna_wartosc_przelew,
+                        tk.domyslna_wartosc_dostawa,
+                        tk.domyslna_wartosc_eksport,
+                        tk.domyslna_wartosc_waluta_id,
+                        tk.domyslna_wartosc_sprzedawca_id
+                      FROM
+                        app.tbl_kontrahent tk
+                      WHERE
+                        jest_aktywny = 1::BIT
+                      ORDER BY
+                        kontrahent_nazwa
                   ";
                   $clientQuery = @pg_query($connection, $query);
 
                   while($row = pg_fetch_assoc($clientQuery))
                   {
-                      $clientId = $row["kontrahent_id"];
-                      $clientyName = $row["kontrahent_nazwa"];
-                      $bonus = $row["bonus"];
-                      $clientArray[] = array("kontrahent_id" => $clientId, "kontrahent_nazwa" => $clientyName, "bonus" => $bonus);
+                      $clientArray[] = array("kontrahent_id" => $row["kontrahent_id"],
+                        "kontrahent_nazwa" => $row["kontrahent_nazwa"],
+                        "wojewodztwo_id" => $row["wojewodztwo_id"],
+                        "region_id" => $row["region_id"],
+                        "kraj_id" => $row["kraj_id"],
+                        "bonus" => $row["bonus"],
+                        "domyslna_wartosc_przelew" => $row["domyslna_wartosc_przelew"],
+                        "domyslna_wartosc_dostawa" => $row["domyslna_wartosc_dostawa"],
+                        "domyslna_wartosc_eksport" => $row["domyslna_wartosc_eksport"],
+                        "domyslna_wartosc_waluta_id" => $row["domyslna_wartosc_waluta_id"],
+                        "domyslna_wartosc_sprzedawca_id" => $row["domyslna_wartosc_sprzedawca_id"]
+                      );
                   }
                   echo json_encode($clientArray);
                   break;

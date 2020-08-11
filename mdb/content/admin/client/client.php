@@ -124,7 +124,7 @@
         ?>
 
         <div class="modal fade" id="editClientModal" tabindex="-1" role="dialog" aria-labelledby="editClientLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editClientLabel">Edycja </h5>
@@ -154,38 +154,53 @@
                               </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "street" name = "street" type="text" value=" " style="color:white">
                                   <label for = "street">Ulica</label>
                               </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "address_2" name = "address_2" type="text" value=" " style="color:white">
                                   <label for = "address_2">Nr domu</label>
                               </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "post_code" name = "post_code" type="text" value=" " style="color:white">
                                   <label for = "post_code">Kod pocztowy</label>
                               </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "city" name = "city" type="text" value=" " style="color:white">
                                   <label for = "city">Miasto</label>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "country" name = "country" type="text" value=" " style="color:white">
-                                  <label for = "country">Kraj</label>
+                                <select class="form-control" id = "voivodeship" name = "voivodeship" >
+                                    <option selected>Województwo</option>
+                                </select>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <select class="form-control" id = "country" name = "country" >
+                                    <option selected>Kraj</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <select class="form-control" id = "region" name = "region" >
+                                    <option selected>Region</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "bonus" name = "bonus" type="number" step="0.01" min="0" max = "100" style="color:white">
                                   <label for = "bonus">Bonus</label>
@@ -193,7 +208,45 @@
                             </div>
 
                           </div>
-
+                          <hr>
+                          <span>Domyślne wartości</span>
+                          <div class="form-row">
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <select class="form-control" id = "salesman" name = "salesman" >
+                                    <option selected>Sprzedawca</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="md-form form-group">
+                                    <select  name="currency" id = "currency" class="form-control" single>
+                                        <option selected>Waluta</option>
+                                        <option value="1">PLN</option>
+                                        <option value="2">EUR</option>
+                                        <option value="3">USD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="exportCheckbox" name="exportCheckbox" mdbInput>
+                                <label class="custom-control-label" for="exportCheckbox">Eksport</label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox custom-control-inline" >
+                                <input type="checkbox" class="custom-control-input" id="transferCheckbox" name="transferCheckbox" mdbInput>
+                                <label class="custom-control-label" for="transferCheckbox">Przelew</label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox custom-control-inline" >
+                                <input type="checkbox" class="custom-control-input" id="deliveryCheckbox" name="deliveryCheckbox" mdbInput>
+                                <label class="custom-control-label" for="deliveryCheckbox">Dostawa</label>
+                              </div>
+                            </div>
+                          </div>
                           <div class="md-form form-group">
                               <input class="form-control" id = "action" name = "action" type="text" value="updateClient" hidden>
                           </div>
@@ -211,7 +264,7 @@
         </div>
 
         <div class="modal fade" id="addClientModal" tabindex="-1" role="dialog" aria-labelledby="addClientLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addClientLabel">Nowy klient </h5>
@@ -236,43 +289,96 @@
                             </div>
                             <div class="col-md-3 my-auto" style="text-align: center;">
                               <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="black_list_new"  name = "black_list_new" value= "" checked >
+                                <input type="checkbox" class="custom-control-input" id="black_list_new"  name = "black_list_new" value= "" >
                                 <label class="custom-control-label" for="black_list_new">Czarna lista</label>
                               </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "street_new" name = "street_new" type="text" value="" style="color:white">
                                   <label for = "street_new">Ulica</label>
                               </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "address_2_new" name = "address_2_new" type="text" value="" style="color:white">
                                   <label for = "address_2_new">Nr domu</label>
                               </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "post_code_new" name = "post_code_new" type="text" value="" style="color:white">
                                   <label for = "post_code_new">Kod pocztowy</label>
                               </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "city_new" name = "city_new" type="text" value="" style="color:white">
                                   <label for = "city_new">Miasto</label>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                               <div class="md-form form-group">
-                                  <input class="form-control" id = "country_new" name = "country_new" type="text" value="" style="color:white">
-                                  <label for = "country_new">Kraj</label>
+                                <select class="form-control" id = "voivodeship_new" name = "voivodeship_new" >
+                                    <option selected>Województwo</option>
+                                </select>
                               </div>
                             </div>
-
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <select class="form-control" id = "country_new" name = "country_new" >
+                                    <option selected>Kraj</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <select class="form-control" id = "region_new" name = "region_new" >
+                                    <option selected>Region</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <hr>
+                          <span>Domyślne wartości</span>
+                          <div class="form-row">
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <select class="form-control" id = "salesman_new" name = "salesman_new" >
+                                    <option selected>Sprzedawca</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="md-form form-group">
+                                    <select  name="currency_new" id = "currency_new" class="form-control" single>
+                                        <option selected>Waluta</option>
+                                        <option value="1">PLN</option>
+                                        <option value="2">EUR</option>
+                                        <option value="3">USD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="export_checkbox_new" name="export_checkbox_new" mdbInput>
+                                <label class="custom-control-label" for="export_checkbox_new">Eksport</label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox custom-control-inline" >
+                                <input type="checkbox" class="custom-control-input" id="transfer_checkbox_new" name="transfer_checkbox_new" mdbInput>
+                                <label class="custom-control-label" for="transfer_checkbox_new">Przelew</label>
+                              </div>
+                            </div>
+                            <div class="col-md-2 my-auto" style="text-align: center;">
+                              <div class="custom-control custom-checkbox custom-control-inline" >
+                                <input type="checkbox" class="custom-control-input" id="delivery_checkbox_new" name="delivery_checkbox_new" mdbInput>
+                                <label class="custom-control-label" for="delivery_checkbox_new">Dostawa</label>
+                              </div>
+                            </div>
                           </div>
                           <div class="md-form form-group">
                               <input class="form-control" id = "action_add_client" name = "action" type="text" value="addClient" hidden>
@@ -320,10 +426,17 @@
                   <th>Nr domu</th>
                   <th>Kod pocztowy</th>
                   <th>Miasto</th>
+                  <th>Województwo</th>
+                  <th>Region</th>
                   <th>Kraj</th>
                   <th>Aktywny</th>
                   <th>Czarna lista</th>
                   <th>Bonus</th>
+                  <th>Przelew</th>
+                  <th>Dostawa</th>
+                  <th>Eksport</th>
+                  <th>Waluta</th>
+                  <th>Sprzedawca</th>
                   <th>Edycja</th>
               </tr>
               </thead>

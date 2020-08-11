@@ -28,10 +28,17 @@ class Client
                                   'nr_domu' => $row['nr_domu'],
                                   'kod_pocztowy' => $row['kod_pocztowy'],
                                   'miasto' => $row['miasto'],
+                                  'wojewodztwo' => $row['wojewodztwo'],
+                                  'region' => $row['region'],
                                   'kraj' => $row['kraj'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'czarna_lista' => $row['czarna_lista'],
                                   'bonus' => ($row['bonus'] * 100),
+                                  'domyslna_wartosc_przelew' => $row['domyslna_wartosc_przelew'],
+                                  'domyslna_wartosc_dostawa' => $row['domyslna_wartosc_dostawa'],
+                                  'domyslna_wartosc_eksport' => $row['domyslna_wartosc_eksport'],
+                                  'waluta_kod' => $row['waluta_kod'],
+                                  'sprzedawca' => $row['sprzedawca'],
                                   'edycja'=> "<button style='padding:5px' data-id='" . $row['kontrahent_id'] . "' id='clientId-" . $row['kontrahent_id'] . "' class='btn btn-info' data-toggle='modal' data-target='#editClientModal'>edytuj</button>",
                                   'edycja_dostep' => $row['edycja_dostep'])
                                 );
@@ -55,17 +62,25 @@ class Client
                                   'nr_domu' => $row['nr_domu'],
                                   'kod_pocztowy' => $row['kod_pocztowy'],
                                   'miasto' => $row['miasto'],
+                                  'wojewodztwo_id' => $row['wojewodztwo_id'],
+                                  'region_id' => $row['region_id'],
+                                  'kraj_id' => $row['kraj_id'],
                                   'kraj' => $row['kraj'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'czarna_lista' => $row['czarna_lista'],
-                                  'bonus' => ($row['bonus'] * 100))
+                                  'bonus' => ($row['bonus'] * 100),
+                                  'domyslna_wartosc_przelew' => $row['domyslna_wartosc_przelew'],
+                                  'domyslna_wartosc_dostawa' => $row['domyslna_wartosc_dostawa'],
+                                  'domyslna_wartosc_eksport' => $row['domyslna_wartosc_eksport'],
+                                  'domyslna_wartosc_waluta_id' => $row['domyslna_wartosc_waluta_id'],
+                                  'domyslna_wartosc_sprzedawca_id' => $row['domyslna_wartosc_sprzedawca_id'])
                                 );
       }
       pg_free_result($result);
       echo json_encode($resp);
     }
 
-    public function updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus)
+    public function updateClientData($clientId, $clientName, $street, $address2, $postCode, $city, $voivodeship, $region, $country, $isActive, $isBlackList, $bonus, $transfer, $delivery, $export, $currency, $salesman)
     {
       $success = true;
       $bonus = $bonus / 100;
@@ -103,8 +118,8 @@ class Client
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
-          $result = pg_query_params($this->connection, $query, array($clientId, $clientName, $street, $address2, $postCode, $city, $country, $isActive, $isBlackList, $bonus));
+          $query = "SELECT * FROM app.sp_zaktualizuj_dane_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)";
+          $result = pg_query_params($this->connection, $query, array($clientId, $clientName, $street, $address2, $postCode, $city, $voivodeship, $region, $country, $isActive, $isBlackList, $bonus, $transfer, $delivery, $export, $currency, $salesman));
           $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent zaktualizowany pomyślnie.</p>';
 
         } catch(Exception $error) {
@@ -113,7 +128,7 @@ class Client
       }
     }
 
-    public function addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew)
+    public function addClient($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $voivodeshipNew, $regionNew, $countryNew, $isActiveNew, $isBlackListNew, $transferNew, $deliveryNew, $exportNew, $currencyNew, $salesmanNew)
     {
       $success = true;
 
@@ -138,8 +153,8 @@ class Client
 
       if($success == true) {
         try {
-          $query = "SELECT * FROM app.sp_dodaj_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8)";
-          $result = pg_query_params($this->connection, $query, array($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $countryNew, $isActiveNew, $isBlackListNew));
+          $query = "SELECT * FROM app.sp_dodaj_kontrahenta($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+          $result = pg_query_params($this->connection, $query, array($clientNameNew, $streetNew, $address2New, $postCodeNew, $cityNew, $voivodeshipNew, $regionNew, $countryNew, $isActiveNew, $isBlackListNew, $transferNew, $deliveryNew, $exportNew, $currencyNew, $salesmanNew));
           $_SESSION['e_client_update'] = '<p style = "color:green; text-align:center;">Kontrahent dodany pomyślnie.</p>';
 
         } catch(Exception $error) {
