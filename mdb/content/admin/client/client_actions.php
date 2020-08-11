@@ -30,16 +30,22 @@ if(isset($_POST['city'])) {
   $city = $_POST['city'];
 }
 
-if(isset($_POST['voivodeship'])) {
+if(isset($_POST['voivodeship']) && is_numeric($_POST['voivodeship'])) {
   $voivodeship = $_POST['voivodeship'];
+} else {
+  $voivodeship = NULL;
 }
 
-if(isset($_POST['region'])) {
+if(isset($_POST['region']) && is_numeric($_POST['region'])) {
   $region = $_POST['region'];
+} else {
+  $region = NULL;
 }
 
-if(isset($_POST['country'])) {
+if(isset($_POST['country']) && is_numeric($_POST['country'])) {
   $country = $_POST['country'];
+} else {
+  $country= NULL;
 }
 
 if(isset($_POST['is_active'])) {
@@ -72,12 +78,16 @@ if(isset($_POST['exportCheckbox'])) {
   $export = 0;
 }
 
-if(isset($_POST['currency'])) {
+if(isset($_POST['currency']) && is_numeric($_POST['currency'])) {
   $currency = $_POST['currency'];
+} else {
+  $currency = NULL;
 }
 
-if(isset($_POST['salesman'])) {
+if(isset($_POST['salesman']) && is_numeric($_POST['salesman'])) {
   $salesman = $_POST['salesman'];
+} else {
+  $salesman = NULL;
 }
 
 if(isset($_POST['bonus'])) {
@@ -104,16 +114,22 @@ if(isset($_POST['city_new'])) {
   $cityNew = $_POST['city_new'];
 }
 
-if(isset($_POST['voivodeship_new'])) {
+if(isset($_POST['voivodeship_new']) && is_numeric($_POST['voivodeship_new'])) {
   $voivodeshipNew = $_POST['voivodeship_new'];
+} else {
+  $voivodeshipNew = NULL;
 }
 
-if(isset($_POST['region_new'])) {
+if(isset($_POST['region_new']) && is_numeric($_POST['region_new'])) {
   $regionNew = $_POST['region_new'];
+} else {
+  $regionNew = NULL;
 }
 
-if(isset($_POST['country_new'])) {
+if(isset($_POST['country_new']) && is_numeric($_POST['country_new'])) {
   $countryNew = $_POST['country_new'];
+} else {
+  $countryNew = NULL;
 }
 
 if(isset($_POST['is_active_new'])) {
@@ -146,12 +162,16 @@ if(isset($_POST['export_checkbox_new'])) {
   $exportNew = 0;
 }
 
-if(isset($_POST['currency_new'])) {
+if(isset($_POST['currency_new']) && is_numeric($_POST['currency_new'])) {
   $currencyNew = $_POST['currency_new'];
+} else {
+  $currencyNew = NULL;
 }
 
-if(isset($_POST['salesman_new'])) {
+if(isset($_POST['salesman_new'])  && is_numeric($_POST['salesman_new'])) {
   $salesmanNew = $_POST['salesman_new'];
+} else {
+  $salesmanNew = NULL;
 }
 
 $client = new Client();
