@@ -195,6 +195,10 @@
                             </div>
                             <div class="col-md-3">
                             </div>
+                            <div class="col-md-12" style="text-align:center">
+                              <span id = "late_pay_error"></span>
+                              <span id = "late_pay_success"></span>
+                            </div>
                           </div>
                           <div class="form-row" style="border:#AFC2D1 solid 2px; border-radius: 25px;">
                             <div class="col-md-6">

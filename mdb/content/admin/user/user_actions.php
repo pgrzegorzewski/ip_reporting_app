@@ -40,6 +40,18 @@ if(isset($_POST['password_temporary'])) {
   $passwordTemporaryNew = $_POST['password_temporary'];
 }
 
+if(isset($_POST['latePayYear'])) {
+  $latePayYear = $_POST['latePayYear'];
+}
+
+if(isset($_POST['latePayMonth'])) {
+  $latePayMonth = $_POST['latePayMonth'];
+}
+
+if(isset($_POST['latePayValue'])) {
+  $latePayValue = $_POST['latePayValue'];
+}
+
 $user = new User();
 
 switch ($action) {
@@ -58,6 +70,10 @@ switch ($action) {
   case 'assignTemporaryPassword':
     $userData = $user->assignTemporaryPassword($userId, $passwordTemporary);
     return $userData;
+    break;
+  case 'updateUserLatePayValue':
+    $latePayData = $user->updateUserLatePayValue($login, $userId, $latePayYear, $latePayMonth, $latePayValue);
+    return $latePayData;
     break;
   case 'addUser':
     $userData = $user->addUser($username, $firstName, $lastName, $role, $isActive, $passwordTemporaryNew);
