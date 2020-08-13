@@ -64,7 +64,8 @@ class User
                                   'nazwisko' => $row['nazwisko'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'rola_nazwa' => $row['rola_nazwa'],
-                                  'rola_id' => $row['rola_id'])
+                                  'rola_id' => $row['rola_id'],
+                                  'stanowisko' => $row['stanowisko_nazwa'])
                                 );
       }
       pg_free_result($result);

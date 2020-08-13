@@ -69,6 +69,13 @@ $(document).ready(function() {
            }
            $('#is_active').val(data[0]['jest_aktywny']);
            $('#userId').val(id);
+           if(data[0]['stanowisko'] != 'handlowiec') {
+             $('.late_pay').prop('disabled', true);
+             console.log('eolo');
+           } else {
+             $('.late_pay').prop('disabled', false);
+             console.log('eolo2');
+           }
        },
     })
 
