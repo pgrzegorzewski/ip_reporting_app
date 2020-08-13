@@ -34,6 +34,15 @@ $(document).ready(function () {
   })
 });
 
+$(document).ready(function () {
+    var currentDate = new Date(),
+    currentMonth = currentDate.getMonth(),
+    currentYear = currentDate.getFullYear();
+
+  $('#late_pay_year').val(currentYear).siblings().addClass('active');
+  $('#late_pay_month').val(currentMonth).siblings().addClass('active');
+});
+
 $(document).ready(function() {
 
   $('#editUserModal').on('show.bs.modal', function(e) {
