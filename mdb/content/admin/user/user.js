@@ -41,7 +41,6 @@ $(document).ready(function () {
 $(document).on('hidden.bs.modal', '.modal', function () {
 
    $("#editUserModal").remove();
-   console.log(originalModal);
    originalModal.insertAfter("#addUserModal");
    bindModal();
  });
@@ -123,7 +122,6 @@ function bindModal() {
     $('#password_temporary').val('');
 
     var id = $(e.relatedTarget).data('id');
-    console.log(id);
     $.ajax({
        method: "POST",
        data: {action : "getUserData", userId : id},
