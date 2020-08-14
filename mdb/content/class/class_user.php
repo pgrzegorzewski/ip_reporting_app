@@ -199,6 +199,36 @@ class User
       }
     }
 
+    public function getUserLatePay($userId, $latePayYear, $latePayMonth) {
+      try {
+        $query = "SELECT COALESCE((
+                    SELECT
+                        ukp.kwota_przeterminowana
+                    FROM
+                        usr.tbl_uzytkownik_kwota_przeterminowana ukp
+                    WHERE uzytkownik_kwota_przeterminowana_id =
+                                                               (
+                                                                SELECT
+                                                                    MAX(uzytkownik_kwota_przeterminowana_id ) AS uzytkownik_kwota_przeterminowana_id
+                                                                FROM
+                                                                    usr.tbl_uzytkownik_kwota_przeterminowana
+                                                                WHERE
+                                                                    uzytkownik_id = $1
+                                                                    AND rok = $2
+                                                                    AND miesiac = $3
+                                                                )
+
+                    ), 0) as kwota_przeterminowana";
+
+        $result = pg_query_params($this->connection, $query, array($userId, $latePayYear, $latePayMonth));
+        $row = pg_fetch_assoc($result);
+
+        echo $row['kwota_przeterminowana'];
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
+    }
+
     public function addUser($username, $firstName, $lastName, $role, $isActive, $passwordTemporary)
     {
       $success = true;

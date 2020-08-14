@@ -56,7 +56,7 @@ $('#editUserModal').on('show.bs.modal', function(e) {
   $('#password_temporary').val('');
 
   var id = $(e.relatedTarget).data('id');
-  console.log(id);
+
   $.ajax({
      method: "POST",
      data: {action : "getUserData", userId : id},
@@ -114,14 +114,19 @@ function bindModal() {
 
     $('#late_pay_year').val(currentYear).siblings().addClass('active');
     $('#late_pay_month').val(currentMonth).siblings().addClass('active');
+    $('#late_pay_value').val(currentMonth).siblings().addClass('active');
 
     $('#assign_temporary_pwd_error').text('');
     $('#assign_temporary_pwd_success').text('');
     $('#late_pay_error').text('');
     $('#late_pay_success').text('');
+    $('#late_pay_value').val('');
     $('#password_temporary').val('');
 
     var id = $(e.relatedTarget).data('id');
+
+    getLatePay(id, parseInt($('#late_pay_year').val()), parseInt($('#late_pay_month').val()));
+
     $.ajax({
        method: "POST",
        data: {action : "getUserData", userId : id},
@@ -167,6 +172,15 @@ function bindModal() {
       }
     });
 
+  $('#late_pay_month').change(function(){
+    getLatePay(id, parseInt($('#late_pay_year').val()), parseInt($('#late_pay_month').val()));
+  })
+
+  $('#late_pay_year').change(function(){
+    getLatePay(id, parseInt($('#late_pay_year').val()), parseInt($('#late_pay_month').val()));
+  })
+
+
   $('#late_pay_value_save').click(function () {
       var latePayYear = $('#late_pay_year').val();
       var latePayMonth = $('#late_pay_month').val();
@@ -192,6 +206,22 @@ function bindModal() {
     });
   });
 }
+
+function getLatePay(userId, year, month) {
+  $('#late_pay_error').text('');
+  $('#late_pay_success').text('');
+
+  $.ajax({
+     method: "POST",
+     data: {action : "getUserLatePay", userId : userId, latePayYear : parseInt(year), latePayMonth: parseInt(month)},
+     dataType: 'json',
+     url: "./user_actions.php",
+     success: function(data) {
+       $('#late_pay_value').val(data);
+     }
+  })
+}
+
 
 $('#update_user_form').submit(function () {
   var form=document.getElementById('update_user_form');

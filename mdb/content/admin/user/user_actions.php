@@ -75,6 +75,10 @@ switch ($action) {
     $latePayData = $user->updateUserLatePayValue($login, $userId, $latePayYear, $latePayMonth, $latePayValue);
     return $latePayData;
     break;
+  case 'getUserLatePay':
+    $latePayValue = $user->getUserLatePay($userId, $latePayYear, $latePayMonth);
+    return $latePayValue;
+    break;
   case 'addUser':
     $userData = $user->addUser($username, $firstName, $lastName, $role, $isActive, $passwordTemporaryNew);
     header('Location:./user.php');

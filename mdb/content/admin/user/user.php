@@ -185,7 +185,7 @@
                             <div class="col-md-6">
                               <div class="md-form form-group">
                                 <input id="late_pay_value" class="form-control late_pay" type="number"  min="0" name = "late_pay_value" value= "" >
-                                <label for="late_pay_value">Wartość przeterm.</label>
+                                <label for="late_pay_value" class='active'>Wartość przeterm.</label>
                               </div>
                             </div>
                             <div class="col-md-3">
