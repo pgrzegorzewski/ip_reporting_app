@@ -6,10 +6,16 @@ $(document).ready(function () {
   });
   $('.dataTables_length').addClass('bs-select');
   $('#data-table').DataTable();
+});
 
+
+$(document).on('click', '#late_pay_table_button', function() {
+    $('#late_pay_div').toggle();
+    getLatPayValues();
 });
 
 function getSalesmanFilter() {
+  //getLatPayValues();
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -27,9 +33,7 @@ function getSalesmanFilter() {
           }
       }
   });
-  console.log('test');
 }
-
 
 $(document).on('click', '#region_summary_data_refresh', function() {
 
@@ -161,6 +165,7 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
 
   if ($('#report_date_from').val() && $('#report_date_to').val()) {
     if ($('#report_date_from').val() < $('#report_date_to').val()) {
+      getLatPayValues();
 
       $('#error_msg').text('');
       $("#report_date_to").css("border-bottom", "none");
@@ -883,6 +888,40 @@ function getSalesmanChartTemplate() {
                $('#chart_div').append(data);
          }
     });
+}
+
+function getLatPayValues() {
+
+  $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
+  $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+  console.log($dateFrom + $dateTo);
+  $.ajax({
+      url: "./user_late_pay_values.php",
+      type: 'post',
+      data: {dateFrom: $dateFrom, dateTo: $dateTo},
+      dataType: 'json',
+      success:function(jsonData){
+        console.log(jsonData);
+        $("#late_pay_datatable").dataTable().fnDestroy();
+        $('#late_pay_datatable').DataTable({
+            "searching": false,
+            "paging": true,
+            data : jsonData,
+            columns: [
+                {data: 'data'},
+                {data: 'sprzedawca'},
+                {
+                  "render": function(data, type, row) {
+                      var $textInput = $("<input class='form-control' class ='late_pay_value-input' type='number' step='0.01' min = '0.01' value='" + row['wartosc_przeterminowana'] + "'>");
+                      return $textInput.prop("outerHTML");
+                    },
+                },
+                {data: 'edytuj'}
+              ]
+            });
+      }
+  });
+  console.log('test');
 }
 
 function clearChartTemplate() {
