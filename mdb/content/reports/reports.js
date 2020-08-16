@@ -24,7 +24,6 @@ $(document).on('click', '.user_late_pay_update', function() {
     $latePayMonth = $id.split('-')[1];
     $latePayYear = $id.split('-')[2];
 
-    console.log('elo');
     $.ajax({
        method: "POST",
        data: {action : "updateUserLatePayValue", userId : $userId, latePayYear : parseInt($latePayYear), latePayMonth: parseInt($latePayMonth), latePayValue: $latePayValue},
@@ -33,7 +32,6 @@ $(document).on('click', '.user_late_pay_update', function() {
        success: function() {
        },
     });
-    console.log('eloo');
     $('#late_pay_datatable tr:eq(' + ($rowIndex + 1) + ') td:eq(3) button').addClass('btn-success').removeClass('btn-info');
     timer = setTimeout(function() {
       $('#late_pay_datatable tr:eq(' + ($rowIndex + 1) + ') td:eq(3) button').addClass('btn-info').removeClass('btn-success');
