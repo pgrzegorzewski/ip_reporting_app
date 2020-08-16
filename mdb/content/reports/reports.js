@@ -15,7 +15,6 @@ $(document).on('click', '#late_pay_table_button', function() {
 });
 
 function getSalesmanFilter() {
-  //getLatPayValues();
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -894,14 +893,13 @@ function getLatPayValues() {
 
   $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
   $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
-  console.log($dateFrom + $dateTo);
+
   $.ajax({
       url: "./user_late_pay_values.php",
       type: 'post',
       data: {dateFrom: $dateFrom, dateTo: $dateTo},
       dataType: 'json',
       success:function(jsonData){
-        console.log(jsonData);
         $("#late_pay_datatable").dataTable().fnDestroy();
         $('#late_pay_datatable').DataTable({
             "searching": false,
@@ -921,7 +919,6 @@ function getLatPayValues() {
             });
       }
   });
-  console.log('test');
 }
 
 function clearChartTemplate() {
