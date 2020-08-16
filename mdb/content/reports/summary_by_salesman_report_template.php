@@ -70,6 +70,8 @@
             <th>Suma wartości</th>
             <th>Suma marż</th>
             <th>Procent</th>
+            <th>Kwota przeterm</th>
+            <th>Premia</th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -79,6 +81,7 @@
                 <th style="text-align:right"></th>
                 <th style="text-align:right"></th>
                 <th style="text-align:right"></th>
+                <th colspan="2"></th>
             </tr>
         </tfoot>
     </table>

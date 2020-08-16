@@ -229,7 +229,17 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
                        data: 'procent',
                        render: $.fn.dataTable.render.number( ' ', '.', 2),
                        className: "text-right"
-                     }
+                     },
+                     {
+                        data: 'kwota_przeterminowana',
+                        render: $.fn.dataTable.render.number( ' ', '.', 2),
+                        className: "text-right"
+                    },
+                    {
+                       data: 'premia_kwota',
+                       render: $.fn.dataTable.render.number( ' ', '.', 2),
+                       className: "text-right"
+                   },
                  ],
                  footerCallback: function ( row, data, start, end, display ) {
                      var api = this.api(), data;

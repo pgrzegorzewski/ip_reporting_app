@@ -18,7 +18,9 @@ try {
                                 'kolor' => $row['kolor_kod'],
                                 'suma_wartosci' => $row['suma_wartosci'],
                                 'suma_marz' => $row['suma_marz'],
-                                'procent' => $row['procent'])
+                                'procent' => $row['procent'],
+                                'kwota_przeterminowana' => $row['kwota_przeterminowana'],
+                                'premia_kwota' => $row['premia_kwota'])
                               );
     }
     pg_free_result($result);
