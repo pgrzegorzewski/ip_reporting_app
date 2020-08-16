@@ -37,20 +37,24 @@
               <div style='text-align:center;'>
                 <button class='btn btn-info' id = 'late_pay_table_button'><span id='late_pay_table_span'>Pokaż kwoty przeterm.</span></button>
               </div>
-              <div id='late_pay_div' style='display:none'>
-                <div class='table-responsive' style='text-align:center;'>
-                  <table class='table table-striped table-bordered' id='late_pay_datatable'>
-                      <thead>
-                      <tr>
-                          <th>Data</th>
-                          <th>Sprzedawca</th>
-                          <th>Kwota przeterminowana</th>
-                          <th>Edycja</th>
-                      </tr>
-                      </thead>
-                      <tbody></tbody>
-                  </table>
+              <div class='form-row'>
+                <div class ='col-md-3'></div>
+                <div id='late_pay_div' style='display:none;  border:black solid 2px; border-radius: 25px'; class='col-md-6'>
+                  <div class='table-responsive' style='text-align:center;'>
+                    <table class='table table-striped table-bordered' id='late_pay_datatable'>
+                        <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Sprzedawca</th>
+                            <th>Kwota przeterminowana</th>
+                            <th>Edycja</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                  </div>
                 </div>
+                <div class ='col-md-3'></div>
               </div>
               <br/><br/>
               <hr>

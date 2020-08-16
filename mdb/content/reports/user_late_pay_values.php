@@ -17,7 +17,7 @@ try {
                                 'data' => $row['data'],
                                 'sprzedawca' => $row['sprzedawca'],
                                 'wartosc_przeterminowana' => $row['wartosc_przeterminowana'],
-                                'edytuj' => "<button style='padding:5px' data-id='" . $row['sprzedawca'] . "-" .  $row['data'] . "' id='" . $row['sprzedawca'] . "-" .  $row['data'] . "' class='btn btn-info'>Zapisz</button>"
+                                'edytuj' => "<button style='padding:5px' data-id='" . $row['sprzedawca'] . "-" .  $row['data'] . "' id='" . $row['sprzedawca_id'] . "-" .  $row['data'] . "' class='btn btn-info user_late_pay_update'>Zapisz</button>"
                               )
                 );
     }

@@ -1,5 +1,6 @@
 var today = new Date();
 var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
+var TIMER_SECONDS = 3000;
 
 $(document).ready(function () {
   $('#dtBasicExample').DataTable({
@@ -12,6 +13,31 @@ $(document).ready(function () {
 $(document).on('click', '#late_pay_table_button', function() {
     $('#late_pay_div').toggle();
     getLatPayValues();
+});
+
+$(document).on('click', '.user_late_pay_update', function() {
+    $id = this.id;
+    $rowIndex = ($(this).closest('td').parent()[0].sectionRowIndex);
+    $latePayValue = $('#late_pay_datatable tr:eq(' + ($rowIndex + 1) + ') td:eq(2) input').val();
+
+    $userId = $id.split('-')[0];
+    $latePayMonth = $id.split('-')[1];
+    $latePayYear = $id.split('-')[2];
+
+    console.log('elo');
+    $.ajax({
+       method: "POST",
+       data: {action : "updateUserLatePayValue", userId : $userId, latePayYear : parseInt($latePayYear), latePayMonth: parseInt($latePayMonth), latePayValue: $latePayValue},
+       dataType: 'json',
+       url: "../admin/user/user_actions.php",
+       success: function() {
+       },
+    });
+    console.log('eloo');
+    $('#late_pay_datatable tr:eq(' + ($rowIndex + 1) + ') td:eq(3) button').addClass('btn-success').removeClass('btn-info');
+    timer = setTimeout(function() {
+      $('#late_pay_datatable tr:eq(' + ($rowIndex + 1) + ') td:eq(3) button').addClass('btn-info').removeClass('btn-success');
+    }, TIMER_SECONDS);
 });
 
 function getSalesmanFilter() {
@@ -164,7 +190,6 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
 
   if ($('#report_date_from').val() && $('#report_date_to').val()) {
     if ($('#report_date_from').val() < $('#report_date_to').val()) {
-      getLatPayValues();
 
       $('#error_msg').text('');
       $("#report_date_to").css("border-bottom", "none");
@@ -270,6 +295,8 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
 
              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
+
+             getLatPayValues();
          },
          always: function() {
            $("#data_refresh").attr("disabled", false);
@@ -902,19 +929,28 @@ function getLatPayValues() {
       success:function(jsonData){
         $("#late_pay_datatable").dataTable().fnDestroy();
         $('#late_pay_datatable').DataTable({
-            "searching": false,
             "paging": true,
             data : jsonData,
             columns: [
-                {data: 'data'},
-                {data: 'sprzedawca'},
+                {
+                    data: 'data',
+                    width: '20%'
+                },
+                {
+                    data: 'sprzedawca',
+                    width: '30%'
+                },
                 {
                   "render": function(data, type, row) {
                       var $textInput = $("<input class='form-control' class ='late_pay_value-input' type='number' step='0.01' min = '0.01' value='" + row['wartosc_przeterminowana'] + "'>");
                       return $textInput.prop("outerHTML");
                     },
+                    width: '30%'
                 },
-                {data: 'edytuj'}
+                {
+                    data: 'edytuj',
+                    width: '20%'
+                }
               ]
             });
       }
