@@ -92,6 +92,12 @@ $(document).ready(function(){
               console.log(jsonData);
               console.log(getInvoiceNumbers(jsonData));
               console.log(getInvoiceHeaders(jsonData));
+              $invoiceNumbers = $.uniqueSort(getInvoiceNumbers(jsonData));
+
+              $.each($invoiceNumbers, function( index, value ){
+                  $('#import_invoice_numbers').css('display', 'block');
+                  $('#import_invoice_numbers').append("<button class='btn btn-info'>"+ value+ "</button>");
+              });
 
 
                  $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');

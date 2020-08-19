@@ -153,6 +153,9 @@ $loggedUser = new User();
               </div>
           </form>
           <br />
+          <div id = "import_invoice_numbers" style="display:none">
+            <br>
+          </div>
           <form id="invoice_header_form">
               <br />
               <h5>Nagłówek faktury</h5>
