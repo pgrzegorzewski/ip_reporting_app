@@ -7,21 +7,19 @@ $dateFrom = $_POST['dateFrom'];
 $dateTo = $_POST['dateTo'];
 
 try {
-    $query = "SELECT * FROM app.tf_podsumowanie_sprzedazy_per_sprzedawca($1, $2, $3)";
+    $query = "SELECT * FROM app.tf_pobierz_kwoty_przeterminowane($1, $2, $3)";
     $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $login));
     $resp = array();
 
     while($row = pg_fetch_assoc($result))
     {
       array_push($resp, array(
+                                'data' => $row['data'],
                                 'sprzedawca' => $row['sprzedawca'],
-                                'kolor' => $row['kolor_kod'],
-                                'suma_wartosci' => $row['suma_wartosci'],
-                                'suma_marz' => $row['suma_marz'],
-                                'procent' => $row['procent'],
-                                'kwota_przeterminowana' => $row['kwota_przeterminowana'],
-                                'premia_kwota' => $row['premia_kwota'])
-                              );
+                                'wartosc_przeterminowana' => $row['wartosc_przeterminowana'],
+                                'edytuj' => "<button style='padding:5px' data-id='" . $row['sprzedawca'] . "-" .  $row['data'] . "' id='" . $row['sprzedawca_id'] . "-" .  $row['data'] . "' class='btn btn-info user_late_pay_update'>Zapisz</button>"
+                              )
+                );
     }
     pg_free_result($result);
     echo json_encode($resp);

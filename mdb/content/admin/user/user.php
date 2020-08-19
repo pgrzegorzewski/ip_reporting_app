@@ -170,6 +170,37 @@
                               </select>
                           </div>
                           <div class="form-row" style="border:#AFC2D1 solid 2px; border-radius: 25px;">
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <input id = "late_pay_year" class="form-control late_pay" name = "late_pay_year" type="number" min="2016" step="1">
+                                <label for = "late_pay_year" class= 'active'>Rok</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="md-form form-group">
+                                <input id = "late_pay_month" class="form-control late_pay" name = "late_pay_month" type="number" min="1" max="12" step="1">
+                                <label for="late_pay_month" class= 'active'>Miesiąc</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="md-form form-group">
+                                <input id="late_pay_value" class="form-control late_pay" type="number"  min="0" name = "late_pay_value" value= "" >
+                                <label for="late_pay_value" class='active'>Wartość przeterm.</label>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-6">
+                              <input type="button" class="btn btn-info late_pay" id="late_pay_value_save" value="Zapisz wartość przeterm."></button>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-12" style="text-align:center">
+                              <span id = "late_pay_error"></span>
+                              <span id = "late_pay_success"></span>
+                            </div>
+                          </div>
+                          <div class="form-row" style="border:#AFC2D1 solid 2px; border-radius: 25px;">
                             <div class="col-md-6">
                               <div class="md-form form-group">
                                   <input class="form-control" id = "password_temporary" name = "password_temporary" type="text" value="" style="color:white">

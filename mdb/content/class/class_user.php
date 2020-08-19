@@ -17,13 +17,22 @@ class User
     public function userIdGet($username)
     {
 
-        $result =  pg_query_params($connection, "SELECT user_id FROM usr.tbl_user WHERE username = $1", array($username));
+        $result =  pg_query_params($connection, "SELECT user_id FROM usr.tbl_uzytkownik WHERE username = $1", array($username));
         $row = pg_fetch_row($result);
 
-        $this->userId = $row['user_id'];
+        $this->userId = $row['uzytkownik_id'];
 
         return $this->userId;
 
+    }
+
+    public function userIdByUsernameGet($username)
+    {
+
+        $result =  pg_query_params($this->connection, "SELECT uzytkownik_id FROM usr.tbl_uzytkownik WHERE username = $1", array($username));
+        $row = pg_fetch_assoc($result);
+
+        return $row['uzytkownik_id'];
     }
 
     public function getUserManagementList($login)
@@ -64,7 +73,8 @@ class User
                                   'nazwisko' => $row['nazwisko'],
                                   'jest_aktywny' => $row['jest_aktywny'],
                                   'rola_nazwa' => $row['rola_nazwa'],
-                                  'rola_id' => $row['rola_id'])
+                                  'rola_id' => $row['rola_id'],
+                                  'stanowisko' => $row['stanowisko_nazwa'])
                                 );
       }
       pg_free_result($result);
@@ -137,6 +147,86 @@ class User
           $_SESSION['e_password_temporary_update'] = 'coś poszło nie tak:(';
       }
 
+    }
+
+    public function updateUserLatePayValue($login, $userId, $latePayYear, $latePayMonth, $latePayValue) {
+      $isLatePayEntered = 0;
+      $updatingUser = $this->userIdByUsernameGet($login);
+      $date = new DateTime();
+
+      try {
+        $query = "SELECT
+                    COUNT(*) as late_pay_cnt
+                  FROM
+                    usr.tbl_uzytkownik_kwota_przeterminowana
+                  WHERE
+                    rok = $1
+                    AND miesiac = $2
+                    AND uzytkownik_id = $3";
+        $result = pg_query_params($this->connection, $query, array( $latePayYear, $latePayMonth, $userId));
+        $isLatePayEntered = pg_fetch_assoc($result);
+      } catch(Exception $error) {
+          $error->getMessage();
+          $_SESSION['e_late_pay_update'] = 'coś poszło nie tak:(';
+      }
+      if ($isLatePayEntered['late_pay_cnt'] == 0) {
+        try {
+          $queryInsert = "INSERT INTO usr.tbl_uzytkownik_kwota_przeterminowana(uzytkownik_id, rok, miesiac, kwota_przeterminowana, data_utworzenia, wprowadzone_przez_uzytkownik_id)
+                    VALUES($1, $2, $3, $4, $5, $6);
+                    ";
+          $result = pg_query_params($this->connection, $queryInsert, array($userId, $latePayYear, $latePayMonth, $latePayValue, date_format($date, 'Y-m-d H:i:s'), $updatingUser));
+
+          echo 'Wartość wprowadzona';
+        } catch(Exception $error) {
+            $error->getMessage();
+            $_SESSION['e_password_temporary_update'] = 'coś poszło nie tak:(';
+        }
+      } elseif ($isLatePayEntered['late_pay_cnt'] == 1) {
+        $queryUpdate = "UPDATE usr.tbl_uzytkownik_kwota_przeterminowana
+                  SET
+                    kwota_przeterminowana = $1
+                    ,ostatnio_zaktualizowane_przez_uzytkownik_id = $2
+                    ,data_ostatniej_aktualizacji = $3
+                  WHERE
+                    rok = $4
+                    AND miesiac = $5
+                    AND uzytkownik_id = $6
+                  ";
+        $result = pg_query_params($this->connection, $queryUpdate, array($latePayValue, $updatingUser,  date_format($date, 'Y-m-d H:i:s'), $latePayYear, $latePayMonth, $userId));
+        echo 'Wartość zaktualizowana';
+      } else {
+        $_SESSION['e_late_pay_update'] = 'coś poszło nie tak:(';
+      }
+    }
+
+    public function getUserLatePay($userId, $latePayYear, $latePayMonth) {
+      try {
+        $query = "SELECT COALESCE((
+                    SELECT
+                        ukp.kwota_przeterminowana
+                    FROM
+                        usr.tbl_uzytkownik_kwota_przeterminowana ukp
+                    WHERE uzytkownik_kwota_przeterminowana_id =
+                                                               (
+                                                                SELECT
+                                                                    MAX(uzytkownik_kwota_przeterminowana_id ) AS uzytkownik_kwota_przeterminowana_id
+                                                                FROM
+                                                                    usr.tbl_uzytkownik_kwota_przeterminowana
+                                                                WHERE
+                                                                    uzytkownik_id = $1
+                                                                    AND rok = $2
+                                                                    AND miesiac = $3
+                                                                )
+
+                    ), 0) as kwota_przeterminowana";
+
+        $result = pg_query_params($this->connection, $query, array($userId, $latePayYear, $latePayMonth));
+        $row = pg_fetch_assoc($result);
+
+        echo $row['kwota_przeterminowana'];
+      } catch(Exception $error) {
+          $error->getMessage();
+      }
     }
 
     public function addUser($username, $firstName, $lastName, $role, $isActive, $passwordTemporary)
