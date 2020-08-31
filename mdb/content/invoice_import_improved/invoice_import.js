@@ -77,7 +77,10 @@ $(document).ready(function(){
    $('#upload_csv').on('submit', function (event) {
         $('#import_label').text('');
         $('#import_label').addClass('spinner-border spinner-border-sm text-primary');
+        $('#import_invoice_numbers').empty();
         var defaultVal = 0;
+        invoiceHeaders = [];
+        invoiceNumbers = [];
         event.preventDefault();
         $.ajax({
             url: "./import_csv.php",
@@ -92,13 +95,14 @@ $(document).ready(function(){
               console.log(jsonData);
               console.log(getInvoiceNumbers(jsonData));
               console.log(getInvoiceHeaders(jsonData));
-              $invoiceNumbers = $.uniqueSort(getInvoiceNumbers(jsonData));
-
-              $.each($invoiceNumbers, function( index, value ){
+              invoiceNumbers = $.uniqueSort(getInvoiceNumbers(jsonData));
+              invoiceHeaders = getInvoiceHeaders(jsonData);
+              $.each(invoiceNumbers, function( index, value ){
                   $('#import_invoice_numbers').css('display', 'block');
-                  $('#import_invoice_numbers').append("<button class='btn btn-info'>"+ value+ "</button>");
+                  $('#import_invoice_numbers').append("<button class='btn btn-info invoiceToImport'>"+ value+ "</button>");
               });
 
+              $('.invoiceToImport').bind('click', loadInvoiceToImport);
 
                  $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
                  $('#import_label').text('Wybierz plik');
@@ -214,6 +218,20 @@ $(document).ready(function(){
    })
 
 });
+
+function loadInvoiceToImport() {
+  var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());
+  console.log(currentInvoiceHeader);
+}
+
+function arrayLookup(array, prop, val) {
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (array[i].hasOwnProperty(prop) && array[i][prop] === val) {
+            return array[i];
+        }
+    }
+    return null;
+}
 
 function getInvoiceNumbers(json) {
   invoiceNumbers = [];
