@@ -6,6 +6,10 @@ var formatter = new Intl.NumberFormat('ru-RU', {
   currency: 'PLN',
 });
 var clients = [];
+var salesmen = [];
+var voivodeships = [];
+var countries = [];
+
 
 $(document).ready(function(){
     appendAddInvoice();
@@ -45,6 +49,35 @@ $(document).ready(function(){
     });
     importFilters();
 });
+
+$(document).ready(function(){
+  $('#client').change(function() {
+    var id = $("#client").children("option:selected").val();
+
+    var clientObj = clients.find(obj => {
+      return obj.kontrahent_id === id
+    });
+
+    if(clientObj) {
+       if(clientObj.wojewodztwo_id) {
+         $('#voivodeship').val(clientObj.wojewodztwo_id).change();
+       } else {
+         $("#voivodeship").val($("#voivodeship option:first").val());
+       }
+       if(clientObj.region_id != null && clientObj.region_id != '') {
+         $('#region').val(clientObj.region_id).change();
+       } else {
+         $("#region").val($("#region option:first").val());
+       }
+       if(clientObj.kraj_id != null && clientObj.kraj_id != '') {
+         $('#country').val(clientObj.kraj_id).change();
+       } else {
+          $("#country").val($("#country option:first").val());
+       }
+    }
+  })
+});
+
 
 $(document).ready(function(){
   $('#recalculatePricesButton').click(function(){
@@ -222,6 +255,78 @@ $(document).ready(function(){
 function loadInvoiceToImport() {
   var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());
   console.log(currentInvoiceHeader);
+  clearLoadedHeader();
+  setCurrentHeader(currentInvoiceHeader);
+}
+
+function clearLoadedHeader() {
+  $('#invoice_number').val('').siblings().removeClass('active');
+  $('#invoice_date').val('').siblings().removeClass('active');
+  $("#salesman").val($("#salesman option:first").val());
+  $("#currency").val($("#currency option:first").val());
+  $("#rate").val('').siblings().removeClass('active');
+  $('#export_checkbox').prop('checked', false);
+  $('#transfer_checkbox').prop('checked', false);
+  $('#delivery_checkbox').prop('checked', false);
+  $("#client").val($("#client option:first").val());
+  $('#bonus').val(0);
+  $("#country").val($("#country option:first").val());
+  $("#voivodeship").val($("#voivodeship option:first").val());
+  $("#region").val($("#region option:first").val());
+  $('#comment').val('');
+}
+
+function setCurrentHeader(currentInvoiceHeaderObject) {
+  $('#invoice_number').val(currentInvoiceHeaderObject.faktura_numer).siblings().addClass('active');
+  $('#invoice_date').val(currentInvoiceHeaderObject.data_wystawienia).siblings().addClass('active');
+  var salesmanNameExternal = currentInvoiceHeaderObject.sprzedawca;
+  var salesmanObj = salesmen.find(obj => {
+    return obj.uzytkownik_nazwa_zewnetrzna === salesmanNameExternal
+  });
+  if(salesmanObj && salesmanObj.uzytkownik_id != 'undefined') {
+    $("#salesman").val(salesmanObj.uzytkownik_id);
+  }
+  $("#currency option").filter(function() {
+    return $(this).text() == currentInvoiceHeaderObject.waluta_kod;
+  }).prop('selected', true);
+  $("#rate").val(currentInvoiceHeaderObject.kurs).siblings().addClass('active');
+  if(currentInvoiceHeaderObject.kraj_kod == 'PL') {
+    $('#export_checkbox').prop('checked', false);
+  } else {
+    $('#export_checkbox').prop('checked', true);
+  }
+  if(currentInvoiceHeaderObject.przelew == 1) {
+    $('#transfer_checkbox').prop('checked', true);
+  } else {
+    $('#transfer_checkbox').prop('checked', false);
+  }
+  if(currentInvoiceHeaderObject.dostawa == 1) {
+    $('#delivery_checkbox').prop('checked', true);
+  } else {
+    $('#delivery_checkbox').prop('checked', false);
+  }
+  var clientNameExternal = currentInvoiceHeaderObject.kontrahent;
+  var clientObj = clients.find(obj => {
+    return obj.kontrahent_nazwa_zewnetrzna === clientNameExternal
+  });
+  if(clientObj && clientObj.kontrahent_id != 'undefined') {
+  //get default contry region voivodeship - change
+    $("#client").val(clientObj.kontrahent_id).change();
+  }
+  var countryCode = currentInvoiceHeaderObject.kraj_kod;
+  var countryObj = countries.find(obj => {
+    return obj.kraj_kod === countryCode
+  });
+  if(countryObj && countryObj.kraj_id != 'undefined') {
+    $("#country").val(countryObj.kraj_id);
+  }
+  var voivodeshipName = currentInvoiceHeaderObject.wojewodztwo_nazwa;
+  var voivodeshipObj = voivodeships.find(obj => {
+    return obj.wojewodztwo_nazwa_pelna === voivodeshipName
+  });
+  if(voivodeshipObj && voivodeshipObj.wojewodztwo_id != 'undefined') {
+    $("#voivodeship").val(voivodeshipObj.wojewodztwo_id);
+  }
 }
 
 function arrayLookup(array, prop, val) {
@@ -446,6 +551,7 @@ function importCountryFilter() {
       dataType: 'json',
       success:function(response){
           var len = response.length;
+          countries = response;
           for( var i = 0; i < len; i++){
               var country_id = response[i]['kraj_id'];
               var country_name = response[i]['kraj_nazwa'];
@@ -465,6 +571,7 @@ function importVoivodeshipFilter() {
       dataType: 'json',
       success:function(response){
           var len = response.length;
+          voivodeships = response;
           for( var i = 0; i<len; i++){
               var voivodeship_id = response[i]['wojewodztwo_id'];
               var voivodeship_name = response[i]['wojewodztwo_nazwa'];
@@ -504,6 +611,7 @@ function importSalesmanFilter() {
       dataType: 'json',
       success:function(response){
           var len = response.length;
+          salesmen = response;
           for( var i = 0; i<len; i++){
               var salesman_id = response[i]['uzytkownik_id'];
               var salesman_name = response[i]['uzytkownik_nazwa'];

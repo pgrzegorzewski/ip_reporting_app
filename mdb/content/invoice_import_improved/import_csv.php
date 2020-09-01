@@ -13,8 +13,8 @@ if(!empty($_FILES['csv_file']['name'])) {
           if($row[0]) {
             $data[] = array(
                 'faktura_numer' => $row[0],
-                'data_wystawienia' => $row[1],
-                'kontrahent' => intVal($row[2]),
+                'data_wystawienia' => date("Y-m-d", strtotime($row[1])),
+                'kontrahent' => $row[2],
                 'waluta_kod' => $row[3],
                 'kurs' => (float)(str_replace(',', '.', $row[4])) == 1 ? 1 : (float)(str_replace(',', '.', ($row[4] / 100))) ,
                 'kraj_kod' => $row[5],

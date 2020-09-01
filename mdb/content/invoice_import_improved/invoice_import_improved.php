@@ -33,7 +33,7 @@ $loggedUser = new User();
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
-    <script type="text/javascript" src="./invoice_import.js"></script>
+    <script type="text/javascript" src="./invoice_import_improved.js"></script>
     <script type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>

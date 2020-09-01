@@ -35,7 +35,7 @@ if ($connection) {
                         LEFT JOIN (
                                     SELECT
                                         COUNT(*) aktywne_pozycje_cnt
-                                        ,faktura_id 
+                                        ,faktura_id
                                     FROM app.tbl_faktura_pozycja tfp
                                     WHERE
                                         jest_aktywny = 1::BIT
@@ -81,7 +81,7 @@ if ($connection) {
                 break;
             case 'country':
                 $query = "
-                        SELECT kraj_id, kraj_nazwa FROM app.tbl_kraj
+                        SELECT kraj_id, kraj_nazwa, kraj_kod FROM app.tbl_kraj
                         WHERE jest_wybieralne = 1::BIT
                 ";
                 $countryQuery = @pg_query($connection, $query);
@@ -90,7 +90,8 @@ if ($connection) {
                 {
                     $countryId = $row["kraj_id"];
                     $countryName = $row["kraj_nazwa"];
-                    $countryArray[] = array("kraj_id" => $countryId, "kraj_nazwa" => $countryName);
+                    $countryCode = $row["kraj_kod"];
+                    $countryArray[] = array("kraj_id" => $countryId, "kraj_nazwa" => $countryName, "kraj_kod" => $countryCode);
                 }
                 echo json_encode($countryArray);
                 break;
@@ -111,30 +112,54 @@ if ($connection) {
                 }
                 echo json_encode($clientArray);
                 break;
-              case 'client_active_only':
-                  $query = "
-                          SELECT kontrahent_id, kontrahent_nazwa, bonus FROM app.tbl_kontrahent
-                          WHERE
-                            jest_aktywny = 1::BIT
-                          ORDER BY
-                            kontrahent_nazwa
-                  ";
-                  $clientQuery = @pg_query($connection, $query);
+                case 'client_active_only':
+                    $query = "
+                        SELECT
+                          tk.kontrahent_id,
+                          tk.kontrahent_nazwa,
+                          tk.wojewodztwo_id,
+                          tk.region_id,
+                          tk.kraj_id,
+                          tk.bonus,
+                          tk.domyslna_wartosc_przelew,
+                          tk.domyslna_wartosc_dostawa,
+                          tk.domyslna_wartosc_eksport,
+                          tk.domyslna_wartosc_waluta_id,
+                          tk.domyslna_wartosc_sprzedawca_id,
+                          tk.kontrahent_nazwa_zewnetrzna
+                        FROM
+                          app.tbl_kontrahent tk
+                        WHERE
+                          jest_aktywny = 1::BIT
+                        ORDER BY
+                          kontrahent_nazwa
+                    ";
+                    $clientQuery = @pg_query($connection, $query);
 
-                  while($row = pg_fetch_assoc($clientQuery))
-                  {
-                      $clientId = $row["kontrahent_id"];
-                      $clientyName = $row["kontrahent_nazwa"];
-                      $bonus = $row["bonus"];
-                      $clientArray[] = array("kontrahent_id" => $clientId, "kontrahent_nazwa" => $clientyName, "bonus" => $bonus);
-                  }
-                  echo json_encode($clientArray);
-                  break;
+                    while($row = pg_fetch_assoc($clientQuery))
+                    {
+                        $clientArray[] = array("kontrahent_id" => $row["kontrahent_id"],
+                          "kontrahent_nazwa" => $row["kontrahent_nazwa"],
+                          "wojewodztwo_id" => $row["wojewodztwo_id"],
+                          "region_id" => $row["region_id"],
+                          "kraj_id" => $row["kraj_id"],
+                          "bonus" => $row["bonus"],
+                          "domyslna_wartosc_przelew" => $row["domyslna_wartosc_przelew"],
+                          "domyslna_wartosc_dostawa" => $row["domyslna_wartosc_dostawa"],
+                          "domyslna_wartosc_eksport" => $row["domyslna_wartosc_eksport"],
+                          "domyslna_wartosc_waluta_id" => $row["domyslna_wartosc_waluta_id"],
+                          "domyslna_wartosc_sprzedawca_id" => $row["domyslna_wartosc_sprzedawca_id"],
+                          "kontrahent_nazwa_zewnetrzna" => $row["kontrahent_nazwa_zewnetrzna"]
+                        );
+                    }
+                    echo json_encode($clientArray);
+                    break;
             case 'salesman':
                 $query = "
                   SELECT
                       uzytkownik_id,
-                      (imie || ' ' || nazwisko) AS uzytkownik_nazwa
+                      (imie || ' ' || nazwisko) AS uzytkownik_nazwa,
+                      uzytkownik_nazwa_zewnetrzna
                   FROM usr.tbl_uzytkownik tu
                   WHERE
                     stanowisko_id = 1
@@ -146,7 +171,8 @@ if ($connection) {
                 {
                     $salesmantId = $row["uzytkownik_id"];
                     $salesmanName = $row["uzytkownik_nazwa"];
-                    $salesmanArray[] = array("uzytkownik_id" => $salesmantId, "uzytkownik_nazwa" => $salesmanName);
+                    $salesmanNameExternal = $row["uzytkownik_nazwa_zewnetrzna"];
+                    $salesmanArray[] = array("uzytkownik_id" => $salesmantId, "uzytkownik_nazwa" => $salesmanName, "uzytkownik_nazwa_zewnetrzna" => $salesmanNameExternal);
                 }
                 echo json_encode($salesmanArray);
                 break;
@@ -154,7 +180,8 @@ if ($connection) {
                 $query = "
                   SELECT
                       uzytkownik_id,
-                      (imie || ' ' || nazwisko) AS uzytkownik_nazwa
+                      (imie || ' ' || nazwisko) AS uzytkownik_nazwa,
+                      uzytkownik_nazwa_zewnetrzna
                   FROM usr.tbl_uzytkownik tu
                   WHERE
                     jest_aktywny = 1::BIT
@@ -167,13 +194,14 @@ if ($connection) {
                 {
                     $salesmantId = $row["uzytkownik_id"];
                     $salesmanName = $row["uzytkownik_nazwa"];
-                    $salesmanArray[] = array("uzytkownik_id" => $salesmantId, "uzytkownik_nazwa" => $salesmanName);
+                    $salesmanNameExternal = $row["uzytkownik_nazwa_zewnetrzna"];
+                    $salesmanArray[] = array("uzytkownik_id" => $salesmantId, "uzytkownik_nazwa" => $salesmanName,  "uzytkownik_nazwa_zewnetrzna" => $salesmanNameExternal);
                 }
                 echo json_encode($salesmanArray);
                 break;
             case 'voivodeship':
                 $query = "
-                        SELECT wojewodztwo_id, wojewodztwo_nazwa FROM app.tbl_wojewodztwo
+                        SELECT wojewodztwo_id, wojewodztwo_nazwa, LOWER(wojewodztwo_nazwa_pelna) AS wojewodztwo_nazwa_pelna FROM app.tbl_wojewodztwo
                         WHERE jest_wybieralne = 1::BIT
                 ";
                 $voivodeshipQuery = @pg_query($connection, $query);
@@ -182,7 +210,8 @@ if ($connection) {
                 {
                     $voivodeshipId = $row["wojewodztwo_id"];
                     $voivodeshipName = $row["wojewodztwo_nazwa"];
-                    $voivodeshipArray[] = array("wojewodztwo_id" => $voivodeshipId, "wojewodztwo_nazwa" => $voivodeshipName);
+                    $voivodeshipNameFull = $row["wojewodztwo_nazwa_pelna"];
+                    $voivodeshipArray[] = array("wojewodztwo_id" => $voivodeshipId, "wojewodztwo_nazwa" => $voivodeshipName, "wojewodztwo_nazwa_pelna" => $voivodeshipNameFull);
                 }
                 echo json_encode($voivodeshipArray);
                 break;
