@@ -7,7 +7,6 @@ if(!empty($_FILES['csv_file']['name'])) {
 
     if (move_uploaded_file($_FILES['csv_file']['tmp_name'], $uploadfile)) {
         $file_data = fopen($uploadfile, 'r');
-        fgetcsv($file_data);
 
         while($row = fgetcsv($file_data, 0, ";")) {
           if($row[0]) {
@@ -24,10 +23,10 @@ if(!empty($_FILES['csv_file']['name'])) {
                 'przelew' => intVal($row[10]),
                 'wartosc_faktury' => (float)(str_replace(',', '.', $row[11])),
                 'towar_nazwa' => $row[12],
-                'jednostka' => $row[13],
-                'ilosc' => intVal($row[14]),
-                'wartosc_pozycji' => (float)(str_replace(',', '.', $row[15])),
-                'cena' => (float)str_replace(',', '.', $row[16]),
+                'jednostka' => $row[14],
+                'ilosc' => intVal($row[15]),
+                'wartosc_pozycji' => (float)(str_replace(',', '.', $row[16])),
+                'cena' => (float)str_replace(',', '.', $row[17]),
                 'edytuj' => "<button type='button' class='table-remove btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light'>Usuń</button>"
             );
           }

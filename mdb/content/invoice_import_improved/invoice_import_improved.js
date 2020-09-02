@@ -1,5 +1,5 @@
 var items = [];
-var INVOICE_HEADER_FIELDS = ['faktura_numer', 'data_wystawienia', 'kontrahent', 'waluta_kod', 'kurs', 'kraj_kod', 'wojewodztwo_nazwa', 'dostawa', 'przelew', 'wartosc_faktury'];
+var INVOICE_HEADER_FIELDS = ['faktura_numer', 'data_wystawienia', 'kontrahent', 'waluta_kod', 'kurs', 'kraj_kod', 'wojewodztwo_nazwa', 'dostawa', 'przelew', 'wartosc_faktury', 'sprzedawca'];
 var INVOICE_ITEM_FIELDS = ['towar', 'nazwa towaru', 'jm', 'ilość', 'wartość pozycji', 'cena'];
 var formatter = new Intl.NumberFormat('ru-RU', {
   style: 'currency',
@@ -130,6 +130,7 @@ $(document).ready(function(){
               console.log(getInvoiceHeaders(jsonData));
               invoiceNumbers = $.uniqueSort(getInvoiceNumbers(jsonData));
               invoiceHeaders = getInvoiceHeaders(jsonData);
+              console.log(getInvoiceItems(jsonData));
               $.each(invoiceNumbers, function( index, value ){
                   $('#import_invoice_numbers').css('display', 'block');
                   $('#import_invoice_numbers').append("<button class='btn btn-info invoiceToImport'>"+ value+ "</button>");
@@ -341,7 +342,6 @@ function arrayLookup(array, prop, val) {
 function getInvoiceNumbers(json) {
   invoiceNumbers = [];
   $.each(json, function(index, value) {
-    console.log(json[index]['faktura_numer']);
     if(!invoiceNumbers.includes(json[index]['faktura_numer'])) {
       invoiceNumbers.push(json[index]['faktura_numer']);
     }
@@ -365,6 +365,40 @@ function getInvoiceHeaders(json) {
     }
   });
   return invoiceHeaders;
+}
+
+function getInvoiceItems (json) {
+  invoiceItems = [];
+
+  $.each(json, function(index, value) {
+
+    if(!invoiceItems.hasOwnProperty(json[index]['faktura_numer'])) {
+      invoiceItems[json[index]['faktura_numer']] = [];
+    }
+
+    var clearedItemObject = b = $.extend( true, {}, json[index]);
+    $.each(clearedItemObject, function(key, innerValue) {
+      if(INVOICE_HEADER_FIELDS.includes(key)) {
+        delete clearedItemObject[key];
+      }
+    });
+    invoiceItems[json[index]['faktura_numer']].push(clearedItemObject);
+      // invoiceHeaders.push(json[index]);
+      //
+      // $.each(invoiceHeaders, function(key, innerValue) {
+      //   if(INVOICE_HEADERS_FIELDS.includes(key)) {
+      //     delete invoiceHeaders[index][key];
+      //   }
+      // });
+  });
+  // $.each(invoiceItems, function(key) {
+  //   $.each(key, function(innerKey, innerValue) {
+  //     if(INVOICE_HEADERS_FIELDS.includes(key)) {
+  //       delete invoiceHeaders[index][key];
+  //     }
+  //   });
+  // });
+  return invoiceItems;
 }
 
 $(document).ready(function() {
