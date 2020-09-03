@@ -130,7 +130,6 @@ $(document).ready(function(){
             success: function (jsonData) {
               invoiceNumbers = $.uniqueSort(getInvoiceNumbers(jsonData));
               invoiceHeaders = getInvoiceHeaders(jsonData);
-              console.log(invoiceHeaders);
               invoiceItems = getInvoiceItems(jsonData);
               $.each(invoiceNumbers, function( index, value ){
                   $('#import_invoice_numbers').css('display', 'block');
@@ -153,28 +152,18 @@ $(document).ready(function(){
 
 function loadInvoiceToImport() {
   var startDate = Date.now();
-  console.log('start');
   var now = Date.now();
   var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());
   var endDate   = new Date();
-  console.log((endDate - startDate) / 1000);
-  console.log('pobrana aktualna faktura');
   clearLoadedHeader();
   endDate   = new Date();
-  console.log((endDate - startDate) / 1000);
-  console.log('wyczoszczony formularz');
   setCurrentHeader(currentInvoiceHeader);
   endDate   = new Date();
-  console.log((endDate - startDate) / 1000);
-  console.log('wypełniony formularz');
   loadItemsDataTable(invoiceItems[ $(this).text()]);
   endDate   = new Date();
-  console.log((endDate - startDate) / 1000);
-  console.log('załadowana tabela');
 }
 
 function loadItemsDataTable(jsonData) {
-  console.log(jsonData);
 
   $('#recalculatePricesButton').prop("disabled", false);
 
@@ -541,7 +530,6 @@ function calculateSummaryValues(items) {
 
 function updateItemPricesRow(itemObj, index) {
   var priceZero = 0;
-  console.log(itemObj.item);
   if($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == false) {
     priceZero = ((itemObj.item.cena_go * 100) / (100 - $('#bonus').val())).toFixed(2);
     $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
@@ -801,7 +789,7 @@ function addInvoiceItems(invoiceId)
   });
   return 0;
 }
-// 
+//
 // $(document).ajaxStop(function(){
 //   var items = $('#data-table tbody tr');
 //   if(addedItems == items.length) {
