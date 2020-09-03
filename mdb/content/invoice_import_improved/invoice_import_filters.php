@@ -217,7 +217,7 @@ if ($connection) {
                 break;
             case 'item':
                 $query = "
-                        SELECT towar_id, towar_nazwa FROM app.tbl_towar
+                        SELECT towar_id, towar_nazwa, cena_go, cena_po, cena_gd, cena_pd FROM app.tbl_towar
                         ORDER BY
                           towar_nazwa
                 ";
@@ -227,7 +227,7 @@ if ($connection) {
                 {
                     $itemId = $row["towar_id"];
                     $itemName = $row["towar_nazwa"];
-                    $itemArray[] = array("towar_id" => $itemId, "towar_nazwa" => $itemName);
+                    $itemArray[] = array("towar_id" => $itemId, "towar_nazwa" => $itemName, "cena_go" => $row["cena_go"], "cena_po" => $row["cena_po"], "cena_gd" => $row["cena_gd"], "cena_pd" => $row["cena_pd"]);
                 }
                 echo json_encode($itemArray);
                 break;

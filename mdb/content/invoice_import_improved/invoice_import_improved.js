@@ -1,4 +1,5 @@
 var items = [];
+var addedItems = 0;
 var INVOICE_HEADER_FIELDS = ['faktura_numer', 'data_wystawienia', 'kontrahent', 'waluta_kod', 'kurs', 'kraj_kod', 'wojewodztwo_nazwa', 'dostawa', 'przelew', 'wartosc_faktury', 'sprzedawca'];
 var INVOICE_ITEM_FIELDS = ['towar', 'nazwa towaru', 'jm', 'ilość', 'wartość pozycji', 'cena'];
 var formatter = new Intl.NumberFormat('ru-RU', {
@@ -82,6 +83,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $('#recalculatePricesButton').click(function(){
     updateItemPrices(getSelectedItems());
+    calculateSummaryValues(getSelectedItems());
   });
 });
 
@@ -114,6 +116,7 @@ $(document).ready(function(){
         var defaultVal = 0;
         invoiceHeaders = [];
         invoiceNumbers = [];
+
         event.preventDefault();
         $.ajax({
             url: "./import_csv.php",
@@ -125,12 +128,10 @@ $(document).ready(function(){
             cache: false,
             processData: false,
             success: function (jsonData) {
-              console.log(jsonData);
-              console.log(getInvoiceNumbers(jsonData));
-              console.log(getInvoiceHeaders(jsonData));
               invoiceNumbers = $.uniqueSort(getInvoiceNumbers(jsonData));
               invoiceHeaders = getInvoiceHeaders(jsonData);
-              console.log(getInvoiceItems(jsonData));
+              console.log(invoiceHeaders);
+              invoiceItems = getInvoiceItems(jsonData);
               $.each(invoiceNumbers, function( index, value ){
                   $('#import_invoice_numbers').css('display', 'block');
                   $('#import_invoice_numbers').append("<button class='btn btn-info invoiceToImport'>"+ value+ "</button>");
@@ -138,111 +139,8 @@ $(document).ready(function(){
 
               $('.invoiceToImport').bind('click', loadInvoiceToImport);
 
-                 $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
-                 $('#import_label').text('Wybierz plik');
-                // $('#recalculatePricesButton').prop("disabled", false);
-                //
-                // var loopCnt = 0;
-                // var itemFoundFlag = 0;
-                // var towar = {
-                //   "id": 1
-                // };
-                // $("#data-table").dataTable().fnDestroy();
-                // $('#data-table').DataTable({
-                //     "scrollX": true,
-                //     "paging": false,
-                //     data : jsonData,
-                //     columns: [
-                //         {data: 'lp'},
-                //         {
-                //           "render": function(data, type, row) {
-                //             var $select = $("<select class='form-control item'></select>", {
-                //                   "id": row[0] + "start",
-                //                   "value": data
-                //             });
-                //             var $emptyOption = $("<option></option>", {
-                //                 "text": "Towar",
-                //                 "value": 0,
-                //                 "selected": "selected",
-                //             });
-                //             $select.append($emptyOption);
-                //             $.each(items, function(key, value) {
-                //               var $option = $("<option></option>", {
-                //                   "text": value['towar_nazwa'],
-                //                   "value": value['towar_id'],
-                //               });
-                //               if(row['towar'] === value['towar_nazwa']) {
-                //                 $option.attr("selected", "selected");
-                //                 itemFoundFlag = 1;
-                //               }
-                //               $select.append($option);
-                //             });
-                //             loopCnt++;
-                //             if(itemFoundFlag == 1) {
-                //               $select.css('border', '2px solid green');
-                //             } else {
-                //               $select.css('border', '2px solid red');
-                //             }
-                //             itemFoundFlag = 0;
-                //             return $select.prop("outerHTML");
-                //
-                //           },
-                //           "width": "15%",
-                //         },
-                //         {data: 'towar'},
-                //         {"render": function(data, type, row) {
-                //             var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' min = '1' value='" + row['ilosc'] +"'>");
-                //             return $textInput.prop("outerHTML");
-                //           },
-                //           "width": "15%",
-                //         },
-                //         {"render": function(data, type, row) {
-                //             var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jm'] +"'>");
-                //             return $textInput.prop("outerHTML");
-                //           },
-                //          "width": "70px",
-                //         },
-                //         {
-                //           "render": function(data, type, row) {
-                //               var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' min = '0.01' value='" + row['cena'] +"'>");
-                //               return $textInput.prop("outerHTML");
-                //             },
-                //           "width": "15%",
-                //         },
-                //         {
-                //           "render": function() {
-                //             return 0;
-                //           },
-                //           "width": "10%",
-                //         },
-                //         {
-                //           "render": function() {
-                //             return 0;
-                //           },
-                //           "width": "10%",
-                //         },
-                //         {
-                //           "render": function() {
-                //             return 0;
-                //           },
-                //           "width": "10%",
-                //         },
-                //         {
-                //           "render": function() {
-                //             return 0;
-                //           },
-                //           "width": "10%",
-                //         },
-                //         {data: 'edytuj'},
-                //     ]
-                // });
-                // higlightEmptyItem();
-                // appendAddInvoice();
-                // updateItemPrices(getSelectedItems());
-                // calculateSummaryValues(getSelectedItems());
-                // $('.table-remove').bind( "click", function() {
-                //   $(this).parents('tr').detach();
-                // });
+               $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
+               $('#import_label').text('Wybierz plik');
             },
             error : function() {
               $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
@@ -254,10 +152,137 @@ $(document).ready(function(){
 });
 
 function loadInvoiceToImport() {
+  var startDate = Date.now();
+  console.log('start');
+  var now = Date.now();
   var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());
-  console.log(currentInvoiceHeader);
+  var endDate   = new Date();
+  console.log((endDate - startDate) / 1000);
+  console.log('pobrana aktualna faktura');
   clearLoadedHeader();
+  endDate   = new Date();
+  console.log((endDate - startDate) / 1000);
+  console.log('wyczoszczony formularz');
   setCurrentHeader(currentInvoiceHeader);
+  endDate   = new Date();
+  console.log((endDate - startDate) / 1000);
+  console.log('wypełniony formularz');
+  loadItemsDataTable(invoiceItems[ $(this).text()]);
+  endDate   = new Date();
+  console.log((endDate - startDate) / 1000);
+  console.log('załadowana tabela');
+}
+
+function loadItemsDataTable(jsonData) {
+  console.log(jsonData);
+
+  $('#recalculatePricesButton').prop("disabled", false);
+
+  var loopCnt = 0;
+  var itemFoundFlag = 0;
+  var towar = {
+    "id": 1
+  };
+  $("#data-table").dataTable().fnDestroy();
+  $('#data-table').DataTable({
+      "scrollX": true,
+      "paging": false,
+      data : jsonData,
+      columns: [
+        {
+          "render": function() {
+            return loopCnt+1;
+          }
+        },
+          {
+            "render": function(data, type, row) {
+              var $select = $("<select class='form-control item'></select>", {
+                    "id": row[0] + "start",
+                    "value": data
+              });
+              var $emptyOption = $("<option></option>", {
+                  "text": "Towar",
+                  "value": 0,
+                  "selected": "selected",
+              });
+              $select.append($emptyOption);
+              $.each(items, function(key, value) {
+                var $option = $("<option></option>", {
+                    "text": value['towar_nazwa'],
+                    "value": value['towar_id'],
+                });
+                if(row['towar_nazwa'] === value['towar_nazwa']) {
+                  $option.attr("selected", "selected");
+                  itemFoundFlag = 1;
+                }
+                $select.append($option);
+              });
+              loopCnt++;
+              if(itemFoundFlag == 1) {
+                $select.css('border', '2px solid green');
+              } else {
+                $select.css('border', '2px solid red');
+              }
+              itemFoundFlag = 0;
+              return $select.prop("outerHTML");
+
+            },
+            "width": "15%",
+          },
+          {data: 'towar_nazwa'},
+          {"render": function(data, type, row) {
+              var $textInput = $("<input class='form-control' class ='amount' type='number' step='1' min = '1' value='" + row['ilosc'] +"'>");
+              return $textInput.prop("outerHTML");
+            },
+            "width": "15%",
+          },
+          {"render": function(data, type, row) {
+              var $textInput = $("<input class='form-control' class ='unit' type='text' value='" + row['jednostka'] +"'>");
+              return $textInput.prop("outerHTML");
+            },
+           "width": "70px",
+          },
+          {
+            "render": function(data, type, row) {
+                var $textInput = $("<input class='form-control' class ='price' type='number' step='0.01' min = '0.01' value='" + row['cena'] +"'>");
+                return $textInput.prop("outerHTML");
+              },
+            "width": "15%",
+          },
+          {
+            "render": function() {
+              return 0;
+            },
+            "width": "10%",
+          },
+          {
+            "render": function() {
+              return 0;
+            },
+            "width": "10%",
+          },
+          {
+            "render": function() {
+              return 0;
+            },
+            "width": "10%",
+          },
+          {
+            "render": function() {
+              return 0;
+            },
+            "width": "10%",
+          },
+          {data: 'edytuj'},
+      ]
+  });
+  higlightEmptyItem();
+  appendAddInvoice();
+  updateItemPrices(getSelectedItems());
+  calculateSummaryValues(getSelectedItems());
+  $('.table-remove').bind( "click", function() {
+    $(this).parents('tr').detach();
+  });
 }
 
 function clearLoadedHeader() {
@@ -383,21 +408,8 @@ function getInvoiceItems (json) {
       }
     });
     invoiceItems[json[index]['faktura_numer']].push(clearedItemObject);
-      // invoiceHeaders.push(json[index]);
-      //
-      // $.each(invoiceHeaders, function(key, innerValue) {
-      //   if(INVOICE_HEADERS_FIELDS.includes(key)) {
-      //     delete invoiceHeaders[index][key];
-      //   }
-      // });
+
   });
-  // $.each(invoiceItems, function(key) {
-  //   $.each(key, function(innerKey, innerValue) {
-  //     if(INVOICE_HEADERS_FIELDS.includes(key)) {
-  //       delete invoiceHeaders[index][key];
-  //     }
-  //   });
-  // });
   return invoiceItems;
 }
 
@@ -483,13 +495,20 @@ function setInvoiceItemRowValues(row)
 }
 
 function getSelectedItems() {
-  var items = [];
+  var itemsToImport = [];
   var iterator = 0;
   $('#data-table tbody tr td:nth-child(2) select').children("option:selected").each( function(){
-    items.push({itemId: $(this).val(), amount: $('#data-table tbody tr td:nth-child(4) input')[iterator].value, 'price': $('#data-table tbody tr td:nth-child(6) input')[iterator].value} );
+    itemsToImport.push({
+      'itemId': $(this).val(),
+      'amount': $('#data-table tbody tr td:nth-child(4) input')[iterator].value,
+      'price': $('#data-table tbody tr td:nth-child(6) input')[iterator].value,
+      'item': items.find(obj => {
+                return obj.towar_id == $(this).val()
+              })
+    });
     iterator++;
   });
-  return items;
+  return itemsToImport;
 }
 
 function updateItemPrices(items) {
@@ -521,40 +540,27 @@ function calculateSummaryValues(items) {
 }
 
 function updateItemPricesRow(itemObj, index) {
-  $.ajax({
-    method: "POST",
-    global: false,
-    async: false,
-    data: {
-        action : "getItemPrices",
-        item : itemObj.itemId,
-        amount: 1
-    },
-    dataType: 'json',
-    url: "./invoice_import_actions.php",
-    success: function (data) {
-      var priceZero = 0;
-      if($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == false) {
-        priceZero = ((data[0]['cena_go'] * 100) / (100 - $('#bonus').val())).toFixed(2);
-        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
-      } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == false) {
-        priceZero = ((data[0]['cena_po'] * 100) / (100 - $('#bonus').val())).toFixed(2);
-        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
-      } else if ($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == true) {
-        priceZero = ((data[0]['cena_gd'] * 100) / (100 - $('#bonus').val())).toFixed(2);
-        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
-      } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == true) {
-        priceZero = ((data[0]['cena_pd'] * 100) / (100 - $('#bonus').val())).toFixed(2);
-        $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
-      }
-      var rate = $("#rate").val() ? $("#rate").val() : 1;
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html($.fn.dataTable.render.number( ' ', '.', 2).display((itemObj.amount * itemObj.price * rate).toFixed(2)) );
-      var margin = (itemObj.amount * itemObj.price * rate) - (itemObj.amount * priceZero);
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html($.fn.dataTable.render.number( ' ', '.', 2).display(margin.toFixed(2)) );
-      $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html(((margin/(itemObj.amount * itemObj.price * rate))*100).toFixed(1));
-      calculateSummaryValues(getSelectedItems());
-    }
-  });
+  var priceZero = 0;
+  console.log(itemObj.item);
+  if($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == false) {
+    priceZero = ((itemObj.item.cena_go * 100) / (100 - $('#bonus').val())).toFixed(2);
+    $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
+  } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == false) {
+    priceZero = ((itemObj.item.cena_po * 100) / (100 - $('#bonus').val())).toFixed(2);
+    $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
+  } else if ($("#transfer_checkbox").is(":checked") == false && $("#delivery_checkbox").is(":checked") == true) {
+    priceZero = ((itemObj.item.cena_gd * 100) / (100 - $('#bonus').val())).toFixed(2);
+    $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
+  } else if ($("#transfer_checkbox").is(":checked") == true && $("#delivery_checkbox").is(":checked") == true) {
+    priceZero = ((itemObj.item.cena_pd * 100) / (100 - $('#bonus').val())).toFixed(2);
+    $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(7)').html(priceZero);
+  }
+  var rate = $("#rate").val() ? $("#rate").val() : 1;
+  $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(8)').html($.fn.dataTable.render.number( ' ', '.', 2).display((itemObj.amount * itemObj.price * rate).toFixed(2)) );
+  var margin = (itemObj.amount * itemObj.price * rate) - (itemObj.amount * priceZero);
+  $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(9)').html($.fn.dataTable.render.number( ' ', '.', 2).display(margin.toFixed(2)) );
+  $('#data-table tbody tr:nth-child(' + (index + 1) + ') td:nth-child(10)').html(((margin/(itemObj.amount * itemObj.price * rate))*100).toFixed(1));
+
 }
 
 function importRegionFilter() {
@@ -795,25 +801,25 @@ function addInvoiceItems(invoiceId)
   });
   return 0;
 }
-
-$(document).ajaxStop(function(){
-  var items = $('#data-table tbody tr');
-  if(addedItems == items.length) {
-    $('#invoice_add_success').prop("hidden", false);
-    timer = setTimeout(function() {
-      $('#invoice_add_success').prop("hidden", true);
-      window.location.reload(true);
-    }, 3000);
-  } else {
-    $('#invoice_add_error').append('<br>Błąd podczas dodawania faktury');
-    $('#invoice_add_error').prop("hidden", false);
-    timer = setTimeout(function() {
-      $('#invoice_add_error').text('');
-      $('#invoice_add_error').prop("hidden", true);
-    }, 5000);
-  }
-  addedItems = 0;
-});
+// 
+// $(document).ajaxStop(function(){
+//   var items = $('#data-table tbody tr');
+//   if(addedItems == items.length) {
+//     $('#invoice_add_success').prop("hidden", false);
+//     timer = setTimeout(function() {
+//       $('#invoice_add_success').prop("hidden", true);
+//       window.location.reload(true);
+//     }, 3000);
+//   } else {
+//     $('#invoice_add_error').append('<br>Błąd podczas dodawania faktury');
+//     $('#invoice_add_error').prop("hidden", false);
+//     timer = setTimeout(function() {
+//       $('#invoice_add_error').text('');
+//       $('#invoice_add_error').prop("hidden", true);
+//     }, 5000);
+//   }
+//   addedItems = 0;
+// });
 
 function showErrorsAlert(errorCheckInvoiceHeader, errorCheckInvoiceItems) {
   if (!errorCheckInvoiceHeader || !errorCheckInvoiceItems) {
