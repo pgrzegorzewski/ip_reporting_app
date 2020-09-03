@@ -151,16 +151,10 @@ $(document).ready(function(){
 });
 
 function loadInvoiceToImport() {
-  var startDate = Date.now();
-  var now = Date.now();
   var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());
-  var endDate   = new Date();
   clearLoadedHeader();
-  endDate   = new Date();
   setCurrentHeader(currentInvoiceHeader);
-  endDate   = new Date();
   loadItemsDataTable(invoiceItems[ $(this).text()]);
-  endDate   = new Date();
 }
 
 function loadItemsDataTable(jsonData) {
