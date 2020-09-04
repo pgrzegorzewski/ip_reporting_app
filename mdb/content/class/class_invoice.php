@@ -306,4 +306,23 @@ class Invoice
         }
     }
   }
+
+  public function isInvoiceImported($invoiceNumber)
+  {
+    try {
+      $query = "SELECT * FROM app.sf_sprawdz_unikalnosc_faktura_numer($1) AS is_invoice_number_unique";
+      $result = pg_query_params($this->connection, $query, array($invoiceNumber));
+      $invoiceNumberCheck = pg_fetch_assoc($result);
+
+      if($invoiceNumberCheck['is_invoice_number_unique'] == 1 ) {
+        echo json_encode(array("isInvoiceImported" => 0));
+      } else {
+        echo json_encode(array("isInvoiceImported" => 1));
+      }
+      pg_free_result($result);
+
+    } catch(Exception $error) {
+        $error->getMessage();
+    }
+  }
 }

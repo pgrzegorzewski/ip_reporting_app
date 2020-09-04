@@ -140,6 +140,7 @@ $(document).ready(function(){
 
                $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
                $('#import_label').text('Wybierz plik');
+               markAlreadyImportedInvoices();
             },
             error : function() {
               $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
@@ -149,6 +150,25 @@ $(document).ready(function(){
    })
 
 });
+
+function markAlreadyImportedInvoices() {
+  $.each(invoiceNumbers, function(index) {
+    $.ajax({
+        method: "POST",
+        global: false,
+        data: { action : "isInvoiceImported",
+                invoice_number: invoiceNumbers[index]
+              },
+        dataType: 'json',
+        url: "./invoice_import_actions.php",
+        success: function (jsonData) {
+            if(jsonData.isInvoiceImported == 1) {
+              $('.invoiceToImport:contains('+ invoiceNumbers[index] +')').removeClass('btn-info').addClass('btn-success').attr("disabled", true);
+            };
+        }
+    })
+  });
+}
 
 function loadInvoiceToImport() {
   var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());

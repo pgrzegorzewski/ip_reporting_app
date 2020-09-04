@@ -15,12 +15,14 @@ if(isset($_POST['dateTo']) && $_POST['dateTo'] != null && $_POST['dateTo'] != ''
     $dateTo = $_POST['dateTo'];
 }
 
-if($_POST['dateFrom'] != null && $_POST['dateFrom'] != '' && ($_POST['dateTo'] == null || $_POST['dateTo'] == '')) {
-    $dateTo = '2200-01-01';
-}
+if(isset($_POST['dateFrom']) && isset($_POST['dateTo'])) {
+  if($_POST['dateFrom'] != null && $_POST['dateFrom'] != '' && ($_POST['dateTo'] == null || $_POST['dateTo'] == '')) {
+      $dateTo = '2200-01-01';
+  }
 
-if($_POST['dateTo'] != null && $_POST['dateTo'] != '' && ($_POST['dateFrom'] == null || $_POST['dateFrom'] == '')) {
-    $dateFrom = '1900-01-01';
+  if($_POST['dateTo'] != null && $_POST['dateTo'] != '' && ($_POST['dateFrom'] == null || $_POST['dateFrom'] == '')) {
+      $dateFrom = '1900-01-01';
+  }
 }
 
 if ($connection) {
