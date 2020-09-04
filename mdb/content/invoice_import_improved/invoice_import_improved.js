@@ -133,7 +133,7 @@ $(document).ready(function(){
               invoiceItems = getInvoiceItems(jsonData);
               $.each(invoiceNumbers, function( index, value ){
                   $('#import_invoice_numbers').css('display', 'block');
-                  $('#import_invoice_numbers').append("<button class='btn btn-info invoiceToImport'>"+ value+ "</button>");
+                  $('#import_invoice_numbers').append("<button class='btn btn-info invoiceToImport'><span>"+ value+ "</span></button>");
               });
 
               $('.invoiceToImport').bind('click', loadInvoiceToImport);
@@ -163,7 +163,7 @@ function markAlreadyImportedInvoices() {
         url: "./invoice_import_actions.php",
         success: function (jsonData) {
             if(jsonData.isInvoiceImported == 1) {
-              $('.invoiceToImport:contains('+ invoiceNumbers[index] +')').removeClass('btn-info').addClass('btn-success').attr("disabled", true);
+              $('.invoiceToImport span:contains('+ invoiceNumbers[index] +')').parent().removeClass('btn-info').addClass('btn-success').attr("disabled", true);
             };
         }
     })
@@ -171,14 +171,22 @@ function markAlreadyImportedInvoices() {
 }
 
 function loadInvoiceToImport() {
+  $('.loading').css("display", "block");
+  var invoiceNumber = $(this).text();
   var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());
-  clearLoadedHeader();
-  setCurrentHeader(currentInvoiceHeader);
-  loadItemsDataTable(invoiceItems[ $(this).text()]);
+  timer = setTimeout(function() {
+    clearLoadedHeader();
+    setCurrentHeader(currentInvoiceHeader);
+    loadItemsDataTable(invoiceItems[ invoiceNumber]);
+    $('.loading').css("display", "none");
+  }, 500);
+
+
 }
 
-function loadItemsDataTable(jsonData) {
 
+
+function loadItemsDataTable(jsonData) {
   $('#recalculatePricesButton').prop("disabled", false);
 
   var loopCnt = 0;

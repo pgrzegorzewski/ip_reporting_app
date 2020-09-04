@@ -153,6 +153,11 @@ $loggedUser = new User();
               </div>
           </form>
           <br />
+          <div align="center">
+            <div class="spinner-border loading" role="status" style="display:none;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
           <div id = "import_invoice_numbers" style="display:none">
             <br>
           </div>
