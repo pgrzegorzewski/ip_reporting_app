@@ -163,11 +163,15 @@ function markAlreadyImportedInvoices() {
         url: "./invoice_import_actions.php",
         success: function (jsonData) {
             if(jsonData.isInvoiceImported == 1) {
-              $('.invoiceToImport span:contains('+ invoiceNumbers[index] +')').parent().removeClass('btn-info').addClass('btn-success').attr("disabled", true);
+              markInvoiceAsImported(invoiceNumbers[index]);
             };
         }
     })
   });
+}
+
+function markInvoiceAsImported(invoice) {
+  $('.invoiceToImport span:contains('+ invoice +')').parent().removeClass('btn-info').addClass('btn-success').attr("disabled", true);
 }
 
 function loadInvoiceToImport() {
@@ -180,10 +184,7 @@ function loadInvoiceToImport() {
     loadItemsDataTable(invoiceItems[ invoiceNumber]);
     $('.loading').css("display", "none");
   }, 500);
-
-
 }
-
 
 
 function loadItemsDataTable(jsonData) {
@@ -754,6 +755,8 @@ function appendAddInvoice() {
 }
 
 function addInvoice() {
+  addedItems = 0;
+  var itemsToAdd = $('#data-table tbody tr').length;
   var invoice_header = getInviceHeader();
   var checkInvoiceHeader = checkInvoiceHeaderData(invoice_header);
   var checkInvoiceItems = checkInvoiceItemsData();
@@ -781,6 +784,23 @@ function addInvoice() {
               if(invoiceId != 0)
               {
                 addInvoiceItems(invoiceId);
+                console.log(addedItems) ;
+                console.log(itemsToAdd) ;
+                if(addedItems == itemsToAdd) {
+                  markInvoiceAsImported(invoice_header.invoice_number);
+                } else {
+                  $('#invoice_number').css('border-color', 'red');
+                  $('#invoice_add_error').append('<br>Błąd podczas dodawania pozycji faktury');
+                  $('#invoice_add_error').prop("hidden", false);
+                  timer = setTimeout(function() {
+                    $('#invoice_number').css('border-color', '');
+                    $('#invoice_add_error').text('');
+                    $('#invoice_add_error').prop("hidden", true);
+                  }, 5000);
+                }
+                if(invoiceHeaders.length == $('.invoiceToImport:disabled').length && invoiceHeaders.length > 0) {
+                  reloadScreen();
+                }
               }
             }
         }
@@ -795,6 +815,7 @@ function addInvoiceItems(invoiceId)
       $.ajax({
           url: "./add_invoice_item.php",
           method: "POST",
+          async: false,
           data: {
             data: JSON.stringify(getInviceItemData(tr)),
             invoice_id: invoiceId
@@ -804,6 +825,7 @@ function addInvoiceItems(invoiceId)
             if(data.success == 0) {
               console.log('coś poszlo nie tak');
             } else {
+              console.log('dodana pozycja');
               addedItems++;
             }
           }
@@ -811,25 +833,14 @@ function addInvoiceItems(invoiceId)
   });
   return 0;
 }
-//
-// $(document).ajaxStop(function(){
-//   var items = $('#data-table tbody tr');
-//   if(addedItems == items.length) {
-//     $('#invoice_add_success').prop("hidden", false);
-//     timer = setTimeout(function() {
-//       $('#invoice_add_success').prop("hidden", true);
-//       window.location.reload(true);
-//     }, 3000);
-//   } else {
-//     $('#invoice_add_error').append('<br>Błąd podczas dodawania faktury');
-//     $('#invoice_add_error').prop("hidden", false);
-//     timer = setTimeout(function() {
-//       $('#invoice_add_error').text('');
-//       $('#invoice_add_error').prop("hidden", true);
-//     }, 5000);
-//   }
-//   addedItems = 0;
-// });
+
+function reloadScreen() {
+  $('#invoice_add_success').prop("hidden", false);
+  timer = setTimeout(function() {
+    $('#invoice_add_success').prop("hidden", true);
+    window.location.reload(true);
+  }, 3000);
+}
 
 function showErrorsAlert(errorCheckInvoiceHeader, errorCheckInvoiceItems) {
   if (!errorCheckInvoiceHeader || !errorCheckInvoiceItems) {
