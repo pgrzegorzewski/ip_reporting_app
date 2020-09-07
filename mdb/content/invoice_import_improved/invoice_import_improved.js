@@ -180,6 +180,10 @@ function markInvoiceAsImported(invoice) {
 }
 
 function loadInvoiceToImport() {
+
+  $('.invoiceToImport').css({"border-color": "red","border-width":"0px","border-style":"solid"});
+  $(this).css({"border-color": "red","border-width":"2px","border-style":"solid"});
+
   $('.loading').css("display", "block");
   var invoiceNumber = $(this).text();
   var currentInvoiceHeader = arrayLookup(invoiceHeaders, 'faktura_numer', $(this).text());
@@ -789,8 +793,6 @@ function addInvoice() {
               if(invoiceId != 0)
               {
                 addInvoiceItems(invoiceId);
-                console.log(addedItems) ;
-                console.log(itemsToAdd) ;
                 if(addedItems == itemsToAdd) {
                   markInvoiceAsImported(invoice_header.invoice_number);
                 } else {
@@ -830,7 +832,6 @@ function addInvoiceItems(invoiceId)
             if(data.success == 0) {
               console.log('coś poszlo nie tak');
             } else {
-              console.log('dodana pozycja');
               addedItems++;
             }
           }
