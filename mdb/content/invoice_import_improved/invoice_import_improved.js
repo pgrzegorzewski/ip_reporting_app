@@ -113,6 +113,7 @@ $(document).ready(function(){
         $('#import_label').text('');
         $('#import_label').addClass('spinner-border spinner-border-sm text-primary');
         $('#import_invoice_numbers').empty();
+        $('#invoices_already_imported').prop("hidden", true);
         var defaultVal = 0;
         invoiceHeaders = [];
         invoiceNumbers = [];
@@ -141,6 +142,9 @@ $(document).ready(function(){
                $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
                $('#import_label').text('Wybierz plik');
                markAlreadyImportedInvoices();
+               if(invoiceHeaders.length == $('.invoiceToImport:disabled').length && invoiceHeaders.length > 0) {
+                 $('#invoices_already_imported').prop("hidden", false);
+               }
             },
             error : function() {
               $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
@@ -160,6 +164,7 @@ function markAlreadyImportedInvoices() {
                 invoice_number: invoiceNumbers[index]
               },
         dataType: 'json',
+        async: false,
         url: "./invoice_import_actions.php",
         success: function (jsonData) {
             if(jsonData.isInvoiceImported == 1) {
