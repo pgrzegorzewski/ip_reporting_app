@@ -51,6 +51,7 @@ $(document).ready(function(){
     importFilters();
 });
 
+
 $(document).ready(function(){
   $('#client').change(function() {
     var id = $("#client").children("option:selected").val();
@@ -144,7 +145,10 @@ $(document).ready(function(){
                markAlreadyImportedInvoices();
                if(invoiceHeaders.length == $('.invoiceToImport:disabled').length && invoiceHeaders.length > 0) {
                  $('#invoices_already_imported').prop("hidden", false);
+               } else {
+                 loadNextInvoice();
                }
+
             },
             error : function() {
               $('#import_label').removeClass('spinner-border spinner-border-sm text-primary');
@@ -154,6 +158,44 @@ $(document).ready(function(){
    })
 
 });
+
+function loadNextInvoice() {
+  var notImportedInvoiceIndexes = [];
+  var currentInvoiceIndex = -1;
+  $.each(invoiceNumbers, function(index) {
+    if(!$('.invoiceToImport span:contains('+ invoiceNumbers[index]  +')').parent().is(":disabled")) {
+      notImportedInvoiceIndexes.push(index);
+    }
+    if($('.invoiceToImport span:contains('+ invoiceNumbers[index]  +')').parent().css("border-width") != "0px") {
+      currentInvoiceIndex = index;
+    }
+  });
+
+  if(notImportedInvoiceIndexes.length > 0) {
+    if(currentInvoiceIndex == -1) {
+      $('.invoiceToImport span:contains('+ invoiceNumbers[notImportedInvoiceIndexes[0]]  +')').parent().click();
+    }
+    if(currentInvoiceIndex >= 0) {
+      var nextInvoiceNumberIndex = getNextHigherValue(notImportedInvoiceIndexes, currentInvoiceIndex);
+      if(nextInvoiceNumberIndex >= 0) {
+        $('.invoiceToImport span:contains('+ invoiceNumbers[nextInvoiceNumberIndex]  +')').parent().click();
+      } else if (nextInvoiceNumberIndex == -1 && notImportedInvoiceIndexes.length > 1) {
+        $('.invoiceToImport span:contains('+ invoiceNumbers[notImportedInvoiceIndexes[0]]  +')').parent().click();
+      }
+    }
+  }
+
+
+}
+
+function getNextHigherValue(array, number) {
+  for (var i = 0; i < array.length; i ++) {
+    if (array[i] > number) {
+      return array[i];
+    }
+  }
+  return -1;
+}
 
 function markAlreadyImportedInvoices() {
   $.each(invoiceNumbers, function(index) {
@@ -761,6 +803,13 @@ function appendAddInvoice() {
   $('#addInoviceBtn').bind( "click", function() {
     addInvoice();
   });
+  if($('.invoiceToImport').length > 0) {
+    $("#import_invoice_div").append("<button id ='getNextInvoice' class='btn btn-info'>Załaduj kolejną <i class='fas fa-arrow-right'></i></button>");
+    $('#getNextInvoice').bind( "click", function() {
+      loadNextInvoice();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 }
 
 function addInvoice() {
@@ -815,8 +864,7 @@ function addInvoice() {
   }
 }
 
-function addInvoiceItems(invoiceId)
-{
+function addInvoiceItems(invoiceId) {
   var items = $('#data-table tbody tr');
   $.each(items, function(indexTr, tr){
       $.ajax({
