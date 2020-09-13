@@ -844,6 +844,8 @@ function addInvoice() {
                 addInvoiceItems(invoiceId);
                 if(addedItems == itemsToAdd) {
                   markInvoiceAsImported(invoice_header.invoice_number);
+                  loadNextInvoice();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                   $('#invoice_number').css('border-color', 'red');
                   $('#invoice_add_error').append('<br>Błąd podczas dodawania pozycji faktury');
