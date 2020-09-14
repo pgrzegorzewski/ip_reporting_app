@@ -2,7 +2,76 @@ var today = new Date();
 var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 var TIMER_SECONDS = 3000;
 var clients = [];
+var originalModal ='';
 
+$(document).ready(function () {
+  originalModal  = $('#editInvoiceItemModal').clone();
+});
+
+$(document).on('hidden.bs.modal', '.modal', function () {
+   $("#editInvoiceItemModal").remove();
+   originalModal.insertAfter(".nav");
+   bindModal();
+ });
+
+$(document).ready(function() {
+  bindModal();
+});
+
+function bindModal() {
+  $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
+    $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
+    $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
+    $("#headerActiveEdit").prop('checked', false);
+    $("#itemActiveEdit").prop('checked', false);
+    clearErrorMessages();
+    var invoiceItemId = $(e.relatedTarget).data('id');
+    getInvoiceHeaderData(invoiceItemId);
+    getInvoiceItemData(invoiceItemId);
+    $('#invoiceHeaderEditButton').click(function () {
+      updateInvoiceHeader(invoiceItemId);
+    })
+  });
+  appendShowInvoiceInfo();
+  loadFilterValues();
+
+  $("#headerActiveEdit").change(function() {
+    if(this.checked) {
+      $('#invoiceHeaderEditButton').removeClass('btn-info').addClass('btn-danger');
+    } else {
+        $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
+    }
+  });
+
+  $("#itemActiveEdit").change(function() {
+    if(this.checked) {
+      $('#itemUpdateButton').removeClass('btn-info').addClass('btn-danger');
+    } else {
+        $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
+    }
+  });
+
+  $("#invoiceItemEditButton").click(function(){
+    $('#invoiceItemEditButton').prop("disabled", true);
+    $('#invoiceItemEditButton').removeClass('btn-info').addClass('btn-success');
+    $('#invoiceItemAddButton').prop("disabled", false);
+    $('#invoiceItemAddButton').removeClass('btn-success').addClass('btn-info');
+
+    $('#editInvoiceItemForm').show();
+    $('#addInvoiceItemForm').hide();
+  });
+
+
+  $("#invoiceItemAddButton").click(function(){
+    $('#invoiceItemAddButton').prop("disabled", true);
+    $('#invoiceItemAddButton').removeClass('btn-info').addClass('btn-success');
+    $('#invoiceItemEditButton').prop("disabled", false);
+    $('#invoiceItemEditButton').removeClass('btn-success').addClass('btn-info');
+    $('#addInvoiceItemForm').show();
+    $('#editInvoiceItemForm').hide();
+  });
+
+}
 
 $(document).ready(function(){
     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
@@ -683,7 +752,23 @@ $(document).ready(function(){
   });
 });
 
-function updateItemPrices(itemId, type) {
+$(document).ready(function(){
+  $('#getPriceZeroButtonItemEdit').click(function(){
+    if($("#itemEdit").children("option:selected").val() || isNaN($("#itemEdit").children("option:selected").val())) {
+      getItemPriceZero( $("#itemEdit").children("option:selected").val(), 'edit');
+    }
+  });
+});
+
+$(document).ready(function(){
+  $('#getPriceZeroButtonItemAdd').click(function(){
+    if($("#itemAdd").children("option:selected").val() || isNaN($("#itemAdd").children("option:selected").val())) {
+      getItemPriceZero( $("#itemAdd").children("option:selected").val(), 'add');
+    }
+  });
+});
+
+function getItemPriceZero(itemId, type) {
   $.ajax({
     method: "POST",
     global: false,
@@ -709,27 +794,39 @@ function updateItemPrices(itemId, type) {
       var rate = $("#rateEdit").val() ? $("#rateEdit").val() : 1;
       if(type == 'edit') {
         $('#priceZeroEdit').val(priceZero);
-        $('#valueEdit').val( ($('#amountEdit').val() * $('#priceEdit').val() * rate ).toFixed(2));
-        var margin = ($('#amountEdit').val() * $('#priceEdit').val() * rate) - ($('#amountEdit').val() * priceZero);
-        $('#marginEdit').val(margin.toFixed(2));
-        $('#percentEdit').val((margin/($('#amountEdit').val() *$('#priceEdit').val() * rate)).toFixed(6));
       } else {
         $('#priceZeroAdd').val(priceZero);
-        $('#valueAdd').val( ($('#amountAdd').val() * $('#priceAdd').val() * rate).toFixed(2));
-        var margin = ($('#amountAdd').val() * $('#priceAdd').val() * rate) - ($('#amountAdd').val() * priceZero);
-        $('#marginAdd').val(margin.toFixed(2));
-        $('#percentAdd').val((margin/($('#amountAdd').val() *$('#priceAdd').val() * rate)).toFixed(6));
       }
     }
   });
 }
 
+function updateItemPrices(itemId, type) {
+
+  var rate = $("#rateEdit").val() ? $("#rateEdit").val() : 1;
+  if(type == 'edit') {
+    var priceZero = $('#priceZeroEdit').val();
+    $('#valueEdit').val( ($('#amountEdit').val() * $('#priceEdit').val() * rate ).toFixed(2));
+    var margin = ($('#amountEdit').val() * $('#priceEdit').val() * rate) - ($('#amountEdit').val() * priceZero);
+    $('#marginEdit').val(margin.toFixed(2));
+    $('#percentEdit').val((margin/($('#amountEdit').val() *$('#priceEdit').val() * rate)).toFixed(6));
+  } else {
+    var priceZero = $('#priceZeroAdd').val();
+    $('#valueAdd').val( ($('#amountAdd').val() * $('#priceAdd').val() * rate).toFixed(2));
+    var margin = ($('#amountAdd').val() * $('#priceAdd').val() * rate) - ($('#amountAdd').val() * priceZero);
+    $('#marginAdd').val(margin.toFixed(2));
+    $('#percentAdd').val((margin/($('#amountAdd').val() *$('#priceAdd').val() * rate)).toFixed(6));
+  }
+}
+
 function checkAddItemForm() {
+  updateItemPrices($("#itemAdd").children("option:selected").val(), 'add');
   var success = validateItemAddData();
   return success;
 }
 
 function checkEditItemForm() {
+  updateItemPrices($("#itemEdit").children("option:selected").val(), 'edit');
   var success = validateItemEditData();
   return success;
 }
