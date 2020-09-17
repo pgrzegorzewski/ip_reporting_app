@@ -260,8 +260,8 @@ $loggedUser = new User();
                         </div>
                         <span id="invoiceHeaderUpdateResult" style="font-weight:bold; color:white"></span>
                         <hr>
-                        <input type="button" class="btn btn-success" id="invoiceItemEditButton" value="Edytuj pozycję"  disabled="true"></button>
-                        <input type="button" class="btn btn-info" id="invoiceItemAddButton" value="Dodaj pozycję"></button>
+                        <button class="btn btn-success" id="invoiceItemEditButton" disabled="true" style="width:220px"><i class="far fa-edit"></i> Edytuj pozycję</button>
+                        <button class="btn btn-info" id="invoiceItemAddButton" style="width:220px"><i class="far fa-plus-square"></i> Dodaj pozycję</button>
                         <div id="editInvoiceItemForm">
                           <form action = "invoice_actions.php" onSubmit="return checkEditItemForm()" method="post" id="editInvoiceForm">
                             <div class="row">
@@ -290,11 +290,10 @@ $loggedUser = new User();
                                     <label for="priceEdit">Cena</label>
                                 </div>
                               </div>
-                              <div class="col-md-12">
-                                <div class="md-form form-group">
-                                  <button id="recalculatePricesButtonItemEdit" class="btn btn-info" type="button"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
-                                </div>
-                              </div>
+                            </div>
+                            <button id="getPriceZeroButtonItemEdit" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Pobierz cenę zero</button>
+                            <button id="recalculatePricesButtonItemEdit" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
+                            <div class="row">
                               <div class="col-md-3">
                                 <div class="md-form form-group">
                                     <input class="form-control" id = "priceZeroEdit" name = "priceZero" type="number" step="0.01" value="0">
@@ -370,11 +369,10 @@ $loggedUser = new User();
                                     <label for="priceAdd">Cena</label>
                                 </div>
                               </div>
-                              <div class="col-md-12">
-                                <div class="md-form form-group">
-                                  <button id="recalculatePricesButtonItemAdd" class="btn btn-info" type="button"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
-                                </div>
-                              </div>
+                            </div>
+                            <button id="getPriceZeroButtonItemAdd" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Pobierz cenę zero</button>
+                            <button id="recalculatePricesButtonItemAdd" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
+                            <div class="row">
                               <div class="col-md-3">
                                 <div class="md-form form-group">
                                   <input class="form-control" id = "priceZeroAdd" name = "priceZero" type="number" step="0.01" value="0">
