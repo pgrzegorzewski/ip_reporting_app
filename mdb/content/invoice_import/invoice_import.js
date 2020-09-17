@@ -694,7 +694,13 @@ function checkInvoiceItemsData() {
         }
         success = false;
         highlightErrorTableValue($("input", td));
-      } else if ( (index == 6 || index == 7) && ( $(this).html() <= 0 || $(this).html() == '' ) ) {
+      } else if ( (index == 6 ) && ( $(this).html() < 0 || $(this).html() == '' ) ) {
+        if(errorItems.indexOf(indexTr + 1) === -1) {
+          errorItems.push(indexTr + 1)
+        }
+        success = false;
+        highlightErrorTableValue($(this));
+      } else if ( (index == 7) && ( $(this).html() <= 0 || $(this).html() == '' ) ) {
         if(errorItems.indexOf(indexTr + 1) === -1) {
           errorItems.push(indexTr + 1)
         }
