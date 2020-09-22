@@ -1,4 +1,4 @@
-<div class="form-row">
+<div class="form-row" style="vertical-align:baseline">
   <div class="col-md-3">
     <div class="md-form form-group">
       <input class="form-control" id = "report_date_from" name = "report_date_from" type="date">
@@ -9,6 +9,21 @@
     <div class="md-form form-group">
       <input class="form-control" id = "report_date_to" name = "report_date_to" type="date">
       <label for = "report_date_to">Data końcowa</label>
+    </div>
+  </div>
+  <div class="col-md-1 my-auto" style="text-align: left;">
+    <span>Typ faktur:</span>
+    <div class="custom-control custom-radio">
+      <input type="radio" class="custom-control-input export_radio" value = "1" id="export_radio_1" name="export_radios" checked>
+      <label class="custom-control-label" for="export_radio_1">Wszytskie</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input type="radio" class="custom-control-input export_radio" value = "2" id="export_radio_2" name="export_radios" >
+      <label class="custom-control-label" for="export_radio_2">Krajowe</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input type="radio" class="custom-control-input export_radio" value = "3" id="export_radio_3" name="export_radios">
+      <label class="custom-control-label" for="export_radio_3">Eksportowe</label>
     </div>
   </div>
   <div class="col-md-3">

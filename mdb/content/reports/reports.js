@@ -611,12 +611,14 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
       $salesman = $("#salesman").children("option:selected").val();
+      $exportType = getExportTypeReport();
+
       $('#invoice_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
       $('#invoice_summary_data_refresh_span').text('');
       $.ajax({
 
          method: "POST",
-         data: {dateFrom : $dateFrom, dateTo : $dateTo, salesman: $salesman},
+         data: {dateFrom : $dateFrom, dateTo : $dateTo, salesman: $salesman, exportType : $exportType},
 
          dataType: 'json',
          url: "./invoice_summary_report.php",
@@ -911,6 +913,10 @@ function getRegionChartTemplate() {
                $('#chart_div').append(data);
          }
     });
+}
+
+function getExportTypeReport() {
+  return $('input[name=export_radios]:checked').val();
 }
 
 function getSalesmanChartTemplate() {
