@@ -6,14 +6,15 @@ $login = $_SESSION['user'];
 $salesman = $_POST['salesman'];
 $dateFrom = $_POST['dateFrom'];
 $dateTo = $_POST['dateTo'];
+$exportType = $_POST['exportType'];
 
 if(!is_numeric($salesman)) {
   $salesman = null;
 }
 
 try {
-    $query = "SELECT * FROM app.tf_podsumowanie_faktur_per_sprzedawca($1, $2, $3, $4)";
-    $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $salesman, $login));
+    $query = "SELECT * FROM app.tf_podsumowanie_faktur_per_sprzedawca($1, $2, $3, $4, $5)";
+    $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $salesman, $login, $exportType));
     $resp = array();
 
     while($row = pg_fetch_assoc($result))
@@ -25,7 +26,8 @@ try {
                                 'sprzedawca' => $row['sprzedawca'],
                                 'suma_wartosci' => $row['suma_wartosci'],
                                 'suma_marz' => $row['suma_marz'],
-                                'procent' => $row['procent'])
+                                'procent' => $row['procent'],
+                                'export' => $row['eksport'])
                               );
     }
     pg_free_result($result);

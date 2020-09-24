@@ -115,7 +115,7 @@ $(document).on('click', '#region_summary_data_refresh', function() {
                      };
 
                      totalValue = api
-                         .column(2)
+                         .column(2, { search: 'applied' })
                          .data()
                          .reduce( function (a, b) {
                              return intVal(a) + intVal(b);
@@ -129,7 +129,7 @@ $(document).on('click', '#region_summary_data_refresh', function() {
                          }, 0 );
 
                        totalMargin = api
-                           .column(3)
+                           .column(3, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
@@ -251,7 +251,7 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
                      };
 
                      totalValue = api
-                         .column(1)
+                         .column(1, { search: 'applied' })
                          .data()
                          .reduce( function (a, b) {
                              return intVal(a) + intVal(b);
@@ -265,7 +265,7 @@ $(document).on('click', '#salesman_summary_data_refresh', function() {
                          }, 0 );
 
                        totalMargin = api
-                           .column(2)
+                           .column(2, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
@@ -379,7 +379,7 @@ $(document).on('click', '#client_summary_data_refresh', function() {
                      };
 
                      totalValue = api
-                         .column(1)
+                         .column(1, { search: 'applied' })
                          .data()
                          .reduce( function (a, b) {
                              return intVal(a) + intVal(b);
@@ -393,7 +393,7 @@ $(document).on('click', '#client_summary_data_refresh', function() {
                          }, 0 );
 
                        totalMargin = api
-                           .column(2)
+                           .column(2, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
@@ -508,7 +508,7 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                      };
 
                      totalAmount = api
-                         .column(1)
+                         .column(1, { search: 'applied' })
                          .data()
                          .reduce( function (a, b) {
                              return intVal(a) + intVal(b);
@@ -522,7 +522,7 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                          }, 0 );
 
                        totalValue = api
-                           .column(2)
+                           .column(2, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
@@ -536,7 +536,7 @@ $(document).on('click', '#item_summary_data_refresh', function() {
                            }, 0 );
 
                        totalMargin = api
-                           .column(3)
+                           .column(3, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
@@ -611,12 +611,14 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
       $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
       $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
       $salesman = $("#salesman").children("option:selected").val();
+      $exportType = getExportTypeReport();
+
       $('#invoice_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
       $('#invoice_summary_data_refresh_span').text('');
       $.ajax({
 
          method: "POST",
-         data: {dateFrom : $dateFrom, dateTo : $dateTo, salesman: $salesman},
+         data: {dateFrom : $dateFrom, dateTo : $dateTo, salesman: $salesman, exportType : $exportType},
 
          dataType: 'json',
          url: "./invoice_summary_report.php",
@@ -663,7 +665,7 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
                      };
 
                        totalValue = api
-                           .column(4)
+                           .column(4, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
@@ -677,7 +679,7 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
                            }, 0 );
 
                        totalMargin = api
-                           .column(5)
+                           .column(5, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
@@ -911,6 +913,10 @@ function getRegionChartTemplate() {
                $('#chart_div').append(data);
          }
     });
+}
+
+function getExportTypeReport() {
+  return $('input[name=export_radios]:checked').val();
 }
 
 function getSalesmanChartTemplate() {
