@@ -456,6 +456,63 @@ $loggedUser = new User();
                     </div>
                 </div>
                 <div class="form-row">
+                  <div class="col-md-3 my-auto" style="text-align: left;">
+                    <span>Typ faktur:</span>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input export_radio" value = "1" id="export_radio_1" name="export_radios" checked>
+                      <label class="custom-control-label" for="export_radio_1">Wszystkie</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input export_radio" value = "2" id="export_radio_2" name="export_radios" >
+                      <label class="custom-control-label" for="export_radio_2">Krajowe</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input export_radio" value = "3" id="export_radio_3" name="export_radios">
+                      <label class="custom-control-label" for="export_radio_3">Eksportowe</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3 my-auto" style="text-align: left;">
+                    <span>Typ zapłaty:</span>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input pay_radio" value = "1" id="pay_radio_1" name="pay_radios" checked>
+                      <label class="custom-control-label" for="pay_radio_1">Wszystkie</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input pay_radio" value = "2" id="pay_radio_2" name="pay_radios" >
+                      <label class="custom-control-label" for="pay_radio_2">Gotówka</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input pay_radio" value = "3" id="pay_radio_3" name="pay_radios">
+                      <label class="custom-control-label" for="pay_radio_3">Przelew</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3 my-auto" style="text-align: left;">
+                    <span>Typ dostawy:</span>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input delivery_radio" value = "1" id="delivery_radio_1" name="delivery_radios" checked>
+                      <label class="custom-control-label" for="delivery_radio_1">Wszystkie</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input delivery_radio" value = "2" id="delivery_radio_2" name="delivery_radios" >
+                      <label class="custom-control-label" for="delivery_radio_2">Z dostawą</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input type="radio" class="custom-control-input delivery_radio" value = "3" id="delivery_radio_3" name="delivery_radios">
+                      <label class="custom-control-label" for="delivery_radio_3">Bez dostawy</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="md-form form-group">
+                          <select  id = "currency" class="custom-select" single>
+                              <option selected>Waluta</option>
+                              <option value="1">PLN</option>
+                              <option value="2">EUR</option>
+                              <option value="3">USD</option>
+                          </select>
+                      </div>
+                  </div>
+                </div>
+                <div class="form-row">
                   <div class="col-md-3">
                       <div class="md-form form-group">
                         <span>Kontrahent</span>

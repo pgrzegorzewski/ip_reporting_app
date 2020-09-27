@@ -90,7 +90,8 @@ $(document).ready(function(){
     loadDateCookies();
     appendShowInvoiceInfo();
     loadFilterValues();
-
+    setRadiosFromCookies();
+    setCurrencyFromCookie();
 
     $('#data-table').DataTable({
         "scrollX": true,
@@ -729,10 +730,15 @@ function getFilters() {
     filters.invoice_date_from = $("#report_date_from").val();
     filters.invoice_date_to= $("#report_date_to").val();
     filters.salesman = $("#salesman").children("option:selected").val();
+    filters.export = $('input[name=export_radios]:checked').val();
+    filters.pay = $('input[name=pay_radios]:checked').val();
+    filters.delivery = $('input[name=delivery_radios]:checked').val();
+    filters.currency = $("#currency").children("option:selected").val();
     filters.client = $("#client").children("option:selected").val();
     filters.country = $("#country").children("option:selected").val();
     filters.voivodeship = $("#voivodeship").children("option:selected").val();
     filters.region = $("#region").children("option:selected").val();
+
     return filters;
 }
 
@@ -957,6 +963,21 @@ function checkFilters(filters) {
     }
     setCookie('invoice_number', filters.invoice_number);
 
+    if (isNaN(filters.delivery)) {
+      filters.delivery = 1;
+    }
+    setCookie('delivery', filters.delivery);
+
+    if (isNaN(filters.export)) {
+      filters.export = 1;
+    }
+    setCookie('export', filters.export);
+
+    if (isNaN(filters.pay)) {
+      filters.pay = 1;
+    }
+    setCookie('pay', filters.pay);
+
     if (isNaN(filters.salesman)) {
       filters.salesman = null;
     }
@@ -966,6 +987,11 @@ function checkFilters(filters) {
       filters.client = null;
     }
     setCookie('client', filters.client);
+
+    if (isNaN(filters.currency)) {
+      filters.currency = null;
+    }
+    setCookie('currency', filters.currency);
 
     if (isNaN(filters.country)) {
       filters.country = null;
@@ -983,6 +1009,28 @@ function checkFilters(filters) {
     setCookie('region', filters.region);
 
     return filters;
+}
+
+
+
+function setRadiosFromCookies() {
+  if(getCookie('export') != 'null') {
+    $('#export_radio_'+ getCookie('export')).attr('checked', true);
+  }
+
+  if(getCookie('pay') != 'null') {
+    $('#pay_radio_'+ getCookie('pay')).attr('checked', true);
+  }
+
+  if(getCookie('delivery') != 'null') {
+    $('#delivery_radio_'+ getCookie('delivery')).attr('checked', true);
+  }
+}
+
+function setCurrencyFromCookie() {
+  if(getCookie('currency') != 'null') {
+    $('#currency').val(getCookie('currency'));
+  }
 }
 
 function setCookie(name, value)
