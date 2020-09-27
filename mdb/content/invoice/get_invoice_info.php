@@ -69,9 +69,9 @@
                 marza,
                 procent,
                 (bonus * 100) AS bonus
-            FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+            FROM app.tf_pobierz_informacje_o_fakturach($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)";
       $resp = array();
-      $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region, $user));
+      $result = pg_query_params($connection, $query, array($dateFrom, $dateTo, $invoiceFilters->invoice_number, $invoiceFilters->salesman, $invoiceFilters->export, $invoiceFilters->pay, $invoiceFilters->delivery, $invoiceFilters->currency, $invoiceFilters->client, $invoiceFilters->country, $invoiceFilters->voivodeship, $invoiceFilters->region, $user));
       $loopCnt = 0;
       while($row = pg_fetch_assoc($result))
       {

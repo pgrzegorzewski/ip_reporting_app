@@ -494,14 +494,14 @@ $loggedUser = new User();
                     </div>
                     <div class="custom-control custom-radio">
                       <input type="radio" class="custom-control-input delivery_radio" value = "2" id="delivery_radio_2" name="delivery_radios" >
-                      <label class="custom-control-label" for="delivery_radio_2">Z dostawą</label>
+                      <label class="custom-control-label" for="delivery_radio_2">Bez dostawy</label>
                     </div>
                     <div class="custom-control custom-radio">
                       <input type="radio" class="custom-control-input delivery_radio" value = "3" id="delivery_radio_3" name="delivery_radios">
-                      <label class="custom-control-label" for="delivery_radio_3">Bez dostawy</label>
+                      <label class="custom-control-label" for="delivery_radio_3">Z dostawą</label>
                     </div>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                       <div class="md-form form-group">
                           <select  id = "currency" class="custom-select" single>
                               <option selected>Waluta</option>
@@ -596,6 +596,16 @@ $loggedUser = new User();
                       <th>Uwagi</th>
                     </tr>
                     </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="20" style="text-align:right">Podsumowanie:</th>
+                            <th style="text-align:right"></th>
+                            <th style="text-align:right"></th>
+                            <th style="text-align:right"></th>
+                            <th style="text-align:right"></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
             <?php

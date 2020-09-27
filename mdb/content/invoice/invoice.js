@@ -714,7 +714,56 @@ function showInvoices(){
                   data: 'uwagi',
                   width: '280px',
                 }
-            ]
+            ],
+            footerCallback: function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                totalValue = api
+                    .column(20, { search: 'applied' })
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                pageTotalValue = api
+                    .column( 20, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                  totalMargin = api
+                      .column(21, { search: 'applied' })
+                      .data()
+                      .reduce( function (a, b) {
+                          return intVal(a) + intVal(b);
+                      }, 0 );
+
+                  pageTotalMargin = api
+                      .column( 21, { page: 'current'} )
+                      .data()
+                      .reduce( function (a, b) {
+                          return intVal(a) + intVal(b);
+                      }, 0 );
+
+                $( api.column( 20 ).footer() ).html(
+                   'karta:  ' +  $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalValue.toFixed(2))
+                );
+
+                $( api.column( 21 ).footer() ).html(
+                    'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalMargin.toFixed(2))
+                );
+
+                $( api.column( 22 ).footer() ).html(
+                    'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((pageTotalMargin/pageTotalValue)*100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((totalMargin/totalValue)*100).toFixed(2)) + '%'
+                );
+            },
         });
         $('#loadButtonSpan').removeClass("spinner-border spinner-border-sm text-danger");
         $('#loadButtonSpan').text("Załaduj");
