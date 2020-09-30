@@ -503,6 +503,7 @@ $loggedUser = new User();
                   </div>
                   <div class="col-md-3">
                       <div class="md-form form-group">
+                          <span>Waluta</span>
                           <select  id = "currency" class="custom-select" single>
                               <option selected>Waluta</option>
                               <option value="1">PLN</option>
