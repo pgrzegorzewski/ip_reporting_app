@@ -90,7 +90,8 @@ $(document).ready(function(){
     loadDateCookies();
     appendShowInvoiceInfo();
     loadFilterValues();
-
+    setRadiosFromCookies();
+    setCurrencyFromCookie();
 
     $('#data-table').DataTable({
         "scrollX": true,
@@ -713,7 +714,56 @@ function showInvoices(){
                   data: 'uwagi',
                   width: '280px',
                 }
-            ]
+            ],
+            footerCallback: function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                totalValue = api
+                    .column(20, { search: 'applied' })
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                pageTotalValue = api
+                    .column( 20, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                  totalMargin = api
+                      .column(21, { search: 'applied' })
+                      .data()
+                      .reduce( function (a, b) {
+                          return intVal(a) + intVal(b);
+                      }, 0 );
+
+                  pageTotalMargin = api
+                      .column( 21, { page: 'current'} )
+                      .data()
+                      .reduce( function (a, b) {
+                          return intVal(a) + intVal(b);
+                      }, 0 );
+
+                $( api.column( 20 ).footer() ).html(
+                   'karta:  ' +  $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalValue.toFixed(2))
+                );
+
+                $( api.column( 21 ).footer() ).html(
+                    'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalMargin.toFixed(2))
+                );
+
+                $( api.column( 22 ).footer() ).html(
+                    'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((pageTotalMargin/pageTotalValue)*100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((totalMargin/totalValue)*100).toFixed(2)) + '%'
+                );
+            },
         });
         $('#loadButtonSpan').removeClass("spinner-border spinner-border-sm text-danger");
         $('#loadButtonSpan').text("Załaduj");
@@ -729,10 +779,15 @@ function getFilters() {
     filters.invoice_date_from = $("#report_date_from").val();
     filters.invoice_date_to= $("#report_date_to").val();
     filters.salesman = $("#salesman").children("option:selected").val();
+    filters.export = $('input[name=export_radios]:checked').val();
+    filters.pay = $('input[name=pay_radios]:checked').val();
+    filters.delivery = $('input[name=delivery_radios]:checked').val();
+    filters.currency = $("#currency").children("option:selected").val();
     filters.client = $("#client").children("option:selected").val();
     filters.country = $("#country").children("option:selected").val();
     filters.voivodeship = $("#voivodeship").children("option:selected").val();
     filters.region = $("#region").children("option:selected").val();
+
     return filters;
 }
 
@@ -957,6 +1012,21 @@ function checkFilters(filters) {
     }
     setCookie('invoice_number', filters.invoice_number);
 
+    if (isNaN(filters.delivery)) {
+      filters.delivery = 1;
+    }
+    setCookie('delivery', filters.delivery);
+
+    if (isNaN(filters.export)) {
+      filters.export = 1;
+    }
+    setCookie('export', filters.export);
+
+    if (isNaN(filters.pay)) {
+      filters.pay = 1;
+    }
+    setCookie('pay', filters.pay);
+
     if (isNaN(filters.salesman)) {
       filters.salesman = null;
     }
@@ -966,6 +1036,11 @@ function checkFilters(filters) {
       filters.client = null;
     }
     setCookie('client', filters.client);
+
+    if (isNaN(filters.currency)) {
+      filters.currency = null;
+    }
+    setCookie('currency', filters.currency);
 
     if (isNaN(filters.country)) {
       filters.country = null;
@@ -983,6 +1058,28 @@ function checkFilters(filters) {
     setCookie('region', filters.region);
 
     return filters;
+}
+
+
+
+function setRadiosFromCookies() {
+  if(getCookie('export') != 'null') {
+    $('#export_radio_'+ getCookie('export')).attr('checked', true);
+  }
+
+  if(getCookie('pay') != 'null') {
+    $('#pay_radio_'+ getCookie('pay')).attr('checked', true);
+  }
+
+  if(getCookie('delivery') != 'null') {
+    $('#delivery_radio_'+ getCookie('delivery')).attr('checked', true);
+  }
+}
+
+function setCurrencyFromCookie() {
+  if(getCookie('currency') != 'null') {
+    $('#currency').val(getCookie('currency'));
+  }
 }
 
 function setCookie(name, value)
