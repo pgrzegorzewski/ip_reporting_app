@@ -4,21 +4,92 @@ var TIMER_SECONDS = 3000;
 var clients = [];
 var originalModal ='';
 
-$(document).ready(function () {
-  originalModal  = $('#editInvoiceItemModal').clone();
+ $(document).ready(function(){
+     $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
+       $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
+       $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
+       $("#headerActiveEdit").prop('checked', false);
+       $("#itemActiveEdit").prop('checked', false);
+       clearErrorMessages();
+       var invoiceItemId = $(e.relatedTarget).data('id');
+       getInvoiceHeaderData(invoiceItemId);
+       getInvoiceItemData(invoiceItemId);
+       $('#invoiceHeaderEditButton').click(function () {
+         updateInvoiceHeader(invoiceItemId);
+       })
+     });
+     loadDateCookies();
+     appendShowInvoiceInfo();
+     loadFilterValues('header');
+     setRadiosFromCookies();
+     setCurrencyFromCookie();
+
+     $('#data-table').DataTable({
+         "scrollX": true,
+     });
+
+
+     $("#headerActiveEdit").change(function() {
+       if(this.checked) {
+         $('#invoiceHeaderEditButton').removeClass('btn-info').addClass('btn-danger');
+       } else {
+           $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
+       }
+     });
+
+     $("#itemActiveEdit").change(function() {
+       if(this.checked) {
+         $('#itemUpdateButton').removeClass('btn-info').addClass('btn-danger');
+       } else {
+           $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
+       }
+     });
+
+     $("#invoiceItemEditButton").click(function(){
+       $('#invoiceItemEditButton').prop("disabled", true);
+       $('#invoiceItemEditButton').removeClass('btn-info').addClass('btn-success');
+       $('#invoiceItemAddButton').prop("disabled", false);
+       $('#invoiceItemAddButton').removeClass('btn-success').addClass('btn-info');
+
+       $('#editInvoiceItemForm').show();
+       $('#addInvoiceItemForm').hide();
+     });
+
+
+     $("#invoiceItemAddButton").click(function(){
+       $('#invoiceItemAddButton').prop("disabled", true);
+       $('#invoiceItemAddButton').removeClass('btn-info').addClass('btn-success');
+       $('#invoiceItemEditButton').prop("disabled", false);
+       $('#invoiceItemEditButton').removeClass('btn-success').addClass('btn-info');
+       $('#addInvoiceItemForm').show();
+       $('#editInvoiceItemForm').hide();
+     });
+
+     $('#report_date_to').on('change', function() {
+       getInvoiceNumbersFilter();
+     });
+
+     $('#report_date_from').on('change', function() {
+       getInvoiceNumbersFilter();
+     });
+ });
+
+$(document).ready(function() {
+  bindModal('init');
 });
+
+$(document).on('show.bs.modal', '.modal', function () {
+   originalModal = $('#editInvoiceItemModal').clone();
+ });
 
 $(document).on('hidden.bs.modal', '.modal', function () {
    $("#editInvoiceItemModal").remove();
    originalModal.insertAfter(".nav");
-   bindModal();
+   bindModal('copy');
  });
 
-$(document).ready(function() {
-  bindModal();
-});
 
-function bindModal() {
+function bindModal(mode = 'init') {
   $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
     $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
     $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
@@ -32,8 +103,13 @@ function bindModal() {
       updateInvoiceHeader(invoiceItemId);
     })
   });
+
+  bindModalButtons();
+
+  if(mode == 'init') {
+    loadFilterValues('modal');
+  }
   appendShowInvoiceInfo();
-  loadFilterValues();
 
   $("#headerActiveEdit").change(function() {
     if(this.checked) {
@@ -73,75 +149,6 @@ function bindModal() {
 
 }
 
-$(document).ready(function(){
-    $('#editInvoiceItemModal').on('show.bs.modal', function(e) {
-      $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
-      $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
-      $("#headerActiveEdit").prop('checked', false);
-      $("#itemActiveEdit").prop('checked', false);
-      clearErrorMessages();
-      var invoiceItemId = $(e.relatedTarget).data('id');
-      getInvoiceHeaderData(invoiceItemId);
-      getInvoiceItemData(invoiceItemId);
-      $('#invoiceHeaderEditButton').click(function () {
-        updateInvoiceHeader(invoiceItemId);
-      })
-    });
-    loadDateCookies();
-    appendShowInvoiceInfo();
-    loadFilterValues();
-    setRadiosFromCookies();
-    setCurrencyFromCookie();
-
-    $('#data-table').DataTable({
-        "scrollX": true,
-    });
-
-
-    $("#headerActiveEdit").change(function() {
-      if(this.checked) {
-        $('#invoiceHeaderEditButton').removeClass('btn-info').addClass('btn-danger');
-      } else {
-          $('#invoiceHeaderEditButton').removeClass('btn-danger').addClass('btn-info');
-      }
-    });
-
-    $("#itemActiveEdit").change(function() {
-      if(this.checked) {
-        $('#itemUpdateButton').removeClass('btn-info').addClass('btn-danger');
-      } else {
-          $('#itemUpdateButton').removeClass('btn-danger').addClass('btn-info');
-      }
-    });
-
-    $("#invoiceItemEditButton").click(function(){
-      $('#invoiceItemEditButton').prop("disabled", true);
-      $('#invoiceItemEditButton').removeClass('btn-info').addClass('btn-success');
-      $('#invoiceItemAddButton').prop("disabled", false);
-      $('#invoiceItemAddButton').removeClass('btn-success').addClass('btn-info');
-
-      $('#editInvoiceItemForm').show();
-      $('#addInvoiceItemForm').hide();
-    });
-
-
-    $("#invoiceItemAddButton").click(function(){
-      $('#invoiceItemAddButton').prop("disabled", true);
-      $('#invoiceItemAddButton').removeClass('btn-info').addClass('btn-success');
-      $('#invoiceItemEditButton').prop("disabled", false);
-      $('#invoiceItemEditButton').removeClass('btn-success').addClass('btn-info');
-      $('#addInvoiceItemForm').show();
-      $('#editInvoiceItemForm').hide();
-    });
-
-    $('#report_date_to').on('change', function() {
-      getInvoiceNumbersFilter();
-    });
-
-    $('#report_date_from').on('change', function() {
-      getInvoiceNumbersFilter();
-    });
-});
 
 $(document).ready(function(){
   $('#clientEdit').change(function() {
@@ -442,7 +449,7 @@ function getInvoiceNumbersFilter() {
   });
 }
 
-function getRegionFilter() {
+function getRegionFilter(mode) {
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -453,9 +460,12 @@ function getRegionFilter() {
           for( var i = 0; i<len; i++){
               var region_id = response[i]['region_id'];
               var region_name = response[i]['region_nazwa'];
-
-              $("#region").append("<option value='"+region_id+"'>"+region_name+"</option>");
-              $("#regionEdit").append("<option value='"+region_id+"'>"+region_name+"</option>");
+              if(mode == 'header') {
+                $("#region").append("<option value='"+region_id+"'>"+region_name+"</option>");
+              }
+              if(mode == 'modal') {
+                $("#regionEdit").append("<option value='"+region_id+"'>"+region_name+"</option>");
+              }
           }
           if(getCookie('region') != 'null') {
             $('#region').val(getCookie('region'));
@@ -464,7 +474,7 @@ function getRegionFilter() {
   });
 }
 
-function getCountryFilter() {
+function getCountryFilter(mode) {
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -476,8 +486,12 @@ function getCountryFilter() {
               var country_id = response[i]['kraj_id'];
               var country_name = response[i]['kraj_nazwa'];
 
-              $("#country").append("<option value='"+country_id+"'>"+country_name+"</option>");
-              $("#countryEdit").append("<option value='"+country_id+"'>"+country_name+"</option>");
+              if(mode == 'header') {
+                $("#country").append("<option value='"+country_id+"'>"+country_name+"</option>");
+              }
+              if(mode == 'modal') {
+                $("#countryEdit").append("<option value='"+country_id+"'>"+country_name+"</option>");
+              }
           }
           if(getCookie('country') != 'null') {
             $('#country').val(getCookie('country'));
@@ -486,7 +500,7 @@ function getCountryFilter() {
   });
 }
 
-function getVoivodeshipFilter() {
+function getVoivodeshipFilter(mode) {
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -497,9 +511,12 @@ function getVoivodeshipFilter() {
           for( var i = 0; i<len; i++){
               var voivodeship_id = response[i]['wojewodztwo_id'];
               var voivodeship_name = response[i]['wojewodztwo_nazwa'];
-
-              $("#voivodeship").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
-              $("#voivodeshipEdit").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
+              if(mode == 'header') {
+                $("#voivodeship").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
+              }
+              if(mode == 'modal') {
+                $("#voivodeshipEdit").append("<option value='"+voivodeship_id+"'>"+voivodeship_name+"</option>");
+              }
           }
           if(getCookie('voivodeship') != 'null') {
             $('#voivodeship').val(getCookie('voivodeship'));
@@ -508,7 +525,7 @@ function getVoivodeshipFilter() {
   });
 }
 
-function getClientFilter() {
+function getClientFilter(mode) {
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -521,8 +538,12 @@ function getClientFilter() {
               var client_id = response[i]['kontrahent_id'];
               var client_name = response[i]['kontrahent_nazwa'];
 
-              $("#client").append("<option value='"+client_id+"'>"+client_name+"</option>");
-              $("#clientEdit").append("<option value='"+client_id+"'>"+client_name+"</option>");
+              if(mode == 'header') {
+                $("#client").append("<option value='"+client_id+"'>"+client_name+"</option>");
+              }
+              if(mode == 'modal') {
+                $("#clientEdit").append("<option value='"+client_id+"'>"+client_name+"</option>");
+              }
           }
           if(getCookie('client') != 'null') {
             $('#client').val(getCookie('client'));
@@ -531,7 +552,7 @@ function getClientFilter() {
   });
 }
 
-function getSalesmanFilter() {
+function getSalesmanFilter(mode) {
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -543,8 +564,12 @@ function getSalesmanFilter() {
               var salesman_id = response[i]['uzytkownik_id'];
               var salesman_name = response[i]['uzytkownik_nazwa'];
 
-              $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
-              $("#salesmanEdit").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+              if(mode == 'header') {
+                $("#salesman").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+              }
+              if(mode == 'modal') {
+                $("#salesmanEdit").append("<option value='"+salesman_id+"'>"+salesman_name+"</option>");
+              }
           }
           if(getCookie('salesman') != 'null') {
             $('#salesman').val(getCookie('salesman'));
@@ -553,7 +578,7 @@ function getSalesmanFilter() {
   });
 }
 
-function getItemFilter() {
+function getItemFilter(mode) {
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
       type: 'post',
@@ -564,22 +589,23 @@ function getItemFilter() {
           for( var i = 0; i<len; i++){
               var item_id = response[i]['towar_id'];
               var item_name = response[i]['towar_nazwa'];
-
-              $("#itemEdit").append("<option value='"+item_id+"'>"+item_name+"</option>");
-              $("#itemAdd").append("<option value='"+item_id+"'>"+item_name+"</option>");
+              if(mode == 'modal') {
+                $("#itemEdit").append("<option value='"+item_id+"'>"+item_name+"</option>");
+                $("#itemAdd").append("<option value='"+item_id+"'>"+item_name+"</option>");
+              }
           }
       }
   });
 }
 
-function loadFilterValues() {
+function loadFilterValues(mode = 'header') {
   getInvoiceNumbersFilter();
-  getRegionFilter();
-  getCountryFilter();
-  getVoivodeshipFilter();
-  getClientFilter();
-  getSalesmanFilter();
-  getItemFilter();
+  getRegionFilter(mode);
+  getCountryFilter(mode);
+  getVoivodeshipFilter(mode);
+  getClientFilter(mode);
+  getSalesmanFilter(mode);
+  getItemFilter(mode);
 }
 
 function appendShowInvoiceInfo() {
@@ -791,37 +817,32 @@ function getFilters() {
     return filters;
 }
 
-$(document).ready(function(){
-  $('#recalculatePricesButtonItemEdit').click(function(){
-    if($("#itemEdit").children("option:selected").val() || isNaN($("#itemEdit").children("option:selected").val())) {
-      updateItemPrices( $("#itemEdit").children("option:selected").val(), 'edit');
-    }
-  });
-});
-
-$(document).ready(function(){
+function bindModalButtons() {
   $('#recalculatePricesButtonItemAdd').click(function(){
     if($("#itemAdd").children("option:selected").val() || isNaN($("#itemAdd").children("option:selected").val())) {
       updateItemPrices($("#itemAdd").children("option:selected").val(), 'add');
     }
   });
-});
 
-$(document).ready(function(){
+  $('#recalculatePricesButtonItemEdit').click(function(){
+    if($("#itemEdit").children("option:selected").val() || isNaN($("#itemEdit").children("option:selected").val())) {
+      updateItemPrices( $("#itemEdit").children("option:selected").val(), 'edit');
+    }
+  });
+
   $('#getPriceZeroButtonItemEdit').click(function(){
     if($("#itemEdit").children("option:selected").val() || isNaN($("#itemEdit").children("option:selected").val())) {
       getItemPriceZero( $("#itemEdit").children("option:selected").val(), 'edit');
     }
   });
-});
 
-$(document).ready(function(){
   $('#getPriceZeroButtonItemAdd').click(function(){
     if($("#itemAdd").children("option:selected").val() || isNaN($("#itemAdd").children("option:selected").val())) {
       getItemPriceZero( $("#itemAdd").children("option:selected").val(), 'add');
     }
   });
-});
+
+}
 
 function getItemPriceZero(itemId, type) {
   $.ajax({
