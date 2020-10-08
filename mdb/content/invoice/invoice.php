@@ -247,7 +247,7 @@ $loggedUser = new User();
                           <div class="col-md-3 my-auto">
                             <div class="custom-control custom-checkbox checkbox-success custom-control-inline" >
                               <input type="checkbox" class="custom-control-input" id="invoicePricesEdit" name="invoicePricesEdit" mdbInput>
-                              <label class="custom-control-label label-success" for="invoicePricesEdit" style="color:green">Zaktualizuj wszystkie ceny</label>
+                              <label class="custom-control-label label-success" for="invoicePricesEdit" style="color:green">Przelicz wartości wszystkich poz.</label>
                             </div>
                           </div>
                           <div class="col-md-3 my-auto">
@@ -292,7 +292,7 @@ $loggedUser = new User();
                               </div>
                             </div>
                             <button id="getPriceZeroButtonItemEdit" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Pobierz cenę zero</button>
-                            <button id="recalculatePricesButtonItemEdit" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
+                            <button id="recalculatePricesButtonItemEdit" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Przelicz wartości</button>
                             <div class="row">
                               <div class="col-md-3">
                                 <div class="md-form form-group">
@@ -337,7 +337,7 @@ $loggedUser = new User();
 
                             <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" id="itemUpdateButton" value ="Zaktualizuj pozycję" />
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
                             </div>
                           </form>
                         </div>
@@ -371,7 +371,7 @@ $loggedUser = new User();
                               </div>
                             </div>
                             <button id="getPriceZeroButtonItemAdd" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Pobierz cenę zero</button>
-                            <button id="recalculatePricesButtonItemAdd" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Przeładuj ceny</button>
+                            <button id="recalculatePricesButtonItemAdd" class="btn btn-info" type="button" style="width:220px"><i class="fas fa-redo"></i>  Przelicz wartości</button>
                             <div class="row">
                               <div class="col-md-3">
                                 <div class="md-form form-group">
@@ -408,7 +408,7 @@ $loggedUser = new User();
                             </div>
                             <div class="modal-footer">
                               <input class="btn btn-info" type = "submit" id="itemAddButton" value ="Dodaj pozycję" />
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
                             </div>
                           </form>
                         </div>
