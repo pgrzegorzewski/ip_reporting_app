@@ -19,7 +19,7 @@
     <span id="error_msg" style="color:red"></span>
     <br><br>
 </div>
-<div class="table-responsive" >
+<div class="table-responsive" style="width:95% text-align:center">
     <table class="table table-striped table-bordered" id="data-table">
         <thead>
         <tr>
