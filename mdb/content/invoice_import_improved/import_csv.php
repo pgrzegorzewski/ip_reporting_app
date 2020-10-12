@@ -9,6 +9,7 @@ if(!empty($_FILES['csv_file']['name'])) {
         $file_data = fopen($uploadfile, 'r');
 
         while($row = fgetcsv($file_data, 0, ";")) {
+          $row = array_map( "convert", $row );
           if($row[0]) {
             $data[] = array(
                 'faktura_numer' => $row[0],
@@ -38,6 +39,11 @@ if(!empty($_FILES['csv_file']['name'])) {
 
 
 }
+
+function convert( $str ) {
+    return iconv( "Windows-1250", "UTF-8", $str );
+}
+
 
 
 ?>
