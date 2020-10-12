@@ -2,14 +2,6 @@ var today = new Date();
 var expiry = new Date(today.getTime() + 30 * 24 * 3600 * 1000);
 var TIMER_SECONDS = 3000;
 
-$(document).ready(function () {
-  $('#dtBasicExample').DataTable({
-  });
-  $('.dataTables_length').addClass('bs-select');
-  $('#data-table').DataTable();
-});
-
-
 $(document).on('click', '#late_pay_table_button', function() {
     $('#late_pay_div').toggle();
     getLatPayValues();

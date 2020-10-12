@@ -247,7 +247,7 @@ $loggedUser = new User();
                           <div class="col-md-3 my-auto">
                             <div class="custom-control custom-checkbox checkbox-success custom-control-inline" >
                               <input type="checkbox" class="custom-control-input" id="invoicePricesEdit" name="invoicePricesEdit" mdbInput>
-                              <label class="custom-control-label label-success" for="invoicePricesEdit" style="color:green">Przelicz wartości wszystkich poz.</label>
+                              <label class="custom-control-label label-success" for="invoicePricesEdit" style="color:green">Przelicz wartości wszystkich pozycji</label>
                             </div>
                           </div>
                           <div class="col-md-3 my-auto">

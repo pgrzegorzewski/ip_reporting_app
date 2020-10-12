@@ -19,7 +19,6 @@ require '../core/connect.php';
     <link rel="stylesheet" href="../../css/mdb.min.css">
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="StyleSheet" href="../../scss/core/app/home.css"/>
-    <link rel="StyleSheet" href="../../scss/core/app/reports.css"/>
 
     <script type="text/javascript" src="../../js/jquery.min.js" ></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
@@ -143,7 +142,10 @@ require '../core/connect.php';
         </table>
         <hr>
 
-        <div id ="report_div"></div>
+        <div id ="report_div">
+        </div>
+
+
         <br><br>
         <hr>
         <div id ="chart_div"></div>
