@@ -84,8 +84,8 @@ $loggedUser = new User();
                             <li>
                               <a href='#'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a>
                               <ul>
-                                <li><a href ='../invoice_import/invoice_import.php'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a></li>
-                                <li><a href ='#' id ='visited' ><i class='far fa-file-alt'></i> Szybki import</a></li>
+                                <li><a href ='../invoice_import/invoice_import.php'><i class='far fa-file-alt'></i> Pojedyncza faktura</a></li>
+                                <li><a href ='#' id ='visited' ><i class='far fa-file-alt'></i> Wiele faktur</a></li>
                                 </ul>
                             </li>
                        ";
