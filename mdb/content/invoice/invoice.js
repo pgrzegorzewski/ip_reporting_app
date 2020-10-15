@@ -883,14 +883,14 @@ function updateItemPrices(itemId, type) {
   if(type == 'edit') {
     var priceZero = $('#priceZeroEdit').val();
     $('#valueEdit').val( ($('#amountEdit').val() * $('#priceEdit').val() * rate ).toFixed(2));
-    var margin = ($('#amountEdit').val() * $('#priceEdit').val() * rate) - ($('#amountEdit').val() * priceZero);
-    $('#marginEdit').val(margin.toFixed(2));
+    var margin = (($('#amountEdit').val() * $('#priceEdit').val() * rate) - ($('#amountEdit').val() * priceZero)).toFixed(2);
+    $('#marginEdit').val(margin);
     $('#percentEdit').val((margin/($('#amountEdit').val() *$('#priceEdit').val() * rate)).toFixed(6));
   } else {
     var priceZero = $('#priceZeroAdd').val();
     $('#valueAdd').val( ($('#amountAdd').val() * $('#priceAdd').val() * rate).toFixed(2));
-    var margin = ($('#amountAdd').val() * $('#priceAdd').val() * rate) - ($('#amountAdd').val() * priceZero);
-    $('#marginAdd').val(margin.toFixed(2));
+    var margin = (($('#amountAdd').val() * $('#priceAdd').val() * rate) - ($('#amountAdd').val() * priceZero)).toFixed(2);
+    $('#marginAdd').val(margin);
     $('#percentAdd').val((margin/($('#amountAdd').val() *$('#priceAdd').val() * rate)).toFixed(6));
   }
 }

@@ -958,6 +958,7 @@ function highlightErrorTableValue (element) {
 
 function getInviceItemData(row) {
     var invoice_item = {};
+    var rate = $("#rate").val() ? $("#rate").val() : 1;
     invoice_item.item_index =  $("td:nth-child(1)", row).html();
     invoice_item.item_id = $("td:nth-child(2) select", row).children("option:selected").val();
     invoice_item.item_amount = $("td:nth-child(4) input", row).val();
@@ -966,7 +967,7 @@ function getInviceItemData(row) {
     invoice_item.item_price_zero = $("td:nth-child(7)", row).html();
     invoice_item.item_value = $("td:nth-child(8)", row).html().replace(/\s/g, '');
     invoice_item.item_margin = $("td:nth-child(9)", row).html().replace(/\s/g, '');
-    invoice_item.item_percent = (invoice_item.item_margin / (invoice_item.item_amount * invoice_item.item_price)).toFixed(6);
+    invoice_item.item_percent = (invoice_item.item_margin / (invoice_item.item_amount * invoice_item.item_price * rate)).toFixed(6);
     return invoice_item;
 }
 
