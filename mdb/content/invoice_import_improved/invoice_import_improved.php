@@ -33,7 +33,7 @@ $loggedUser = new User();
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
-    <script type="text/javascript" src="./invoice_import.js"></script>
+    <script type="text/javascript" src="./invoice_import_improved.js"></script>
     <script type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
@@ -47,7 +47,13 @@ $loggedUser = new User();
         </button>
       </div>
       <div class="alert alert-success alert-dismissible fade show" id="invoice_add_success" role="alert" hidden="true">
-        <strong>Pomyślnie dodano fakturę, formularz zostanie odświeżone za 3 sekundy</strong>
+        <strong>Pomyślnie dodano wszystkie faktury, formularz zostanie odświeżone za 3 sekundy</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="alert alert-success alert-dismissible fade show" id="invoices_already_imported" role="alert" hidden="true">
+        <strong>Wszystkie faktury z pliku są już dostępne w systemie.</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -76,10 +82,10 @@ $loggedUser = new User();
                 if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
                     echo "
                             <li>
-                              <a href='#'><i class='far fa-file-alt'></i>  Wprowadzenie faktury</a>
+                              <a href='#'><i class='far fa-file-alt'></i> Wprowadzenie faktury</a>
                               <ul>
-                                <li><a href ='#' id ='visited'><i class='far fa-file-alt'></i> Pojedyncza faktura</a></li>
-                                <li><a href ='../invoice_import_improved/invoice_import_improved.php' ><i class='far fa-file-alt'></i> Wiele faktur</a></li>
+                                <li><a href ='../invoice_import/invoice_import.php'><i class='far fa-file-alt'></i> Pojedyncza faktura</a></li>
+                                <li><a href ='#' id ='visited' ><i class='far fa-file-alt'></i> Wiele faktur</a></li>
                                 </ul>
                             </li>
                        ";
@@ -135,6 +141,32 @@ $loggedUser = new User();
         			</ol>
         </div>
         <section class = "section">
+          <form id ="upload_csv" method="post" enctype="multipart/form-data">
+              <div class="form-row" style ="text-align: center">
+                  <div class="col-md-12">
+                      <div class="input-group" style="vertical-align: middle">
+                          <div class="input-group-prepend" >
+                              <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
+                          </div>
+                          <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
+                                     aria-describedby="fileBrowser"  accept=".csv" style="margin:6px">
+                              <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </form>
+          <br />
+          <div align="center">
+            <div class="spinner-border loading" role="status" style="display:none;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div id = "import_invoice_numbers" style="display:none">
+            <br>
+          </div>
           <form id="invoice_header_form">
               <br />
               <h5>Nagłówek faktury</h5>
@@ -150,39 +182,6 @@ $loggedUser = new User();
                           <input class="form-control" id = "invoice_date" name = "invoice_date" type="date">
                           <label for = "invoice_date">Data faktury</label>
                       </div>
-                  </div>
-                  <div class="col-md-4">
-                      <div class="md-form form-group">
-                          <select class="form-control" id = "client" name = "client">
-                              <option selected>Kontrahent</option>
-                          </select>
-                      </div>
-                  </div>
-                  <div class="col-md-2">
-                      <div class="md-form form-group">
-                        <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
-                        <label for = "bonus" class= 'active'>Bonus %</label>
-                      </div>
-                  </div>
-              </div>
-              <div class="form-row">
-                  <div class="col-md-2 my-auto" style="text-align: center;">
-                    <div class="custom-control custom-checkbox custom-control-inline">
-                      <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
-                      <label class="custom-control-label" for="export_checkbox">Eksport</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2 my-auto" style="text-align: center;">
-                    <div class="custom-control custom-checkbox custom-control-inline" >
-                      <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
-                      <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
-                    </div>
-                  </div>
-                  <div class="col-md-2 my-auto" style="text-align: center;">
-                    <div class="custom-control custom-checkbox custom-control-inline" >
-                      <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
-                      <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
-                    </div>
                   </div>
                   <div class="col-md-3">
                       <div class="md-form form-group">
@@ -205,6 +204,40 @@ $loggedUser = new User();
                       <div class="md-form form-group">
                           <input class="form-control" id = "rate" name = "rate" type="number" step="0.0001" min = 0>
                           <label for = "rate">Kurs</label>
+                      </div>
+
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                      <input type="checkbox" class="custom-control-input" id="export_checkbox" name="export_checkbox" mdbInput>
+                      <label class="custom-control-label" for="export_checkbox">Eksport</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline" >
+                      <input type="checkbox" class="custom-control-input" id="transfer_checkbox" name="transfer_checkbox" mdbInput>
+                      <label class="custom-control-label" for="transfer_checkbox">Przelew</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 my-auto" style="text-align: center;">
+                    <div class="custom-control custom-checkbox custom-control-inline" >
+                      <input type="checkbox" class="custom-control-input" id="delivery_checkbox" name="delivery_checkbox" mdbInput>
+                      <label class="custom-control-label" for="delivery_checkbox">Dostawa</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="md-form form-group">
+                          <select class="form-control" id = "client" name = "client">
+                              <option selected>Kontrahent</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="md-form form-group">
+                        <input class="form-control" id = "bonus" name = "bonus" type="number" value="0" disabled>
+                        <label for = "bonus" class= 'active'>Bonus %</label>
                       </div>
                   </div>
               </div>
@@ -289,26 +322,6 @@ $loggedUser = new User();
               </div>
             </form>
           </div>
-          <br>
-          <form id ="upload_csv" method="post" enctype="multipart/form-data">
-              <div class="form-row" style ="text-align: center">
-                  <div class="col-md-12">
-                      <div class="input-group" style="vertical-align: middle">
-                          <div class="input-group-prepend" >
-                              <input type ="submit" name="upload" id="upload" value="Importuj" class = "btn btn-success" style="padding:7px; margin:0px; width:120px"/>
-                          </div>
-                          <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="csv_file" name="csv_file"
-                                     aria-describedby="fileBrowser"  accept=".csv" style="margin:6px">
-                              <label class="custom-file-label" for="csv_file"><span id="import_label">Wybierz plik</span></label>
-                          </div>
-                      </div>
-
-                  </div>
-              </div>
-          </form>
-          <br />
-          <div id = "import_invoice_div"></div>
           <br />
           <div class="table-editable" id="editable-table-div">
             <span class="table-add float-right mb-3 mr-2" id="invoiceItemRowAdd" ><i class="fas fa-plus fa-2x green-text"></i></span>
@@ -341,6 +354,7 @@ $loggedUser = new User();
             </table>
           </div>
 
+          <div id = "import_invoice_div"></div>
           <?php
           if(isset($_SESSION['e_invoice'])){
               echo '<div class = "error">'.$_SESSION['e_invoice'].'</div>';
