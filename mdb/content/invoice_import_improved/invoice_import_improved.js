@@ -821,6 +821,7 @@ function addInvoice() {
   showErrorsAlert(checkInvoiceHeader, checkInvoiceItems);
   var invoiceId  = 0;
   if(checkInvoiceHeader == true && checkInvoiceItems == true) {
+    $('#addInoviceBtn').attr('disabled', true);
     updateItemPrices(getSelectedItems());
     $.ajax({
         url: "./add_invoice.php",
@@ -837,11 +838,13 @@ function addInvoice() {
                 $('#invoice_add_error').text('');
                 $('#invoice_add_error').prop("hidden", true);
               }, 5000);
+              $('#addInoviceBtn').attr('disabled', false);
             } else {
               invoiceId = data.faktura_id;
               if(invoiceId != 0)
               {
                 addInvoiceItems(invoiceId);
+                $('#addInoviceBtn').attr('disabled', false);
                 if(addedItems == itemsToAdd) {
                   markInvoiceAsImported(invoice_header.invoice_number);
                   loadNextInvoice();
@@ -860,6 +863,7 @@ function addInvoice() {
                   reloadScreen();
                 }
               }
+              $('#addInoviceBtn').attr('disabled', false);
             }
         }
     })
