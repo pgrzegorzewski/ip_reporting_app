@@ -175,6 +175,7 @@ $(document).on('click', '#region_summary_data_refresh', function() {
   }
 
 });
+
 $(document).on('click', '#country_summary_data_refresh', function() {
 
   if ($('#report_date_from').val() && $('#report_date_to').val()) {
@@ -301,6 +302,131 @@ $(document).on('click', '#country_summary_data_refresh', function() {
 
 });
 
+$(document).on('click', '#voivodeship_summary_data_refresh', function() {
+
+  if ($('#report_date_from').val() && $('#report_date_to').val()) {
+    if ($('#report_date_from').val() < $('#report_date_to').val()) {
+
+      $('#error_msg').text('');
+      $("#report_date_to").css("border-bottom", "none");
+      $("#report_date_from").css("border-bottom", "none");
+
+      $("#data-table").dataTable().fnDestroy();
+      $("#data_refresh").attr("disabled", true);
+      $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
+      $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+      getVoivodeshipChartTemplate();
+      $('#voivodeship_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+      $('#voivodeship_summary_data_refresh_span').text('');
+
+      $.ajax({
+
+         method: "POST",
+         data: {dateFrom : $dateFrom, dateTo : $dateTo},
+         dataType: 'json',
+         url: "./summary_by_voivodeship_report.php",
+         success: function (data) {
+             $("#data-table").dataTable().fnDestroy();
+             $("#data_refresh").attr("disabled", false);
+             $('#data-table').DataTable({
+                 data : data,
+                 columns: [
+                     {data: 'wojewodztwo_nazwa'},
+                     {data: 'wojewodztwo_kod'},
+                     {
+                        data: 'suma_wartosci',
+                        render: $.fn.dataTable.render.number( ' ', '.', 2),
+                        className: "text-right"
+                     },
+                     {
+                        data: 'suma_marz',
+                        render: $.fn.dataTable.render.number( ' ', '.', 2),
+                        className: "text-right"
+                     },
+                     {
+                       data: 'procent',
+                       render: $.fn.dataTable.render.number( ' ', '.', 2),
+                       className: "text-right"
+                     }
+                 ],
+                 footerCallback: function ( row, data, start, end, display ) {
+                     var api = this.api(), data;
+                     var intVal = function ( i ) {
+                         return typeof i === 'string' ?
+                             i.replace(/[\$,]/g, '') * 1 :
+                             typeof i === 'number' ?
+                                 i : 0;
+                     };
+
+                     totalValue = api
+                         .column(2, { search: 'applied' })
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                     pageTotalValue = api
+                         .column( 2, { page: 'current'} )
+                         .data()
+                         .reduce( function (a, b) {
+                             return intVal(a) + intVal(b);
+                         }, 0 );
+
+                       totalMargin = api
+                           .column(3, { search: 'applied' })
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalmargin = api
+                           .column( 3, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                     $( api.column( 2 ).footer() ).html(
+                        'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display( pageTotalValue.toFixed(2)) + '<br> suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display( totalValue.toFixed(3))
+                     );
+
+                     $( api.column( 3).footer() ).html(
+                         'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalmargin.toFixed(2)) + '<br> suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalMargin.toFixed(2))
+                     );
+
+                     $( api.column( 4 ).footer() ).html(
+                         'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((pageTotalmargin / pageTotalValue) * 100).toFixed(2)) + '%  <br>całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
+                     );
+                 },
+             });
+
+             var chart_data =  new Array();
+             data.forEach((item, index) => {
+               chart_data.push({label:item.wojewodztwo_nazwa, suma_wartosci:parseFloat(item.suma_wartosci), suma_marz:parseFloat(item.suma_marz), procent:parseFloat(item.procent), kolor:item.kolor});
+             });
+             loadVoivodeshipChart(chart_data);
+             $('#voivodeship_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+             $('#voivodeship_summary_data_refresh_span').text('Odśwież/załaduj');
+
+             setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+             setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
+         },
+         always: function() {
+           $("#data_refresh").attr("disabled", false);
+          }
+      })
+    } else {
+      $('#error_msg').text('Nieprawidłowe daty');
+      $("#report_date_to").css("border-bottom", "1px solid red");
+      $("#report_date_from").css("border-bottom", "1px solid red");
+    }
+  } else {
+    $('#error_msg').text('Nieprawidłowe daty');
+    $("#report_date_to").css("border-bottom", "1px solid red");
+    $("#report_date_from").css("border-bottom", "1px solid red");
+  }
+
+});
 
 $(document).on('click', '#salesman_summary_data_refresh', function() {
 
@@ -941,6 +1067,21 @@ $(document).on('click', '#summary_by_country_show', function() {
   })
 });
 
+
+$(document).on('click', '#summary_by_voivodeship_show', function() {
+  clearChartTemplate();
+  $.ajax({
+        method: "GET",
+        url: "./summary_by_voivodeship_report_template.php",
+        success: function(data){
+             $('#report_div').empty();
+             $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
+       }
+  })
+});
+
 $(document).on('click', '#summary_by_salesman_show', function() {
   clearChartTemplate();
   $.ajax({
@@ -1051,6 +1192,17 @@ function getCountryChartTemplate() {
   $.ajax({
           method: "GET",
           url: "./charts/country_charts_template.php",
+          success: function(data){
+               $('#chart_div').empty();
+               $('#chart_div').append(data);
+         }
+    });
+}
+
+function getVoivodeshipChartTemplate() {
+  $.ajax({
+          method: "GET",
+          url: "./charts/voivodeship_charts_template.php",
           success: function(data){
                $('#chart_div').empty();
                $('#chart_div').append(data);
