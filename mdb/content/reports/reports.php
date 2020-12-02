@@ -30,6 +30,7 @@ require '../core/connect.php';
     <script type="text/javascript" src="./charts/client_charts.js"></script>
     <script type="text/javascript" src="./charts/salesman_charts.js"></script>
     <script type="text/javascript" src="./charts/region_charts.js"></script>
+    <script type="text/javascript" src="./charts/country_charts.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <script src="../../resources/lodash.js"></script>
@@ -127,6 +128,9 @@ require '../core/connect.php';
           <tr>
             <td>
                 <button class="btn btn-info" id="summary_by_region_show">Podsumowanie per region</button>
+            </td>
+            <td>
+                <button class="btn btn-info" id="summary_by_country_show">Podsumowanie per kraj</button>
             </td>
             <td>
               <button class="btn btn-info" id="summary_by_salesman_show">Podsumowanie per sprzedawca</button>
