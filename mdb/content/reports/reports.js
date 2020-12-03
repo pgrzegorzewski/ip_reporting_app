@@ -1155,6 +1155,11 @@ $(document).on('click', '#error_summary_report_show', function() {
   })
 });
 
+$(document).on('click', '.btn-report', function() {
+  $('.btn-report').css({"border-color": "red","border-width":"0px","border-style":"solid"});
+  $(this).css({"border-color": "red","border-width":"2px","border-style":"solid"});
+});
+
 function getItemChartTemplate() {
   $.ajax({
           method: "GET",
