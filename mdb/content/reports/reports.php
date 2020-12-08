@@ -30,6 +30,8 @@ require '../core/connect.php';
     <script type="text/javascript" src="./charts/client_charts.js"></script>
     <script type="text/javascript" src="./charts/salesman_charts.js"></script>
     <script type="text/javascript" src="./charts/region_charts.js"></script>
+    <script type="text/javascript" src="./charts/country_charts.js"></script>
+    <script type="text/javascript" src="./charts/voivodeship_charts.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <script src="../../resources/lodash.js"></script>
@@ -124,24 +126,52 @@ require '../core/connect.php';
         W tej sekcji możesz sporządzić różne raporty i podsumowania. Wybierz interesujący Cię raport z listy.
         <br><br>
         <table>
-          <tr>
-            <td>
-                <button class="btn btn-info" id="summary_by_region_show">Podsumowanie per region</button>
+          <tr class="form-row">
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="summary_by_region_show" style="height: 100%">Podsumowanie per region</button>
             </td>
-            <td>
-              <button class="btn btn-info" id="summary_by_salesman_show">Podsumowanie per sprzedawca</button>
+            <?php
+              $query = "
+                SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 11)
+              ";
+              $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+              $hasAccess = pg_fetch_assoc($hasAccessQuery);
+              if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+                echo "
+                <td class='col-md-2'>
+                  <button class='btn btn-info btn-block btn-report' id='summary_by_country_show' style='height: 100%'>Podsumowanie per kraj</button>
+                </td>
+                ";
+              }
+            ?>
+            <?php
+              $query = "
+                SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 12)
+              ";
+              $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
+              $hasAccess = pg_fetch_assoc($hasAccessQuery);
+              if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
+                echo "
+                <td class='col-md-2'>
+                  <button class='btn btn-info btn-block btn-report' id='summary_by_voivodeship_show' style='height: 100%'>Podsumowanie per woj.</button>
+                </td>
+                ";
+              }
+            ?>
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="summary_by_salesman_show" style="height: 100%">Podsumowanie per sprzedawca</button>
             </td>
-            <td>
-              <button class="btn btn-info" id="summary_by_client_show">Podsumowanie per kontrahent</button>
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="summary_by_client_show" style="height: 100%">Podsumowanie per kontrahent</button>
             </td>
-            <td>
-                <button class="btn btn-info" id="summary_by_item_show">Podsumowanie per towar</button>
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="summary_by_item_show" style="height: 100%">Podsumowanie per towar</button>
             </td>
-            <td>
-                <button class="btn btn-info" id="invoice_summary_report_show">Raport faktur</button>
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="invoice_summary_report_show" style="height: 100%">Raport faktur</button>
             </td>
-            <td>
-                <button class="btn btn-info" id="error_summary_report_show">Błędne faktury</button>
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="error_summary_report_show" style="height: 100%">Błędne faktury</button>
             </td>
           </tr>
 
