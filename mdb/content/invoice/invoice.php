@@ -576,12 +576,11 @@ $loggedUser = new User();
                       <th>Bonus</th>
                       <?php
                         $query = "
-                               SELECT pelny_przeglad FROM  usr.tbl_uzytkownik
-                               WHERE username = $1
+                          SELECT * FROM  usr.sf_sprawdz_prawo_dostepu($1, 2)
                         ";
                         $hasAccessQuery = @pg_query_params($connection, $query, array($_SESSION['user']));
                         $hasAccess = pg_fetch_assoc($hasAccessQuery);
-                        if($hasAccess['pelny_przeglad'] == 1) {
+                        if($hasAccess['sf_sprawdz_prawo_dostepu'] == 1) {
                             echo "
                                       <th>Edycja</th>
                                  ";
