@@ -123,10 +123,16 @@
 		</div>
 
         <?php
-        if(isset($_SESSION['e_password'])){
-            echo '<div class = "error">'.$_SESSION['e_password'].'</div>';
-            unset($_SESSION['e_password']);
-        }
+          if(isset($_SESSION['e_password'])){
+              echo '<div class = "error">'.$_SESSION['e_password'].'</div>';
+              unset($_SESSION['e_password']);
+          }
+        ?>
+        <?php
+          if(isset($_SESSION['e_password_temporary_update'])){
+              echo '<div class = "error">'.$_SESSION['e_password_temporary_update'].'</div>';
+              unset($_SESSION['e_password_temporary_update']);
+          }
         ?>
 
         <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">

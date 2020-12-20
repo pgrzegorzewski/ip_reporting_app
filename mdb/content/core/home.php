@@ -138,13 +138,13 @@
                 <div class="modal-body">
                     <form  action = "change_password.php" method="post">
                         Stare hasło: <br />
-                        <input type = "password" name="old_password"><br /><br />
+                        <input type = "password" name="old_password" style="color:black"><br /><br />
 
                         Nowe hasło: <br />
-                        <input type = "password" name="new_password"><br /><br />
+                        <input type = "password" name="new_password" style="color:black" ><br /><br />
 
                         Powtórz hasło: <br />
-                        <input type = "password" name="new_password_2"><br /><br />
+                        <input type = "password" name="new_password_2" style="color:black"><br /><br />
 
                         <div class="modal-footer">
                             <input class="btn btn-info" type = "submit" value = "Zmień hasło" />

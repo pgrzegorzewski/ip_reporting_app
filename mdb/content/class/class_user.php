@@ -137,14 +137,45 @@ class User
 
     public function assignTemporaryPassword($userId, $passwordTemporary) {
 
-      $passwordTemporaryHashed = password_hash($passwordTemporary, PASSWORD_DEFAULT);
+      $success = true;
+
       try {
-        $query = "SELECT * FROM usr.sp_przypisz_haslo_tymczasowe($1, $2)";
-        $result = pg_query_params($this->connection, $query, array($userId, $passwordTemporaryHashed));
-        echo 'haslo przypisane';
-      } catch(Exception $error) {
-          $error->getMessage();
-          $_SESSION['e_password_temporary_update'] = 'coś poszło nie tak:(';
+          if (strlen($passwordTemporary) < 8 || strlen($passwordTemporary) > 20) {
+              $success = false;
+              $_SESSION['e_password_temporary_update'] .= '<p style = "color:red; text-align:center;">Hasło musi posiadać od 8 do 20 znaków.</p>';
+          }
+  
+          if(!preg_match('/\d/', $passwordTemporary)){
+              $success = false;
+              $_SESSION['e_password_temporary_update'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać cyfrę</p>';
+          }
+  
+          if(!preg_match('/[A-Z]/', $passwordTemporary)){
+              $success = false;
+              $_SESSION['e_password_temporary_update'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać wielką literę.</p>';
+          }
+  
+          if (!preg_match('/[^a-zA-Z0-9]/', $passwordTemporary))
+          {
+              $success = false;
+              $_SESSION['e_password_temporary_update'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać znak specjalny.</p>';
+          }
+      }
+      catch (Exception $error) {
+          echo $error->getMessage();
+      }
+
+      if($success) {
+        $passwordTemporaryHashed = password_hash($passwordTemporary, PASSWORD_DEFAULT);
+        
+        try {
+          $query = "SELECT * FROM usr.sp_przypisz_haslo_tymczasowe($1, $2)";
+          $result = pg_query_params($this->connection, $query, array($userId, $passwordTemporaryHashed));
+          echo 'haslo przypisane';
+        } catch(Exception $error) {
+            $error->getMessage();
+            $_SESSION['e_password_temporary_update'] = 'coś poszło nie tak:(';
+        }
       }
 
     }
@@ -234,21 +265,39 @@ class User
       $success = true;
 
       if(strlen(preg_replace('/\s/', '', $username)) < 2) {
-        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótki login.</p>';
+        $_SESSION['e_user_update'] .= '<p style = "color:red; text-align:center;">Zbyt krótki login.</p>';
         $success = false;
       }
       if(strlen(preg_replace('/\s/', '', $firstName)) < 3) {
-        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie imię.</p>';
+        $_SESSION['e_user_update'] .= '<p style = "color:red; text-align:center;">Zbyt krótkie imię.</p>';
         $success = false;
       }
       if(strlen(preg_replace('/\s/', '', $lastName)) < 3) {
-        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie nazwisko.</p>';
+        $_SESSION['e_user_update'] .= '<p style = "color:red; text-align:center;">Zbyt krótkie nazwisko.</p>';
         $success = false;
       }
-      if(strlen(preg_replace('/\s/', '', $passwordTemporary)) < 5) {
-        $_SESSION['e_user_update'] = '<p style = "color:red; text-align:center;">Zbyt krótkie hasło.</p>';
-        $success = false;
+ 
+      if (strlen($passwordTemporary) < 8 || strlen($passwordTemporary) > 20) {
+            $success = false;
+            $_SESSION['e_user_update'] .= '<p style = "color:red; text-align:center;">Hasło musi posiadać od 8 do 20 znaków.</p>';
       }
+
+      if(!preg_match('/\d/', $passwordTemporary)){
+          $success = false;
+          $_SESSION['e_user_update'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać cyfrę</p>';
+      }
+
+      if(!preg_match('/[A-Z]/', $passwordTemporary)){
+          $success = false;
+          $_SESSION['e_user_update'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać wielką literę.</p>';
+      }
+
+      if (!preg_match('/[^a-zA-Z0-9]/', $passwordTemporary))
+      {
+          $success = false;
+          $_SESSION['e_user_update'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać znak specjalny.</p>';
+      }
+
       if(!$role || intval($role) <= 0) {
         $_SESSION['e_item_update'] = '<p style = "color:red; text-align:center;">Brak rodzaju</p>';
         $success = false;

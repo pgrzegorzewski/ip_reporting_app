@@ -82,27 +82,7 @@ $('#editUserModal').on('show.bs.modal', function(e) {
      },
   });
 
-  $('#tmp_password_btn').click(function () {
-    var password_temporary = $('#password_temporary').val();
-    if(password_temporary.length < 4) {
-      $('#assign_temporary_pwd_error').text('Tymczasowe hasło musi mieć co najmniej 4 znaki');
-    } else {
-      $.ajax({
-         method: "POST",
-         data: {action : "assignTemporaryPassword", userId : id, passwordTemporary : password_temporary},
-         dataType: 'json',
-         url: "./user_actions.php",
-         success: function(data) {
-           $('#assign_temporary_pwd_error').text('');
-           $('#assign_temporary_pwd_success').text('Hasło przypisane pomyślnie');
-         },
-      })
-      $('#assign_temporary_pwd_error').text('');
-      $('#assign_temporary_pwd_success').text('Hasło przypisane pomyślnie');
-    }
-  });
 });
-
 
 
 function bindModal() {
@@ -154,9 +134,34 @@ function bindModal() {
 
     $('#tmp_password_btn').click(function () {
       var password_temporary = $('#password_temporary').val();
-      if(password_temporary.length < 4) {
-        $('#assign_temporary_pwd_error').text('Tymczasowe hasło musi mieć co najmniej 4 znaki');
-      } else {
+  
+      var password_info = '';
+  
+      $('#assign_temporary_pwd_error').text('');
+  
+      var success = true;
+  
+      if(password_temporary.length < 8 || password_temporary.length > 20) {
+        password_info += 'Tymczasowe hasło musi mieć od 8 do 20 znaków. \n';
+        success = false;
+      }
+  
+      if(password_temporary.match(/\d/g) == null) {
+        password_info += 'Hasło musi zawierać liczbę. \n';
+        success = false;
+      }
+  
+      if(password_temporary.match(/[A-Z]/g) == null) {
+        password_info += 'Hasło musi zawierać wielką literę. \n';
+        success = false;
+      }
+  
+      if(password_temporary.match(/[^0-9a-zA-Z]/g) == null) {
+        password_info += 'Hasło musi zawierać znak specjalny. \n';
+        success = false;
+      }
+      
+      if(success == true) {
         $.ajax({
            method: "POST",
            data: {action : "assignTemporaryPassword", userId : id, passwordTemporary : password_temporary},
@@ -169,6 +174,8 @@ function bindModal() {
         })
         $('#assign_temporary_pwd_error').text('');
         $('#assign_temporary_pwd_success').text('Hasło przypisane pomyślnie');
+      } else {
+        $('#assign_temporary_pwd_error').text(password_info);
       }
     });
 
