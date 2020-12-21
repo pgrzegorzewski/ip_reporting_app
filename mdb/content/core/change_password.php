@@ -16,7 +16,7 @@
 
         if (!password_verify($oldPassword, $passwordString['password_string'])) {
             $success = false;
-            $_SESSION['e_password'] = '<p style = "color:red; text-align:center;">Nieprawidłowe hasło</p>';
+            $_SESSION['e_password'] .= '<p style = "color:red; text-align:center;">Nieprawidłowe hasło.</p>';
         } else {
             $oldPasswordHashed = $passwordString['password_string'];
         }
@@ -24,13 +24,31 @@
         pg_free_result($result);
         if (strlen($newPassword) < 8 || strlen($newPassword) > 20) {
             $success = false;
-            $_SESSION['e_password'] = "Hasło musi posiadać od 8 do 20 znaków";
+            $_SESSION['e_password'] .= '<p style = "color:red; text-align:center;">Hasło musi posiadać od 8 do 20 znaków.</p>';
         }
+        
 
         if ($newPassword != $newPassword2) {
             $success = false;
-            $_SESSION['e_password'] = "Hasła są różne";
+            $_SESSION['e_password'] .= '<p style = "color:red; text-align:center;">Hasła są różne.</p>';
         }
+
+        if(!preg_match('/\d/', $newPassword)){
+            $success = false;
+            $_SESSION['e_password'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać cyfrę</p>';
+        }
+
+        if(!preg_match('/[A-Z]/', $newPassword)){
+            $success = false;
+            $_SESSION['e_password'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać wielką literę.</p>';
+        }
+
+        if (!preg_match('/[^a-zA-Z0-9]/', $newPassword))
+        {
+            $success = false;
+            $_SESSION['e_password'] .= '<p style = "color:red; text-align:center;">Hasło musi zawierać znak specjalny.</p>';
+        }
+        
 
     }
     catch (Exception $error) {
