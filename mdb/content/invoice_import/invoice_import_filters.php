@@ -30,28 +30,35 @@ if ($connection) {
         switch ($filterType) {
           case 'invoice_number':
               $query = "
-                        SELECT DISTINCT
-                          tf.faktura_id,
-                          tf.faktura_numer
-                        FROM app.tbl_faktura tf
-                        LEFT JOIN (
-                                    SELECT
-                                        COUNT(*) aktywne_pozycje_cnt
-                                        ,faktura_id 
-                                    FROM app.tbl_faktura_pozycja tfp
-                                    WHERE
-                                        jest_aktywny = 1::BIT
-                                    GROUP BY
-                                        faktura_id
-                                  ) xtfp
-                        ON tf.faktura_id = xtfp.faktura_id
-                        WHERE
-                          tf.data_wystawienia >= $1
-                          AND tf.data_wystawienia <= $2
-                          AND tf.jest_aktywny = 1::BIT
-                          AND xtfp.aktywne_pozycje_cnt > 0
-                        ORDER BY
-                          tf.faktura_numer
+              SELECT DISTINCT
+                tf.faktura_id,
+                tf.faktura_numer,
+                split_part(tf.faktura_numer, '-', 1),
+                split_part(tf.faktura_numer, '/', 2),
+                NULLIF(regexp_replace(split_part(tf.faktura_numer, '/', 1), '\D','','g'), '')::NUMERIC,
+                split_part(tf.faktura_numer, '/', 3)
+              FROM app.tbl_faktura tf
+              LEFT JOIN (
+                          SELECT
+                              COUNT(*) aktywne_pozycje_cnt
+                              ,faktura_id 
+                          FROM app.tbl_faktura_pozycja tfp
+                          WHERE
+                              jest_aktywny = 1::BIT
+                          GROUP BY
+                              faktura_id
+                        ) xtfp
+              ON tf.faktura_id = xtfp.faktura_id
+              WHERE
+                tf.data_wystawienia >= $1
+                AND tf.data_wystawienia <= $2
+                AND tf.jest_aktywny = 1::BIT
+                AND xtfp.aktywne_pozycje_cnt > 0
+              ORDER BY
+                split_part(tf.faktura_numer, '-', 1)
+                ,split_part(tf.faktura_numer, '/', 2) ASC 
+                ,split_part(tf.faktura_numer, '/', 3) ASC 
+                ,NULLIF(regexp_replace(split_part(tf.faktura_numer, '/', 1), '\D','','g'), '')::NUMERIC ASC
               ";
               $invoiceQuery = pg_query_params($connection, $query, array($dateFrom, $dateTo));
 
