@@ -57,8 +57,8 @@ if ($connection) {
               ORDER BY
                 split_part(tf.faktura_numer, '-', 1)
                 ,split_part(tf.faktura_numer, '/', 2) ASC 
-                ,NULLIF(regexp_replace(split_part(tf.faktura_numer, '/', 1), '\D','','g'), '')::NUMERIC ASC
                 ,split_part(tf.faktura_numer, '/', 3) ASC 
+                ,NULLIF(regexp_replace(split_part(tf.faktura_numer, '/', 1), '\D','','g'), '')::NUMERIC ASC
               ";
               $invoiceQuery = pg_query_params($connection, $query, array($dateFrom, $dateTo));
 
