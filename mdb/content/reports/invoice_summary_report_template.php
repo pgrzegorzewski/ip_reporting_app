@@ -47,6 +47,7 @@
         <tr>
             <th>Faktura</th>
             <th>Data wystawienia</th>
+            <th>Uwagi</th>
             <th>Kontrahent</th>
             <th>Sprzedawca</th>
             <th>Wartość</th>
@@ -57,7 +58,7 @@
         <tbody></tbody>
         <tfoot>
             <tr>
-                <th colspan="4">Podsumowanie:</th>
+                <th colspan="5">Podsumowanie:</th>
                 <th style="text-align:right"></th>
                 <th style="text-align:right"></th>
                 <th style="text-align:right"></th>

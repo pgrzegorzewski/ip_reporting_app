@@ -21,6 +21,7 @@ try {
     {
       array_push($resp, array(
                                 'faktura_numer' => $row['faktura_numer'],
+                                'uwagi' => $row['uwagi'],
                                 'data_wystawienia' => $row['data_wystawienia'],
                                 'kontrahent_nazwa' => $row['kontrahent_nazwa'],
                                 'sprzedawca' => $row['sprzedawca'],

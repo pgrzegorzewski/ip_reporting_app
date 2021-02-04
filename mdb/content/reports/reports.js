@@ -879,6 +879,9 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
                        data: 'data_wystawienia',
                      },
                      {
+                      data: 'uwagi',
+                     },
+                     {
                        data: 'kontrahent_nazwa',
                      },
                      {
@@ -899,6 +902,14 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
                        className: "text-right"
                      }
                  ],
+                 columnDefs: [
+                  { 
+                    "targets": 2,
+                    "render": function (data, type, full, meta) {
+                      return type === 'display'? '<div title="' + data + '">' + data : data;
+                    }     
+                  },
+                 ],
                  footerCallback: function ( row, data, start, end, display ) {
                      var api = this.api(), data;
                      var intVal = function ( i ) {
@@ -909,42 +920,42 @@ $(document).on('click', '#invoice_summary_data_refresh', function() {
                      };
 
                        totalValue = api
-                           .column(4, { search: 'applied' })
-                           .data()
-                           .reduce( function (a, b) {
-                               return intVal(a) + intVal(b);
-                           }, 0 );
-
-                       pageTotalValue = api
-                           .column( 4, { page: 'current'} )
-                           .data()
-                           .reduce( function (a, b) {
-                               return intVal(a) + intVal(b);
-                           }, 0 );
-
-                       totalMargin = api
                            .column(5, { search: 'applied' })
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
                            }, 0 );
 
-                       pageTotalMargin = api
+                       pageTotalValue = api
                            .column( 5, { page: 'current'} )
                            .data()
                            .reduce( function (a, b) {
                                return intVal(a) + intVal(b);
                            }, 0 );
 
-                     $( api.column( 4).footer() ).html(
+                       totalMargin = api
+                           .column(6, { search: 'applied' })
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                       pageTotalMargin = api
+                           .column( 6, { page: 'current'} )
+                           .data()
+                           .reduce( function (a, b) {
+                               return intVal(a) + intVal(b);
+                           }, 0 );
+
+                     $( api.column( 5).footer() ).html(
                          'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalValue.toFixed(2))
                      );
 
-                     $( api.column( 5).footer() ).html(
+                     $( api.column( 6).footer() ).html(
                          'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(totalMargin.toFixed(2))
                      );
 
-                     $( api.column( 6 ).footer() ).html(
+                     $( api.column( 7 ).footer() ).html(
                          'karta:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((pageTotalMargin / pageTotalValue) * 100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( ' ', '.', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
                      );
                  },
