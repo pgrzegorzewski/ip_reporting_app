@@ -27,6 +27,7 @@ require '../core/connect.php';
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
     <script type="text/javascript" src="./reports.js"></script>
     <script type="text/javascript" src="./charts/item_charts.js"></script>
+    <script type="text/javascript" src="./charts/item_region_charts.js"></script>
     <script type="text/javascript" src="./charts/client_charts.js"></script>
     <script type="text/javascript" src="./charts/salesman_charts.js"></script>
     <script type="text/javascript" src="./charts/region_charts.js"></script>
@@ -129,6 +130,9 @@ require '../core/connect.php';
           <tr class="form-row">
             <td class="col-md-2">
               <button class="btn btn-info btn-block btn-report" id="summary_by_region_show" style="height: 100%">Podsumowanie per region</button>
+            </td>
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="summary_by_item_region_show" style="height: 100%">Podsumowanie towarów per region</button>
             </td>
             <?php
               $query = "
