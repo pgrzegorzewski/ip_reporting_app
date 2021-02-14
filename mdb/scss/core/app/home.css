@@ -365,6 +365,19 @@ ol > li > ul > li > a:hover
 	color: white;
 }
 
+.paginate_button {
+	background-color: #AFC2D1;
+	color: #ffffff;
+}
+
+#data-table_paginate > span > .paginate_button.current {
+	background-color: #5cb85c;
+}
+
+.dt-button.buttons-csv.buttons-html5, .dt-button.buttons-excel.buttons-html5{
+	background-color: #5cb85c;
+}
+
 .footer {
     background-color: #AFC2D1;
     font-size: 12px;

@@ -9,7 +9,6 @@ function loadItemChart(chart_data) {
   var datasets = new Array();
 
   chart_data_suma_wartosci = _.sortBy(chart_data, parseFloat(['suma_wartosci']));
-  console.log(chart_data_suma_wartosci);
 
   for (index = 0; index < chart_data_suma_wartosci.length; index++) {
     datasets.push({label:chart_data_suma_wartosci[index].label, backgroundColor: colors[index], data:[chart_data_suma_wartosci[index].suma_wartosci]});

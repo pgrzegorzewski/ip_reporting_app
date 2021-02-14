@@ -18,13 +18,16 @@ require '../core/connect.php';
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/mdb.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-    <link rel="StyleSheet" href="../../scss/core/app/home.css"/>
 
     <script type="text/javascript" src="../../js/jquery.min.js" ></script>
-    <script type="text/javascript" src="../../js/addons/datatables.min.js" ></script>
+
+    <link rel="stylesheet" type="text/css" href="../../resources/DataTables/datatables.min.css"/>
+    <script type="text/javascript" src="../../resources/DataTables/datatables.min.js"></script>
+
     <script type="text/javascript" src="../../js/popper.min.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/mdb.min.js"></script>
+
     <script type="text/javascript" src="./reports.js"></script>
     <script type="text/javascript" src="./charts/item_charts.js"></script>
     <script type="text/javascript" src="./charts/item_region_charts.js"></script>
@@ -36,6 +39,8 @@ require '../core/connect.php';
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <script src="../../resources/lodash.js"></script>
+
+    <link rel="StyleSheet" href="../../scss/core/app/home.css"/>
 </head>
 
 <body>
