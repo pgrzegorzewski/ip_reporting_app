@@ -36,6 +36,7 @@ require '../core/connect.php';
     <script type="text/javascript" src="./charts/region_charts.js"></script>
     <script type="text/javascript" src="./charts/country_charts.js"></script>
     <script type="text/javascript" src="./charts/voivodeship_charts.js"></script>
+    <script type="text/javascript" src="./charts/item_invoice_charts.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <script src="../../resources/lodash.js"></script>
@@ -181,6 +182,9 @@ require '../core/connect.php';
             </td>
             <td class="col-md-2">
               <button class="btn btn-info btn-block btn-report" id="error_summary_report_show" style="height: 100%">Błędne faktury</button>
+            </td>
+            <td class="col-md-2">
+              <button class="btn btn-info btn-block btn-report" id="invoice_summary_by_item_show" style="height: 100%">Lista faktur z towarem</button>
             </td>
           </tr>
 
