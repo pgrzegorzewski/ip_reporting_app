@@ -50,6 +50,26 @@ function getSalesmanFilter() {
   });
 }
 
+function getItemFilter() {
+  $.ajax({
+      url: "../invoice_import/invoice_import_filters.php",
+      type: 'post',
+      data: {type:'item'},
+      dataType: 'json',
+      success:function(response){
+          var len = response.length;
+          for( var i = 0; i<len; i++){
+              var item_id = response[i]['towar_id'];
+              var item_name = response[i]['towar_nazwa'];
+              $("#item").append("<option value='"+item_id+"'>"+item_name+"</option>");
+          }
+          if(getCookie('item') != 'null') {
+            $('#item').val(getCookie('item'));
+          }
+      }
+  });
+}
+
 function getRegionFilter() {
   $.ajax({
       url: "../invoice_import/invoice_import_filters.php",
@@ -1016,6 +1036,189 @@ $(document).on('click', '#item_summary_data_refresh', function() {
 
 });
 
+$(document).on('click', '#invoice_summary_by_item_data_refresh', function() {
+
+  if($('#item').val()) {
+    if ($('#report_date_from').val() && $('#report_date_to').val() ) {
+      if ($('#report_date_from').val() < $('#report_date_to').val()) {
+
+        $('#error_msg').text('');
+        $("#report_date_to").css("border-bottom", "none");
+        $("#report_date_from").css("border-bottom", "none");
+        $("#item").css("border-bottom", "none");
+
+        $("#data-table").dataTable().fnDestroy();
+        $("#data_refresh").attr("disabled", true);
+        $dateFrom = new Date($('#report_date_from').val()).toISOString().substring(0,10);
+        $dateTo = new Date($('#report_date_to').val()).toISOString().substring(0,10);
+        $itemId = $('#item').val();
+        getInvoiceByItemChartTemplate();
+        $('#item_summary_data_refresh_span').addClass('spinner-border spinner-border-sm text-light');
+        $('#item_summary_data_refresh_span').text('');
+        $.ajax({
+
+          method: "POST",
+          data: {dateFrom : $dateFrom, dateTo : $dateTo, item: $itemId},
+
+          dataType: 'json',
+          url: "./invoice_summary_by_item_report.php",
+          success: function (data) {
+              $("#data-table").dataTable().fnDestroy();
+              $("#data_refresh").attr("disabled", false);
+              $('#data-table').DataTable({
+                  dom: 'Bfrtip',
+                  buttons: [
+                    {
+                      extend: "excelHtml5",
+                      text: "Excel",
+                      exportOptions: {
+                        format: {
+                          body: function ( data, row, column, node ) {
+                            if (typeof data !== 'undefined') {
+                                if (data !== null) {
+                                    if (column === 1 || column === 2 || column > 3) {
+                                          data = data.replace( /[\,]/g, "." );
+                                        data = data.replace( /[^\d.-]/g, "" );
+                                        return data;                                
+                                    }
+                                }
+                            }
+                            return data;
+                          }
+                        }
+                      }
+                    },
+                    {
+                      extend:'csvHtml5'
+                    }   
+                  ],
+                  data : data,
+                  columns: [
+                      {data: 'towar'},
+                      {data: 'faktura_numer'},
+                      {data: 'kontrahent_nazwa'},
+                      {data: 'sprzedawca'},
+                      {
+                        data: 'ilosc',
+                        className: "text-right"
+                      },
+                      {
+                        data: 'suma_wartosci',
+                        render: $.fn.dataTable.render.number( ' ', ',', 2),
+                        className: "text-right"
+                      },
+                      {
+                        data: 'suma_marz',
+                        render: $.fn.dataTable.render.number( ' ', ',', 2),
+                        className: "text-right"},
+                      {
+                        data: 'procent',
+                        render: $.fn.dataTable.render.number( ' ', ',', 2),
+                        className: "text-right"
+                      }
+                  ],
+                  footerCallback: function ( row, data, start, end, display ) {
+                      var api = this.api(), data;
+                      var intVal = function ( i ) {
+                          return typeof i === 'string' ?
+                              i.replace(/[\$,]/g, '') * 1 :
+                              typeof i === 'number' ?
+                                  i : 0;
+                      };
+
+                      totalAmount = api
+                          .column(4, { search: 'applied' })
+                          .data()
+                          .reduce( function (a, b) {
+                              return intVal(a) + intVal(b);
+                          }, 0 );
+
+                      pageTotalAmount = api
+                          .column( 4, { page: 'current'} )
+                          .data()
+                          .reduce( function (a, b) {
+                              return intVal(a) + intVal(b);
+                          }, 0 );
+
+                        totalValue = api
+                            .column(5, { search: 'applied' })
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        pageTotalValue = api
+                            .column( 5, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        totalMargin = api
+                            .column(6, { search: 'applied' })
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                        pageTotalMargin = api
+                            .column( 6, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+
+                      $( api.column( 4).footer() ).html(
+                          'karta:  ' + pageTotalAmount + '<br>  suma całkowita:  ' + totalAmount
+                      );
+
+                      $( api.column( 5).footer() ).html(
+                          'karta:  ' + $.fn.dataTable.render.number( ' ', ',', 2).display(pageTotalValue.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', ',', 2).display(totalValue.toFixed(2))
+                      );
+
+                      $( api.column( 6).footer() ).html(
+                          'karta:  ' + $.fn.dataTable.render.number( ' ', ',', 2).display(pageTotalMargin.toFixed(2)) + '<br>  suma całkowita:  ' + $.fn.dataTable.render.number( ' ', ',', 2).display(totalMargin.toFixed(2))
+                      );
+
+                      $( api.column( 7 ).footer() ).html(
+                          'karta:  ' + $.fn.dataTable.render.number( ' ', ',', 2).display(((pageTotalMargin / pageTotalValue) * 100).toFixed(2)) + '% <br> całkowita:  ' + $.fn.dataTable.render.number( ' ', ',', 2).display(((totalMargin / totalValue) * 100).toFixed(2)) + '%'
+                      );
+                  },
+              });
+
+              var chart_data =  new Array();
+              data.forEach((item, index) => {
+                chart_data.push({label:item.faktura_numer, suma_wartosci:parseFloat(item.suma_wartosci), suma_marz:parseFloat(item.suma_marz), procent:parseFloat(item.procent),  ilosc:parseInt(item.ilosc)});
+              });
+
+              loadInvoiceItemChart(chart_data);
+              $('#invoice_by_item_summary_data_refresh_span').removeClass('spinner-border spinner-border-sm text-light');
+              $('#invoice_by_item_summary_data_refresh_span').text('Odśwież/załaduj');
+
+              setCookie('report_date_from',  new Date($('#report_date_from').val()).toISOString().substring(0,10));
+              setCookie('report_date_to',  new Date($('#report_date_to').val()).toISOString().substring(0,10));
+              setCookie('item', $('#item').val());
+          },
+          always: function() {
+            $("#data_refresh").attr("disabled", false);
+            }
+        })
+      } else {
+        $('#error_msg').text('Nieprawidłowe daty');
+        $("#report_date_to").css("border-bottom", "1px solid red");
+        $("#report_date_from").css("border-bottom", "1px solid red");
+      }
+    } else {
+      $('#error_msg').text('Nieprawidłowe daty');
+      $("#report_date_to").css("border-bottom", "1px solid red");
+      $("#report_date_from").css("border-bottom", "1px solid red");
+    }
+  } else {
+    $('#error_msg').text('Wybierz towar');
+    $("#item").css("border-bottom", "1px solid red");
+  }
+});
+
 $(document).on('click', '#invoice_summary_data_refresh', function() {
 
   if ($('#report_date_from').val() && $('#report_date_to').val()) {
@@ -1568,6 +1771,22 @@ $(document).on('click', '#error_summary_report_show', function() {
   })
 });
 
+$(document).on('click', '#invoice_summary_by_item_show', function() {
+  clearChartTemplate();
+  $.ajax({
+        method: "GET",
+        url: "./invoice_summary_by_item_report_template.php",
+        success: function(data){
+             $('#report_div').empty();
+             $('#report_div').append(data);
+             $('#report_date_from').val( getCookie('report_date_from'));
+             $('#report_date_to').val( getCookie('report_date_to'));
+             getItemFilter();
+             $('#item').val( getCookie('item'));
+       }
+  })
+});
+
 $(document).on('click', '.btn-report', function() {
   $('.btn-report').css({"border-color": "red","border-width":"0px","border-style":"solid"});
   $(this).css({"border-color": "red","border-width":"2px","border-style":"solid"});
@@ -1577,6 +1796,18 @@ function getItemChartTemplate() {
   $.ajax({
           method: "GET",
           url: "./charts/item_charts_template.php",
+          success: function(data){
+               $('#chart_div').empty();
+               $('#chart_div').append(data);
+         }
+    });
+}
+
+
+function getInvoiceByItemChartTemplate() {
+  $.ajax({
+          method: "GET",
+          url: "./charts/item_invoice_charts_template.php",
           success: function(data){
                $('#chart_div').empty();
                $('#chart_div').append(data);
