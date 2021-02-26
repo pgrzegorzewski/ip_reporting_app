@@ -1076,7 +1076,7 @@ $(document).on('click', '#invoice_summary_by_item_data_refresh', function() {
                           body: function ( data, row, column, node ) {
                             if (typeof data !== 'undefined') {
                                 if (data !== null) {
-                                    if (column === 1 || column === 2 || column > 3) {
+                                    if (column > 3) {
                                           data = data.replace( /[\,]/g, "." );
                                         data = data.replace( /[^\d.-]/g, "" );
                                         return data;                                
